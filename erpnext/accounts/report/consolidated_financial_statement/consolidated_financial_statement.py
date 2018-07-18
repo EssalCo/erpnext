@@ -193,6 +193,8 @@ def get_data(companies, root_type, balance_must_be, fiscal_year, filters=None, i
 	accounts, accounts_by_name = get_account_heads(root_type,
 		companies, filters)
 
+	if not accounts: return []
+
 	company_currency = get_company_currency(filters)
 
 	gl_entries_by_account = {}
@@ -246,7 +248,7 @@ def get_account_heads(root_type, companies, filters):
 	accounts = get_accounts(root_type, filters)
 
 	if not accounts:
-		return None
+		return None, None
 
 	accounts, accounts_by_name, parent_children_map = filter_accounts(accounts)
 
@@ -365,10 +367,10 @@ def get_additional_conditions(from_date, ignore_closing_entries, filters):
 	company_finance_book = erpnext.get_default_finance_book(filters.get("company"))
 
 	if not filters.get('finance_book') or (filters.get('finance_book') == company_finance_book):
-		additional_conditions.append("finance_book in ('%s', '')" %
+		additional_conditions.append("ifnull(finance_book, '') in ('%s', '')" %
 			frappe.db.escape(company_finance_book))
 	elif filters.get("finance_book"):
-		additional_conditions.append("finance_book = '%s' " %
+		additional_conditions.append("ifnull(finance_book, '') = '%s' " %
 			frappe.db.escape(filters.get("finance_book")))
 
 	return " and {}".format(" and ".join(additional_conditions)) if additional_conditions else ""

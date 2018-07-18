@@ -45,7 +45,7 @@ class Item(WebsiteGenerator):
 		self.set_onload('stock_exists', self.stock_ledger_created())
 		self.set_asset_naming_series()
 		if self.is_fixed_asset:
-			asset = frappe.db.get_all("Asset", filters={"item_code": self.name, "docstatus": 1}, limit=1)
+			asset = self.asset_exists()
 			self.set_onload("asset_exists", True if asset else False)
 
 	def set_asset_naming_series(self):
@@ -113,12 +113,14 @@ class Item(WebsiteGenerator):
 
 		self.validate_has_variants()
 		self.validate_stock_exists_for_template_item()
+		self.validate_asset_exists_for_serialized_asset()
 		self.validate_attributes()
 		self.validate_variant_attributes()
 		self.validate_website_image()
 		self.make_thumbnail()
 		self.validate_fixed_asset()
 		self.validate_retain_sample()
+		self.validate_uom_conversion_factor()
 
 		if not self.get("__islocal"):
 			self.old_item_group = frappe.db.get_value(self.doctype, self.name, "item_group")
@@ -541,7 +543,7 @@ class Item(WebsiteGenerator):
 
 	def update_item_price(self):
 		frappe.db.sql("""update `tabItem Price` set item_name=%s,
-			item_description=%s, brand=%s, modified=NOW() where item_code=%s""",
+			item_description=%s, brand=%s where item_code=%s""",
                     (self.item_name, self.description, self.brand, self.name))
 
 	def on_trash(self):
@@ -692,6 +694,18 @@ class Item(WebsiteGenerator):
 					frappe.throw(
 						_('Cannot change Attributes after stock transaction. Make a new Item and transfer stock to the new Item'))
 
+	def validate_asset_exists_for_serialized_asset(self):
+		if (not self.get("__islocal") and self.asset_exists() and
+			cint(self.has_serial_no) != cint(frappe.db.get_value('Item', self.name, 'has_serial_no'))):
+			frappe.throw(_("Asset is already exists against the item {0}, you cannot change the has serial no value")
+				.format(self.name))
+
+	def asset_exists(self):
+		if not hasattr(self, '_asset_created'):
+			self._asset_created = frappe.db.get_all("Asset",
+				filters={"item_code": self.name, "docstatus": 1}, limit=1)
+		return self._asset_created
+
 	def validate_uom(self):
 		if not self.get("__islocal"):
 			check_stock_uom_with_bin(self.name, self.stock_uom)
@@ -703,6 +717,13 @@ class Item(WebsiteGenerator):
 			if template_uom != self.stock_uom:
 				frappe.throw(_("Default Unit of Measure for Variant '{0}' must be same as in Template '{1}'")
                                     .format(self.stock_uom, template_uom))
+
+	def validate_uom_conversion_factor(self):
+		if self.uoms:
+			for d in self.uoms:
+				value = get_uom_conv_factor(d.uom, self.stock_uom)
+				if value:
+					d.conversion_factor = value
 
 	def validate_attributes(self):
 		if (self.has_variants or self.variant_of) and self.variant_based_on == 'Item Attribute':
@@ -720,7 +741,7 @@ class Item(WebsiteGenerator):
 		if self.variant_of and self.variant_based_on == 'Item Attribute':
 			args = {}
 			for d in self.attributes:
-				if not d.attribute_value:
+				if cstr(d.attribute_value).strip() == '':
 					frappe.throw(_("Please specify Attribute Value for attribute {0}").format(d.attribute))
 				args[d.attribute] = d.attribute_value
 
@@ -890,14 +911,39 @@ def get_item_defaults(item, company):
 	item_defaults = frappe.db.sql('''
 		select
 			i.item_name, i.description, i.stock_uom, i.name, i.is_stock_item, i.item_code, i.item_group,
-			id.expense_account, id.buying_cost_center, id.default_warehouse, id.selling_cost_center, id.default_supplier
+			id.expense_account, id.income_account, id.buying_cost_center, id.default_warehouse,
+			id.selling_cost_center, id.default_supplier
 		from
-			`tabItem` i, `tabItem Default` id
+			`tabItem` i LEFT JOIN `tabItem Default` id ON i.name = id.parent and id.company = %s
 		where
-			i.name = id.parent and i.name = %s and id.company = %s
-	''', (item, company), as_dict=1)
+			i.name = %s
+	''', (company, item), as_dict=1)
 	if item_defaults:
 		return item_defaults[0]
 	else:
 		return frappe.db.get_value("Item", item, ["name", "item_name", "description", "stock_uom",
 			"is_stock_item", "item_code", "item_group"], as_dict=1)
+
+@frappe.whitelist()
+def get_uom_conv_factor(uom, stock_uom):
+	uoms = [uom, stock_uom]
+	value = ""
+	uom_details = frappe.db.sql("""select to_uom, from_uom, value from `tabUOM Conversion Factor`\
+		where to_uom in ({0})
+		""".format(', '.join(['"' + frappe.db.escape(i, percent=False) + '"' for i in uoms])), as_dict=True)
+
+	for d in uom_details:
+		if d.from_uom == stock_uom and d.to_uom == uom:
+			value = 1/flt(d.value)
+		elif d.from_uom == uom and d.to_uom == stock_uom:
+			value = d.value
+
+	if not value:
+		uom_stock = frappe.db.get_value("UOM Conversion Factor", {"to_uom": stock_uom}, ["from_uom", "value"], as_dict=1)
+		uom_row = frappe.db.get_value("UOM Conversion Factor", {"to_uom": uom}, ["from_uom", "value"], as_dict=1)
+
+		if uom_stock and uom_row:
+			if uom_stock.from_uom == uom_row.from_uom:
+				value = flt(uom_stock.value) * 1/flt(uom_row.value)
+
+	return value

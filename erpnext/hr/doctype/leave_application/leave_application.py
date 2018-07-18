@@ -56,6 +56,7 @@ class LeaveApplication(Document):
 		self.status = "Cancelled"
 		# notify leave applier about cancellation
 		self.notify_employee()
+		self.cancel_attendance()
 
 	def validate_applicable_after(self):
 		if self.leave_type:
@@ -127,7 +128,7 @@ class LeaveApplication(Document):
 					frappe.db.sql("""update `tabAttendance` set status = %s, leave_type = %s\
 						where name = %s""",(status, self.leave_type, d.name))
 
-			elif self.from_date <= nowdate():
+			elif getdate(self.to_date) <= getdate(nowdate()):
 				for dt in daterange(getdate(self.from_date), getdate(self.to_date)):
 					date = dt.strftime("%Y-%m-%d")
 					if not date == self.half_day_date:
@@ -137,6 +138,7 @@ class LeaveApplication(Document):
 						doc.company = self.company
 						doc.status = "On Leave"
 						doc.leave_type = self.leave_type
+						doc.insert(ignore_permissions=True)
 						doc.submit()
 					else:
 						doc = frappe.new_doc("Attendance")
@@ -145,7 +147,15 @@ class LeaveApplication(Document):
 						doc.company = self.company
 						doc.status = "Half Day"
 						doc.leave_type = self.leave_type
+						doc.insert(ignore_permissions=True)
 						doc.submit()
+
+	def cancel_attendance(self):
+		if self.docstatus == 2:
+			attendance = frappe.db.sql("""select name from `tabAttendance` where employee = %s\
+				and (attendance_date between %s and %s) and docstatus < 2 and status in ('On Leave', 'Half Day')""",(self.employee, self.from_date, self.to_date), as_dict=1)
+			for name in attendance:
+				frappe.db.set_value("Attendance", name, "docstatus", 2)
 
 	def validate_salary_processed_days(self):
 		if not frappe.db.get_value("Leave Type", self.leave_type, "is_lwp"):
@@ -250,7 +260,7 @@ class LeaveApplication(Document):
 		return leave_count_on_half_day_date * 0.5
 
 	def validate_max_days(self):
-		max_days = frappe.db.get_value("Leave Type", self.leave_type, "max_days_allowed")
+		max_days = frappe.db.get_value("Leave Type", self.leave_type, "max_continuous_days_allowed")
 		if max_days and self.total_leave_days > cint(max_days):
 			frappe.throw(_("Leave of type {0} cannot be longer than {1}").format(self.leave_type, max_days))
 
@@ -346,7 +356,7 @@ class LeaveApplication(Document):
 @frappe.whitelist()
 def get_number_of_leave_days(employee, leave_type, from_date, to_date, half_day = None, half_day_date = None):
 	number_of_days = 0
-	if half_day == 1:
+	if cint(half_day) == 1:
 		if from_date == to_date:
 			number_of_days = 0.5
 		else:
@@ -404,7 +414,7 @@ def get_leaves_for_period(employee, leave_type, from_date, to_date, status):
 		select employee, leave_type, from_date, to_date, total_leave_days
 		from `tabLeave Application`
 		where employee=%(employee)s and leave_type=%(leave_type)s
-			and status = %(status)s and docstatus=1
+			and status = %(status)s and docstatus != 2
 			and (from_date between %(from_date)s and %(to_date)s
 				or to_date between %(from_date)s and %(to_date)s
 				or (from_date < %(from_date)s and to_date > %(to_date)s))
@@ -565,10 +575,10 @@ def add_holidays(events, start, end, employee, company):
 def get_mandatory_approval(doctype):
 	mandatory = ""
 	if doctype == "Leave Application":
-		mandatory = frappe.db.get_single_value('HR Settings', 
+		mandatory = frappe.db.get_single_value('HR Settings',
 				'leave_approver_mandatory_in_leave_application')
 	else:
-		mandatory = frappe.db.get_single_value('HR Settings', 
+		mandatory = frappe.db.get_single_value('HR Settings',
 				'expense_approver_mandatory_in_expense_claim')
 
 	return mandatory
@@ -607,11 +617,12 @@ def get_approved_leaves_for_period(employee, leave_type, from_date, to_date):
 				leave_app.from_date, leave_app.to_date)
 
 	return leave_days
-	
+
+@frappe.whitelist()
 def get_leave_approver(employee, department=None):
 	if not department:
 		department = frappe.db.get_value('Employee', employee, 'department')
 
 	if department:
 		return frappe.db.get_value('Department Approver', {'parent': department,
-			'parentfield': 'leave_approver', 'idx': 1}, 'approver')
+			'parentfield': 'leave_approvers', 'idx': 1}, 'approver')

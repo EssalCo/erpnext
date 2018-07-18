@@ -17,6 +17,8 @@ class Issue(Document):
 		return "{0}: {1}".format(_(self.status), self.subject)
 
 	def validate(self):
+		if (self.get("__islocal") and self.via_customer_portal):
+			self.flags.create_communication = True
 		if not self.raised_by:
 			self.raised_by = frappe.session.user
 		self.update_status()
@@ -25,6 +27,12 @@ class Issue(Document):
 		if self.status == "Closed":
 			from frappe.desk.form.assign_to import clear
 			clear(self.doctype, self.name)
+
+	def on_update(self):
+		# create the communication email and remove the description
+		if (self.flags.create_communication and self.via_customer_portal):
+			self.create_communication()
+			self.flags.communication_created = None
 
 	def set_lead_contact(self, email_id):
 		import email.utils
@@ -53,6 +61,26 @@ class Issue(Document):
 			# if no date, it should be set as None and not a blank string "", as per mysql strict config
 			self.resolution_date = None
 
+	def create_communication(self):
+		communication = frappe.new_doc("Communication")
+		communication.update({
+			"communication_type": "Communication",
+			"communication_medium": "Email",
+			"sent_or_received": "Received",
+			"email_status": "Open",
+			"subject": self.subject,
+			"sender": self.raised_by,
+			"content": self.description,
+			"status": "Linked",
+			"reference_doctype": "Issue",
+			"reference_name": self.name
+		})
+		communication.ignore_permissions = True
+		communication.ignore_mandatory = True
+		communication.save()
+
+		self.db_set("description", "")
+
 def get_list_context(context=None):
 	return {
 		"title": _("Issues"),
@@ -66,10 +94,16 @@ def get_list_context(context=None):
 def get_issue_list(doctype, txt, filters, limit_start, limit_page_length=20, order_by=None):
 	from frappe.www.list import get_list
 	user = frappe.session.user
+	contact = frappe.db.get_value('Contact', {'user': user}, 'name')
+	customer = None
+	if contact:
+		contact_doc = frappe.get_doc('Contact', contact)
+		customer = contact_doc.get_link_for('Customer')
+
 	ignore_permissions = False
 	if is_website_user():
 		if not filters: filters = []
-		filters.append(("Issue", "raised_by", "=", user))
+		filters.append(("Issue", "customer", "=", customer)) if customer else filters.append(("Issue", "raised_by", "=", user))
 		ignore_permissions = True
 
 	return get_list(doctype, txt, filters, limit_start, limit_page_length, ignore_permissions=ignore_permissions)
@@ -102,3 +136,8 @@ def set_multiple_status(names, status):
 
 def has_website_permission(doc, ptype, user, verbose=False):
 	return doc.raised_by==user
+
+
+def update_issue(contact, method):
+	"""Called when Contact is deleted"""
+	frappe.db.sql("""UPDATE `tabIssue` set contact='' where contact=%s""", contact.name)

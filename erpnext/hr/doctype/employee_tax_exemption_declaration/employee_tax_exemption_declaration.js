@@ -34,12 +34,5 @@ frappe.ui.form.on('Employee Tax Exemption Declaration', {
 				}
 			}
 		});
-	},
-	employee: function(frm){
-		if(frm.doc.employee){
-			frm.add_fetch('employee', 'company', 'company');
-		}else{
-			frm.set_value('company', '');
-		}
 	}
 });

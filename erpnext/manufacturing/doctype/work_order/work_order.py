@@ -24,11 +24,19 @@ class StockOverProductionError(frappe.ValidationError): pass
 class OperationTooLongError(frappe.ValidationError): pass
 class ItemHasVariantError(frappe.ValidationError): pass
 
+from six import string_types
+
 form_grid_templates = {
 	"operations": "templates/form_grid/work_order_grid.html"
 }
 
 class WorkOrder(Document):
+	def onload(self):
+		ms = frappe.get_doc("Manufacturing Settings")
+		self.set_onload("material_consumption", ms.material_consumption)
+		self.set_onload("backflush_raw_materials_based_on", ms.backflush_raw_materials_based_on)
+
+
 	def validate(self):
 		self.validate_production_item()
 		if self.bom_no:
@@ -131,7 +139,7 @@ class WorkOrder(Document):
 		so_qty = flt(so_item_qty) + flt(dnpi_qty)
 
 		allowance_percentage = flt(frappe.db.get_single_value("Manufacturing Settings",
-			"over_production_allowance_percentage"))
+			"overproduction_percentage_for_sales_order"))
 
 		if total_qty > so_qty + (allowance_percentage/100 * so_qty):
 			frappe.throw(_("Cannot produce more Item {0} than Sales Order quantity {1}")
@@ -166,7 +174,7 @@ class WorkOrder(Document):
 				if stock_entries:
 					status = "In Process"
 					produced_qty = stock_entries.get("Manufacture")
-					if flt(produced_qty) == flt(self.qty):
+					if flt(produced_qty) >= flt(self.qty):
 						status = "Completed"
 		else:
 			status = 'Cancelled'
@@ -177,15 +185,20 @@ class WorkOrder(Document):
 		"""Update **Manufactured Qty** and **Material Transferred for Qty** in Work Order
 			based on Stock Entry"""
 
+		allowance_percentage = flt(frappe.db.get_single_value("Manufacturing Settings",
+			"overproduction_percentage_for_work_order"))
+
 		for purpose, fieldname in (("Manufacture", "produced_qty"),
 			("Material Transfer for Manufacture", "material_transferred_for_manufacturing")):
+
 			qty = flt(frappe.db.sql("""select sum(fg_completed_qty)
 				from `tabStock Entry` where work_order=%s and docstatus=1
 				and purpose=%s""", (self.name, purpose))[0][0])
 
-			if qty > self.qty:
+			completed_qty = self.qty + (allowance_percentage/100 * self.qty)
+			if qty > completed_qty:
 				frappe.throw(_("{0} ({1}) cannot be greater than planned quantity ({2}) in Work Order {3}").format(\
-					self.meta.get_label(fieldname), qty, self.qty, self.name), StockOverProductionError)
+					self.meta.get_label(fieldname), qty, completed_qty, self.name), StockOverProductionError)
 
 			self.db_set(fieldname, qty)
 
@@ -515,7 +528,8 @@ class WorkOrder(Document):
 						'description': item.description,
 						'allow_alternative_item': item.allow_alternative_item,
 						'required_qty': item.qty,
-						'source_warehouse': item.source_warehouse or item.default_warehouse
+						'source_warehouse': item.source_warehouse or item.default_warehouse,
+						'allow_transfer_for_manufacture': item.allow_transfer_for_manufacture
 					})
 
 			self.set_available_qty()
@@ -547,12 +561,15 @@ class WorkOrder(Document):
 			consumed_qty = frappe.db.sql('''select sum(qty)
 				from `tabStock Entry` entry, `tabStock Entry Detail` detail
 				where
-					entry.work_order = %s
+					entry.work_order = %(name)s
 					and (entry.purpose = "Material Consumption for Manufacture"
 					or entry.purpose = "Manufacture")
 					and entry.docstatus = 1
 					and detail.parent = entry.name
-					and detail.item_code = %s''', (self.name, d.item_code))[0][0]
+					and (detail.item_code = %(item)s or detail.original_item = %(item)s)''', {
+						'name': self.name,
+						'item': d.item_code
+					})[0][0]
 
 			d.db_set('consumed_qty', flt(consumed_qty), update_modified = False)
 
@@ -660,10 +677,10 @@ def make_timesheet(work_order, company):
 
 @frappe.whitelist()
 def add_timesheet_detail(timesheet, args):
-	if isinstance(timesheet, unicode):
+	if isinstance(timesheet, string_types):
 		timesheet = frappe.get_doc('Timesheet', timesheet)
 
-	if isinstance(args, unicode):
+	if isinstance(args, string_types):
 		args = json.loads(args)
 
 	timesheet.append('time_logs', args)

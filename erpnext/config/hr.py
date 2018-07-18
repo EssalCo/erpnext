@@ -96,6 +96,10 @@ def get_data():
 				},
 				{
 					"type": "doctype",
+					"name": "Additional Salary",
+				},
+				{
+					"type": "doctype",
 					"name": "Employee Tax Exemption Declaration",
 				},
 				{
@@ -122,10 +126,6 @@ def get_data():
 				{
 					"type": "doctype",
 					"name": "Salary Component",
-				},
-				{
-					"type": "doctype",
-					"name": "Additional Salary Component",
 				},
 				{
 					"type": "doctype",
@@ -211,11 +211,19 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Employee Separation"
+					"name": "Employee Separation",
 				},
 				{
 					"type": "doctype",
 					"name": "Employee Onboarding"
+				},
+				{
+					"type": "doctype",
+					"name": "Employee Separation Template",
+				},
+				{
+					"type": "doctype",
+					"name": "Employee Onboarding Template"
 				}
 			]
 		},
@@ -317,7 +325,7 @@ def get_data():
 				},
 				{
 					"type": "doctype",
-					"name": "Daily Work Summary Settings"
+					"name": "Daily Work Summary Group"
 				},
 				{
 					"type": "doctype",
@@ -396,6 +404,17 @@ def get_data():
 					"label": _("Expense Claims"),
 					"youtube_id": "5SZHJF--ZFY"
 				}
+			]
+		},
+		{
+			"label": _("Analytics"),
+			"items": [
+				{
+					"type": "report",
+					"is_query_report": True,
+					"name": "Department Analytics",
+					"doctype": "Employee"
+				},
 			]
 		}
 	]

@@ -9,7 +9,7 @@ from frappe.utils import cint, cstr, flt, add_days, nowdate, getdate
 from frappe import _, ValidationError
 
 from erpnext.controllers.stock_controller import StockController
-
+from six.moves import map
 class SerialNoCannotCreateDirectError(ValidationError): pass
 class SerialNoCannotCannotChangeError(ValidationError): pass
 class SerialNoNotRequiredError(ValidationError): pass
@@ -174,7 +174,7 @@ class SerialNo(StockController):
 				serial_nos = map(lambda i: new if i.upper()==old.upper() else i, item[1].split('\n'))
 				frappe.db.sql("""update `tab%s` set serial_no = %s
 					where name=%s""" % (dt[0], '%s', '%s'),
-					('\n'.join(serial_nos), item[0]))
+					('\n'.join(list(serial_nos)), item[0]))
 
 	def on_stock_ledger_entry(self):
 		if self.via_stock_ledger and not self.get("__islocal"):
@@ -306,6 +306,8 @@ def auto_make_serial_nos(args):
 			sr.via_stock_ledger = True
 			sr.item_code = args.get('item_code')
 			sr.warehouse = args.get('warehouse') if args.get('actual_qty', 0) > 0 else None
+			sr.batch_no = args.get('batch_no')
+			sr.location = args.get('location')
 			sr.save(ignore_permissions=True)
 		elif args.get('actual_qty', 0) > 0:
 			make_serial_no(serial_no, args)
@@ -324,12 +326,13 @@ def make_serial_no(serial_no, args):
 	sr.warehouse = None
 	sr.dont_update_if_missing.append("warehouse")
 	sr.flags.ignore_permissions = True
-
 	sr.serial_no = serial_no
 	sr.item_code = args.get('item_code')
 	sr.company = args.get('company')
+	sr.batch_no = args.get('batch_no')
 	sr.via_stock_ledger = args.get('via_stock_ledger') or True
 	sr.asset = args.get('asset')
+	sr.location = args.get('location')
 
 	if args.get('purchase_document_type'):
 		sr.purchase_document_type = args.get('purchase_document_type')

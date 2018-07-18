@@ -35,11 +35,11 @@ def get_columns():
 		_("Brand") + ":Link/Brand:100", _("Description") + "::200",
 		_("Warehouse") + ":Link/Warehouse:100", _("Stock UOM") + ":Link/UOM:100",
 		_("Qty") + ":Float:50", _("Balance Qty") + ":Float:100",
-		{"label": _("Incoming Rate"), "fieldtype": "Currency", "width": 110,
+		{"label": _("Incoming Rate"), "fieldname": "incoming_rate", "fieldtype": "Currency", "width": 110,
 			"options": "Company:company:default_currency"},
-		{"label": _("Valuation Rate"), "fieldtype": "Currency", "width": 110,
+		{"label": _("Valuation Rate"), "fieldname": "valuation_rate", "fieldtype": "Currency", "width": 110,
 			"options": "Company:company:default_currency"},
-		{"label": _("Balance Value"), "fieldtype": "Currency", "width": 110,
+		{"label": _("Balance Value"), "fieldname": "stock_value", "fieldtype": "Currency", "width": 110,
 			"options": "Company:company:default_currency"},
 		_("Voucher Type") + "::110",
 		_("Voucher #") + ":Dynamic Link/" + _("Voucher Type") + ":100",
@@ -56,7 +56,7 @@ def get_stock_ledger_entries(filters, items):
 	item_conditions_sql = ''
 	if items:
 		item_conditions_sql = 'and sle.item_code in ({})'\
-			.format(', '.join(['"' + frappe.db.escape(i,percent=False) + '"' for i in items]))
+			.format(', '.join(['"' + frappe.db.escape(i) + '"' for i in items]))
 
 	return frappe.db.sql("""select concat_ws(" ", posting_date, posting_time) as date,
 			item_code, warehouse, actual_qty, qty_after_transaction, incoming_rate, valuation_rate,

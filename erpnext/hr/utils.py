@@ -2,11 +2,12 @@
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import unicode_literals
-import frappe
+import frappe, erpnext
 from frappe import _
-from frappe.utils import formatdate, format_datetime, getdate, get_datetime, nowdate
+from frappe.utils import formatdate, format_datetime, getdate, get_datetime, nowdate, flt, cstr
 from frappe.model.document import Document
 from frappe.desk.form import assign_to
+from erpnext.hr.doctype.employee.employee import get_holiday_list_for_employee
 
 class EmployeeBoardingController(Document):
 	'''
@@ -34,6 +35,7 @@ class EmployeeBoardingController(Document):
 				"company": self.company
 			}).insert(ignore_permissions=True)
 		self.db_set("project", project.name)
+		self.db_set("boarding_status", "Pending")
 
 		# create the task for the given project and assign to the concerned person
 		for activity in self.activities:
@@ -69,8 +71,8 @@ class EmployeeBoardingController(Document):
 	def on_cancel(self):
 		# delete task project
 		for task in frappe.get_all("Task", filters={"project": self.project}):
-			frappe.delete_doc("Task", task.name)
-		frappe.delete_doc("Project", self.project)
+			frappe.delete_doc("Task", task.name, force=1)
+		frappe.delete_doc("Project", self.project, force=1)
 		self.db_set('project', '')
 		for activity in self.activities:
 			activity.db_set("task", "")
@@ -83,11 +85,23 @@ def get_onboarding_details(parent, parenttype):
 		filters={"parent": parent, "parenttype": parenttype},
 		order_by= "idx")
 
+@frappe.whitelist()
+def get_boarding_status(project):
+	status = 'Pending'
+	if project:
+		doc = frappe.get_doc('Project', project)
+		if flt(doc.percent_complete) > 0.0 and flt(doc.percent_complete) < 100.0:
+			status = 'In Process'
+		elif flt(doc.percent_complete) == 100.0:
+			status = 'Completed'
+		return status
+
 def set_employee_name(doc):
 	if doc.employee and not doc.employee_name:
 		doc.employee_name = frappe.db.get_value("Employee", doc.employee, "employee_name")
 
-def update_employee(employee, details, cancel=False):
+def update_employee(employee, details, date=None, cancel=False):
+	internal_work_history = {}
 	for item in details:
 		fieldtype = frappe.get_meta("Employee").get_field(item.fieldname).fieldtype
 		new_data = item.new if not cancel else item.current
@@ -96,14 +110,20 @@ def update_employee(employee, details, cancel=False):
 		elif fieldtype =="Datetime" and new_data:
 			new_data = get_datetime(new_data)
 		setattr(employee, item.fieldname, new_data)
+		if item.fieldname in ["department", "designation", "branch"]:
+			internal_work_history[item.fieldname] = item.new
+	if internal_work_history and not cancel:
+		internal_work_history["from_date"] = date
+		employee.append("internal_work_history", internal_work_history)
 	return employee
 
 @frappe.whitelist()
 def get_employee_fields_label():
 	fields = []
 	for df in frappe.get_meta("Employee").get("fields"):
-		if df.fieldtype in ["Data", "Date", "Datetime", "Float", "Int",
-		"Link", "Percent", "Select", "Small Text"] and df.fieldname not in ["lft", "rgt", "old_parent"]:
+		if df.fieldname in ["salutation", "user_id", "employee_number", "employment_type",
+		"holiday_list", "branch", "department", "designation", "grade",
+		"notice_number_of_days", "reports_to", "leave_policy", "company_email"]:
 			fields.append({"value": df.fieldname, "label": df.label})
 	return fields
 
@@ -125,17 +145,6 @@ def get_employee_field_property(employee, fieldname):
 		}
 	else:
 		return False
-
-def update_employee(employee, details, cancel=False):
-	for item in details:
-		fieldtype = frappe.get_meta("Employee").get_field(item.fieldname).fieldtype
-		new_data = item.new if not cancel else item.current
-		if fieldtype == "Date" and new_data:
-			new_data = getdate(new_data)
-		elif fieldtype =="Datetime" and new_data:
-			new_data = get_datetime(new_data)
-		setattr(employee, item.fieldname, new_data)
-	return employee
 
 def validate_dates(doc, from_date, to_date):
 	date_of_joining, relieving_date = frappe.db.get_value("Employee", doc.employee, ["date_of_joining", "relieving_date"])
@@ -236,8 +245,146 @@ def get_leave_period(from_date, to_date, company):
 		return leave_period
 
 def get_payroll_period(from_date, to_date, company):
-	payroll_period = frappe.db.sql("""select pp.name, pd.start_date, pd.end_date from
-		`tabPayroll Period Date` pd join `tabPayroll Period` pp on
-		pd.parent=pp.name where pd.start_date<=%s and pd.end_date>= %s
-		and pp.company=%s""", (from_date, to_date, company), as_dict=1)
+	payroll_period = frappe.db.sql("""select name, start_date, end_date from
+		`tabPayroll Period`
+		where start_date<=%s and end_date>= %s and company=%s""", (from_date, to_date, company), as_dict=1)
 	return payroll_period[0] if payroll_period else None
+
+def allocate_earned_leaves():
+	'''Allocate earned leaves to Employees'''
+	e_leave_types = frappe.get_all("Leave Type",
+		fields=["name", "max_leaves_allowed", "earned_leave_frequency", "rounding"],
+		filters={'is_earned_leave' : 1})
+	today = getdate()
+	divide_by_frequency = {"Yearly": 1, "Quarterly": 4, "Monthly": 12}
+	if e_leave_types:
+		for e_leave_type in e_leave_types:
+			leave_allocations = frappe.db.sql("""select name, employee, from_date, to_date from `tabLeave Allocation` where '{0}'
+				between from_date and to_date and docstatus=1 and leave_type='{1}'"""
+				.format(today, e_leave_type.name), as_dict=1)
+			for allocation in leave_allocations:
+				leave_policy = get_employee_leave_policy(allocation.employee)
+				if not leave_policy:
+					continue
+				if not e_leave_type.earned_leave_frequency == "Monthly":
+					if not check_frequency_hit(allocation.from_date, today, e_leave_type.earned_leave_frequency):
+						continue
+				annual_allocation = frappe.db.sql("""select annual_allocation from `tabLeave Policy Detail`
+					where parent=%s and leave_type=%s""", (leave_policy.name, e_leave_type.name))
+				if annual_allocation and annual_allocation[0]:
+					earned_leaves = flt(annual_allocation[0][0]) / divide_by_frequency[e_leave_type.earned_leave_frequency]
+					if e_leave_type.rounding == "0.5":
+						earned_leaves = round(earned_leaves * 2) / 2
+					else:
+						earned_leaves = round(earned_leaves)
+
+					allocated_leaves = frappe.db.get_value('Leave Allocation', allocation.name, 'total_leaves_allocated')
+					new_allocation = flt(allocated_leaves) + flt(earned_leaves)
+					new_allocation = new_allocation if new_allocation <= e_leave_type.max_leaves_allowed else e_leave_type.max_leaves_allowed
+					frappe.db.set_value('Leave Allocation', allocation.name, 'total_leaves_allocated', new_allocation)
+
+def check_frequency_hit(from_date, to_date, frequency):
+	'''Return True if current date matches frequency'''
+	from_dt = get_datetime(from_date)
+	to_dt = get_datetime(to_date)
+	from dateutil import relativedelta
+	rd = relativedelta.relativedelta(to_dt, from_dt)
+	months = rd.months
+	if frequency == "Quarterly":
+		if not months % 3:
+			return True
+	elif frequency == "Yearly":
+		if not months % 12:
+			return True
+	return False
+
+def get_salary_assignment(employee, date):
+	assignment = frappe.db.sql("""
+		select * from `tabSalary Structure Assignment`
+		where employee=%(employee)s
+		and docstatus = 1
+		and %(on_date)s >= from_date order by from_date desc limit 1""", {
+			'employee': employee,
+			'on_date': date,
+		}, as_dict=1)
+	return assignment[0] if assignment else None
+
+def get_sal_slip_total_benefit_given(employee, payroll_period, component=False):
+	total_given_benefit_amount = 0
+	query = """
+	select sum(sd.amount) as 'total_amount'
+	from `tabSalary Slip` ss, `tabSalary Detail` sd
+	where ss.employee=%(employee)s
+	and ss.docstatus = 1 and ss.name = sd.parent
+	and sd.is_flexible_benefit = 1 and sd.parentfield = "earnings"
+	and sd.parenttype = "Salary Slip"
+	and (ss.start_date between %(start_date)s and %(end_date)s
+		or ss.end_date between %(start_date)s and %(end_date)s
+		or (ss.start_date < %(start_date)s and ss.end_date > %(end_date)s))
+	"""
+
+	if component:
+		query += "and sd.salary_component = %(component)s"
+
+	sum_of_given_benefit = frappe.db.sql(query, {
+		'employee': employee,
+		'start_date': payroll_period.start_date,
+		'end_date': payroll_period.end_date,
+		'component': component
+	}, as_dict=True)
+
+	if sum_of_given_benefit and flt(sum_of_given_benefit[0].total_amount) > 0:
+		total_given_benefit_amount = sum_of_given_benefit[0].total_amount
+	return total_given_benefit_amount
+
+def get_holidays_for_employee(employee, start_date, end_date):
+	holiday_list = get_holiday_list_for_employee(employee)
+	holidays = frappe.db.sql_list('''select holiday_date from `tabHoliday`
+		where
+			parent=%(holiday_list)s
+			and holiday_date >= %(start_date)s
+			and holiday_date <= %(end_date)s''', {
+				"holiday_list": holiday_list,
+				"start_date": start_date,
+				"end_date": end_date
+			})
+
+	holidays = [cstr(i) for i in holidays]
+
+	return holidays
+
+@erpnext.allow_regional
+def calculate_annual_eligible_hra_exemption(doc):
+	# Don't delete this method, used for localization
+	# Indian HRA Exemption Calculation
+	return {}
+
+@erpnext.allow_regional
+def calculate_hra_exemption_for_period(doc):
+	# Don't delete this method, used for localization
+	# Indian HRA Exemption Calculation
+	return {}
+
+def get_previous_claimed_amount(employee, payroll_period, non_pro_rata=False, component=False):
+	total_claimed_amount = 0
+	query = """
+	select sum(claimed_amount) as 'total_amount'
+	from `tabEmployee Benefit Claim`
+	where employee=%(employee)s
+	and docstatus = 1
+	and (claim_date between %(start_date)s and %(end_date)s)
+	"""
+	if non_pro_rata:
+		query += "and pay_against_benefit_claim = 1"
+	if component:
+		query += "and earning_component = %(component)s"
+
+	sum_of_claimed_amount = frappe.db.sql(query, {
+		'employee': employee,
+		'start_date': payroll_period.start_date,
+		'end_date': payroll_period.end_date,
+		'component': component
+	}, as_dict=True)
+	if sum_of_claimed_amount and flt(sum_of_claimed_amount[0].total_amount) > 0:
+		total_claimed_amount = sum_of_claimed_amount[0].total_amount
+	return total_claimed_amount

@@ -26,7 +26,6 @@ class JournalEntry(AccountsController):
 		self.clearance_date = None
 
 		self.validate_party()
-		self.validate_cheque_info()
 		self.validate_entries_for_advance()
 		self.validate_multi_currency()
 		self.set_amounts_in_company_currency()
@@ -45,6 +44,7 @@ class JournalEntry(AccountsController):
 			self.title = self.get_title()
 
 	def on_submit(self):
+		self.validate_cheque_info()
 		self.check_credit_limit()
 		self.make_gl_entries()
 		self.update_advance_paid()
@@ -62,7 +62,7 @@ class JournalEntry(AccountsController):
 				if d.reference_type in ("Sales Order", "Purchase Order", "Employee Advance"):
 					advance_paid.setdefault(d.reference_type, []).append(d.reference_name)
 
-		for voucher_type, order_list in advance_paid.items():
+		for voucher_type, order_list in iteritems(advance_paid):
 			for voucher_no in list(set(order_list)):
 				frappe.get_doc(voucher_type, voucher_no).set_total_advance_paid()
 
@@ -126,7 +126,7 @@ class JournalEntry(AccountsController):
 				"inter_company_journal_entry_reference", "")
 
 	def unlink_asset_adjustment_entry(self):
-		frappe.db.sql(""" update `tabAsset Adjustment`
+		frappe.db.sql(""" update `tabAsset Value Adjustment`
 			set journal_entry = null where journal_entry = %s""", self.name)
 
 	def validate_party(self):
@@ -219,7 +219,7 @@ class JournalEntry(AccountsController):
 				d.reference_name = None
 			if not d.reference_name:
 				d.reference_type = None
-			if d.reference_type and d.reference_name and (d.reference_type in field_dict.keys()):
+			if d.reference_type and d.reference_name and (d.reference_type in list(field_dict)):
 				dr_or_cr = "credit_in_account_currency" \
 					if d.reference_type in ("Sales Order", "Sales Invoice") else "debit_in_account_currency"
 
