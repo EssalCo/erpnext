@@ -49,6 +49,11 @@ def get_data():
 					"name": "Offer Letter",
 					"description": _("Offer candidate a Job."),
 				},
+				{
+					"type": "doctype",
+					"name": "End of Service Award",
+					"description": _("End of Service Award."),
+				},
 			]
 		},
 		{
