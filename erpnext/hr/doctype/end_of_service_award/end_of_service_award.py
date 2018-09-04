@@ -13,7 +13,7 @@ from frappe.utils import cint, cstr, date_diff, flt, formatdate, getdate, get_li
 class EndofServiceAward(Document):
 
     def validate(self):
-        sal = self.get_salary()
+        sal = self.get_salary(self.employee)
         if sal:
             self.salary = sal
         # if hasattr(self,"workflow_state"):
