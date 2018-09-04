@@ -58,12 +58,7 @@ def add_transaction():
         if from_account == to_account:
             return dict(status=False, message="You cannot transfer within the same account")
 
-        if not frappe.db.exists(
-                "Customer",
-                dict(
-                    customer_name=("like", "%@{0}".format(customer_id))
-                )
-        ):
+        if len(frappe.get_list("Customer",filters = {"customer_name": ("LIKE", "%@{0}".format(customer_id))})) == 0:
             to_customer = frappe.get_doc(
                 doctype="Customer",
                 naming_series="CUST-",
