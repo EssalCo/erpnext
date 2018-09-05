@@ -15,12 +15,14 @@ def get_account_tree():
     # 'fiscal_year'
     # 'from_date'
     # 'to_date'
+    # 'account'
     data = frappe.form_dict
 
     company_name = data['company_name']
     fiscal_year = str(data['fiscal_year'])
     from_date = data.get('from_date')
     to_date = data.get('to_date')
+    account = data.get('account')
 
     filters = dict(
         company=company_name,
@@ -38,8 +40,9 @@ def get_account_tree():
             result[d['account']] = d
 
     data = list()
-
+    account_obj = dict()
     for key in result:
+	if account and account == result[key]['account']: account_obj = result[key]
         if not result[key]['parent_account']:
             data.append(result[key])
         else:
@@ -48,7 +51,7 @@ def get_account_tree():
             else:
                 result[result[key]['parent_account']]["children"] = [result[key]]
 
-    return dict(status=True, account_tree=data)
+    return dict(status=True, account_tree=data, account=account_obj)
 
 
 value_fields = ("opening_debit", "opening_credit", "debit", "credit", "closing_debit", "closing_credit")
