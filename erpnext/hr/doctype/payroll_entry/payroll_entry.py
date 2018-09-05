@@ -101,7 +101,8 @@ class PayrollEntry(Document):
 						start_date >= %s and
 						end_date <= %s and
 						company = %s
-						""", (emp['employee'], self.start_date, self.end_date, self.company))
+						""", 
+				(emp['employee'], self.start_date, self.end_date, self.company), as_dict=True)
 				if not ss_name:
 					ss = frappe.get_doc({
 						"doctype": "Salary Slip",
@@ -116,7 +117,7 @@ class PayrollEntry(Document):
 					})
 					ss.insert()
 				else:
-					ss = frappe.get_doc("Salary Slip", ss_name)
+					ss = frappe.get_doc("Salary Slip", ss_name[0].name)
 				ss_dict = {}
 				ss_dict["Employee Name"] = ss.employee_name
 				ss_dict["Total Pay"] = fmt_money(ss.rounded_total,currency = frappe.defaults.get_global_default("currency"))
