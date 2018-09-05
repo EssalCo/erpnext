@@ -102,7 +102,7 @@ class PayrollEntry(Document):
 		ss_list = []
 		if emp_list:
 			for emp in emp_list:
-				if not frappe.db.sql("""select
+				ss_name = frappe.db.sql("""select
 						name from `tabSalary Slip`
 					where
 						docstatus!= 2 and
@@ -110,7 +110,8 @@ class PayrollEntry(Document):
 						start_date >= %s and
 						end_date <= %s and
 						company = %s
-						""", (emp['employee'], self.start_date, self.end_date, self.company)):
+						""", (emp['employee'], self.start_date, self.end_date, self.company))
+				if not ss_name:
 					ss = frappe.get_doc({
 						"doctype": "Salary Slip",
 						"salary_slip_based_on_timesheet": self.salary_slip_based_on_timesheet,
@@ -125,11 +126,13 @@ class PayrollEntry(Document):
 						"deduct_tax_for_unsubmitted_tax_exemption_proof": self.deduct_tax_for_unsubmitted_tax_exemption_proof
 					})
 					ss.insert()
-					ss_dict = {}
-					ss_dict["Employee Name"] = ss.employee_name
-					ss_dict["Total Pay"] = fmt_money(ss.rounded_total,currency = frappe.defaults.get_global_default("currency"))
-					ss_dict["Salary Slip"] = format_as_links(ss.name)[0]
-					ss_list.append(ss_dict)
+				else:
+					ss = frappe.get_doc("Salary Slip", ss_name)
+				ss_dict = {}
+				ss_dict["Employee Name"] = ss.employee_name
+				ss_dict["Total Pay"] = fmt_money(ss.rounded_total,currency = frappe.defaults.get_global_default("currency"))
+				ss_dict["Salary Slip"] = format_as_links(ss.name)[0]
+				ss_list.append(ss_dict)
 		return create_log(ss_list)
 
 	def get_sal_slip_list(self, ss_status, as_dict=False):
