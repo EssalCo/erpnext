@@ -202,13 +202,8 @@ def prepare_data(accounts, filters, total_row, parent_children_map, company_curr
 		data.append(row)
 		
 		if not d.parent_account:
-<<<<<<< HEAD
 		    total_row["closing_debit"] += (d["debit"] - d["credit"]) if (d["debit"] - d["credit"]) > 0 else 0
 		    total_row["closing_credit"] += abs(d["debit"] - d["credit"]) if (d["debit"] - d["credit"]) < 0 else 0
-=======
-			total_row["closing_debit"] += (d["debit"] - d["credit"]) if (d["debit"] - d["credit"]) > 0 else 0
-			total_row["closing_credit"] += abs(d["debit"] - d["credit"]) if (d["debit"] - d["credit"]) < 0 else 0
->>>>>>> 2e80828a4b1c02f649aea8c1933206e92909ad81
 		
 	data.extend([{},total_row])
 
