@@ -503,3 +503,4 @@ erpnext.patches.v10_0.taxes_issue_with_pos
 erpnext.patches.v10_0.set_qty_in_transactions_based_on_serial_no_input
 erpnext.patches.v10_0.show_leaves_of_all_department_members_in_calendar
 erpnext.patches.v10_0.update_status_in_purchase_receipt
+frappe.db.sql('update `tabDocType` set modified = now() where modified = "2018-09-00 11:54:19.851534";')
