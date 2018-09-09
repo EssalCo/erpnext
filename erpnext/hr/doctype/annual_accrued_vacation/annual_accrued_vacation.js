@@ -36,7 +36,7 @@ frappe.ui.form.on('Annual Accrued Vacation', {
 	},
 	add_bank_entry_button: function(frm) {
 		frappe.call({
-			method: 'erpnext.hr.doctype.payroll_entry.payroll_entry.payroll_entry_has_bank_entries',
+			method: 'erpnext.hr.doctype.annual_accrued_vacation.annual_accrued_vacation.accrued_vacation_has_bank_entries',
 			args: {
 				'name': frm.doc.name
 			},
