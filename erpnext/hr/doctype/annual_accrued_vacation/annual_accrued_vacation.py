@@ -5,13 +5,15 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from frappe import _, msgprint
+
 
 class AnnualAccruedVacation(Document):
 	def before_insert(self):
 		self.one_day_fee = self.basic_salary / self.monthly_duty_days
 		self.total_balance = self.remaining_vacation_days * self.one_day_fee + self.bonus_award
 		if not self.payment_account:
-            		frappe.msgprint(
+            		msgprint(
 				_("Please set Payment Account"),
 				title="Error", indicator="red"
 			    )
@@ -54,7 +56,7 @@ class AnnualAccruedVacation(Document):
 		    ])
 		    return journal_entry.as_dict()
 		else:
-		    frappe.msgprint(
+		    msgprint(
 			_("There are no Credit for the employee to process."),
 			title="Error", indicator="red"
 		    )
