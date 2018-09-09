@@ -57,7 +57,7 @@ frappe.ui.form.on('Annual Accrued Vacation', {
 
 let make_bank_entry = function (frm) {
 	var doc = frm.doc;
-	if (doc.company && doc.start_date && doc.end_date) {
+	if (doc.company && doc.year_start_date && doc.year_end_date) {
 		return frappe.call({
 			doc: cur_frm.doc,
 			method: "make_payment_entry",
