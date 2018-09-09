@@ -38,7 +38,7 @@ class AnnualAccruedVacation(Document):
 		    journal_entry.user_remark = _('Payment of accrued vacation from {0} to {1}') \
 			.format(self.year_start_date, self.year_end_date)
 		    journal_entry.company = self.company
-		    journal_entry.posting_date = self.posting_date
+		    journal_entry.posting_date = self.creation
 
 		    payment_amount = flt(self.total_balance, precision)
 
