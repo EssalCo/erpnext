@@ -182,7 +182,16 @@ frappe.ui.form.on("Expense Claim", {
 
 	refresh: function(frm) {
 		frm.trigger("toggle_fields");
-
+		frm.toggle_display(
+			[
+				'accounting_details', 
+				'company', 
+				'is_paid', 
+				'mode_of_payment', 
+				'payable_account',
+				'cost_center'
+			], 
+		!frappe.user.has_role("System Manager") || frappe.user.has_role("HR Manager") || frappe.user.has_role("Expense Approver"));
 		if(frm.doc.docstatus == 1 && frm.doc.approval_status == 'Approved') {
 			frm.add_custom_button(__('Accounting Ledger'), function() {
 				frappe.route_options = {
