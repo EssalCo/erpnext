@@ -6089,7 +6089,7 @@ DocType: Bank Reconciliation Detail,Cheque Number,رقم الشيك
 
 ,Sales Browser,متصفح المبيعات
 
-DocType: Journal Entry,Total Credit,إجمالي الائتمان
+DocType: Journal Entry,Total Credit,إجمالي الدائن
 
 apps/erpnext/erpnext/accounts/doctype/journal_entry/journal_entry.py +540,Warning: Another {0} # {1} exists against stock entry {2},موجود آخر {0} # {1} ضد حركة مخزنية {2}: تحذير
 
@@ -7793,7 +7793,7 @@ DocType: Employee Advance,Advance Account,حساب مسبق
 
 DocType: Sales Invoice,Include Payment (POS),تشمل الدفع (POS)
 
-apps/erpnext/erpnext/accounts/doctype/journal_entry/journal_entry.py +290,Total Debit must be equal to Total Credit. The difference is {0},يجب أن يكون إجمالي الخصم يساوي إجمالي الائتمان .
+apps/erpnext/erpnext/accounts/doctype/journal_entry/journal_entry.py +290,Total Debit must be equal to Total Credit. The difference is {0},يجب أن يكون إجمالي المدين يساوي إجمالي الدائن .
 
 apps/erpnext/erpnext/setup/setup_wizard/data/industry_type.py +11,Automotive,سيارات
 
@@ -8530,7 +8530,7 @@ apps/erpnext/erpnext/templates/generators/item.html +85,Specifications,مواص�
 
 DocType: Sales Taxes and Charges Template,Sales Taxes and Charges Template,قالب الضرائب على المبيعات والرسوم
 
-apps/erpnext/erpnext/accounts/report/balance_sheet/balance_sheet.py +68,Total (Credit),الإجمالي (الائتمان)
+apps/erpnext/erpnext/accounts/report/balance_sheet/balance_sheet.py +68,Total (Credit),الإجمالي (الدائن)
 
 DocType: Repayment Schedule,Payment Date,تاريخ الدفعة
 
@@ -10482,7 +10482,7 @@ DocType: Bin,Reserved Qty for Production,الكمية المحجوزة للان�
 
 DocType: Student Group Creation Tool,Leave unchecked if you don't want to consider batch while making course based groups.,ترك دون تحديد إذا كنت لا ترغب في النظر في دفعة مع جعل مجموعات مقرها بالطبع.
 
-DocType: Asset,Frequency of Depreciation (Months),معدل الإهلاك (شهري)
+DocType: Asset,Frequency of Depreciation (Months),تواتر او تكرار الاهلاك (أشهر)
 
 apps/erpnext/erpnext/accounts/doctype/journal_entry/journal_entry.js +501,Credit Account,حساب دائن
 
@@ -10554,7 +10554,7 @@ DocType: Batch,Source Document Type,نوع المستند المصدر
 
 apps/erpnext/erpnext/education/doctype/course_scheduling_tool/course_scheduling_tool.js +24,Following course schedules were created,تم إنشاء الجداول الزمنية التالية
 
-DocType: Journal Entry,Total Debit,مجموع الخصم
+DocType: Journal Entry,Total Debit,إجمالي مدين
 
 DocType: Manufacturing Settings,Default Finished Goods Warehouse,المخزن الافتراضي للبضائع التامة الصنع
 
@@ -11090,9 +11090,7 @@ VAT DETAILS,تفاصيل ضريبة القيمة المضافة,
 
 Reverse Charge Applicable,عكس الرسوم المطبقة ,
 
-"CUSTOMER PO DETAILS
-
-",تفاصيل العميل,
+"CUSTOMER PO DETAILS",تفاصيل العميل
 
 Supplier Name in Arabic,اسم المورد باللغة العربية,
 
@@ -11234,160 +11232,163 @@ Postal Expenses,النفقات البريدية,
 
 Print and Stationery,طباعة وقرطاسية,
 
-Round Off,نهاية الجولة,
+Round Off,نهاية الجولة
 
-Salary,راتب,
+Salary,راتب
 
-Sales Expenses,نفقات المبيعات,
+Sales Expenses,نفقات المبيعات
 
-Telephone Expenses,نفقات الهاتف,
+Telephone Expenses,نفقات الهاتف
 
-Travel Expenses,مصاريف السفر,
+Travel Expenses,مصاريف السفر
 
-Utility Expenses,نفقات المرافق العامة,
+Utility Expenses,نفقات المرافق العامة
 
-Write Off,لا تصلح,
+Write Off,لا تصلح
 
-Income,الإيرادات,
+Income,الإيرادات
 
-Direct Income,الدخل المباشر,
+Direct Income,الدخل المباشر
 
-Sales,المبيعات,
+Sales,المبيعات
 
-Service,الخدمات,
+Service,الخدمات
 
-Indirect Income,الدخل غير المباشر,
+Indirect Income,الدخل غير المباشر
 
-Source of Funds (Liabilities),مصدر الأموال (المطلوبات),
+Source of Funds (Liabilities),مصدر الأموال (المطلوبات)
 
-Current Liabilities,المطلوبات المتداولة,
+Current Liabilities,المطلوبات المتداولة
 
-Accounts Payable,حسابات قابلة للدفع,
+Accounts Payable,حسابات قابلة للدفع
 
-Creditors,الدائنين,
+Creditors,الدائنين
 
-Payroll Payable,رواتب الرواتب,
+Payroll Payable,رواتب الرواتب
 
-Duties and Taxes,الرسوم والضرائب,
+Duties and Taxes,الرسوم والضرائب
 
-Excise 100%,خصم 100%,
+Excise 100%,خصم 100%
 
-Excise 50%,خصم 50%,
+Excise 50%,خصم 50%
 
-VAT 5%,ضريبة القيمة المضافة 5 ٪,
+VAT 5%,ضريبة القيمة المضافة 5 ٪
 
-VAT Exempted,ضريبة القيمة المضافة المستثناة,
+VAT Exempted,ضريبة القيمة المضافة المستثناة
 
-VAT Zero,ضريبة القيمة المضافة صفر,
+VAT Zero,ضريبة القيمة المضافة صفر
 
-Loans (Liabilities),القروض (المطلوبات),
+Loans (Liabilities),القروض (المطلوبات)
 
-Bank Overdraft Account,حساب السحب على المكشوف لدى البنك,
+Bank Overdraft Account,حساب السحب على المكشوف لدى البنك
 
-Secured Loans,القروض المضمونة,
+Secured Loans,القروض المضمونة
 
-Unsecured Loans,القروض غير المضمونة,
+Unsecured Loans,القروض غير المضمونة
 
-Stock Liabilities,خصوم المخزون,
+Stock Liabilities,خصوم المخزون
 
-Stock Received But Not Billed,الأسهم المستلمة ولكن لم تتم محاسبتها,
+Stock Received But Not Billed,الأسهم المستلمة ولكن لم تتم محاسبتها
 
-Alarm Passport Expiry,انتهاء صلاحية إنذار المنبه,
+Alarm Passport Expiry,انتهاء صلاحية إنذار المنبه
 
-Health Insurance Number,رقم التأمين الصحي,
+Health Insurance Number,رقم التأمين الصحي
 
-Health Insurance Valid to,التأمين الصحي,
+Health Insurance Valid to,التأمين الصحي
 
-Alarm Inssurance Expiry,انقضاء الإنذار,
+Alarm Inssurance Expiry,انقضاء الإنذار
 
-Residence Valid to,الإقامة صالحة ل,
+Residence Valid to,الإقامة صالحة ل
 
-Alarm Residence Expiry,انذار بانتهاء الاقامة,
+Alarm Residence Expiry,انذار بانتهاء الاقامة
 
-Dr,الدكتور,
+Dr,الدكتور
 
-Saturdays,السبت,
+Saturdays,السبت
 
-Fridays,الجمعة,
+Fridays,الجمعة
 
-Creditors,الدائنين,
+Creditors,الدائنين
 
-Feedback,"ردود الفعل",
+Feedback,"ردود الفعل"
 
-LEAVE SETTINGS,مغادرة الاعدادات,
+LEAVE SETTINGS,مغادرة الاعدادات
 
-Show Leaves Of All Department Members In Calendar,إظهار أوراق جميع أعضاء القسم في التقويم,
+Show Leaves Of All Department Members In Calendar,إظهار أوراق جميع أعضاء القسم في التقويم
 
-Employee record is created using selected field.,يتم إنشاء سجل الموظف باستخدام الحقل المحدد.,
+Employee record is created using selected field.,يتم إنشاء سجل الموظف باستخدام الحقل المحدد.
 
-Apprentice,متدرب على حرفة ما,
+Apprentice,متدرب على حرفة ما
 
-Intern,المتدرب,
+Intern,المتدرب
 
-Piecework,مقاولة,
+Piecework,مقاولة
 
-Commission,عمولة,
+Commission,عمولة
 
-Contract,عقد,
+Contract,عقد
 
-Probation,فترة تجربة,
+Probation,فترة تجربة
 
-Part-time,دوام جزئي,
+Part-time,دوام جزئي
 
-Full-time,دوام كامل,
+Full-time,دوام كامل
 
-Legal,قانوني,
+Legal,قانوني
 
-Research & Development,البحث والتنمية,
+Research & Development,البحث والتنمية
 
-Quality Management,إدارة الجودة,
+Quality Management,إدارة الجودة
 
-Management,إدارة,
+Management,إدارة
 
-Human Resources,الموارد البشرية,
+Human Resources,الموارد البشرية
 
-Customer Service,خدمة الزبائن,
+Customer Service,خدمة الزبائن
 
-Dispatch,إيفاد,
+Dispatch,إيفاد
 
-Production,الإنتاج,
+Production,الإنتاج
 
-Operations,العمليات,
+Operations,العمليات
 
-Purchase,الشراء,
+Purchase,الشراء
 
-Sales,المبيعات,
+Sales,المبيعات
 
-Marketing,التسويق,
+Marketing,التسويق
 
-Accounts,الحسابات,
+Accounts,الحسابات
 
-Researcher,الباحث,
+Researcher,الباحث
 
-Designer,المصمم,
+Designer,المصمم
 
-Software Developer,مطور البرامج,
+Software Developer,مطور البرامج
 
-Head of Marketing and Sales,رئيس قسم التسويق والمبيعات,
+Head of Marketing and Sales,رئيس قسم التسويق والمبيعات
 
-Project Manager,مدير المشروع,
+Project Manager,مدير المشروع
 
-HR Manager,مدير الموارد البشرية,
+HR Manager,مدير الموارد البشرية
 
-Business Development Manager,مدير تطوير الاعمال,
+Business Development Manager,مدير تطوير الاعمال
 
-Administrative Officer,موظف اداري,
+Administrative Officer,موظف اداري
 
-Associate,مساعد,
+Associate,مساعد
 
-Secretary,سكرتير,
+Secretary,سكرتير
 
-Accountant,محاسب,
+Accountant,محاسب
 
-Engineer,مهندس,
+Engineer,مهندس
 
-Analyst,محلل,
+Analyst,محلل
 
-Manager,مدير,
+Manager,مدير
 
-CEO,المدير التنفيذي,
+CEO,المدير التنفيذي
+
+JOURNAL ENTRY,قيد يومية
+Journal Entry,قيد يومية
