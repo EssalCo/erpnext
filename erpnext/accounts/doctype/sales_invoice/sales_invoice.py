@@ -21,6 +21,7 @@ from erpnext.stock.doctype.batch.batch import set_batch_nos
 from erpnext.stock.doctype.serial_no.serial_no import get_serial_nos, get_delivery_note_serial_no
 from erpnext.setup.doctype.company.company import update_company_current_month_sales
 from erpnext.accounts.general_ledger import get_round_off_account_and_cost_center
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 form_grid_templates = {
 	"items": "templates/form_grid/item_grid.html"
@@ -105,6 +106,11 @@ class SalesInvoice(SellingController):
 			self.verify_payment_amount_is_positive()
 
 	def before_save(self):
+		self.posting_hijri_date = convert_to_hijri(self.posting_date)
+		self.due_hijri_date = convert_to_hijri(self.due_date)
+		self.purchase_hijri_date = convert_to_hijri(self.po_date)
+		self.from_hijri_date = convert_to_hijri(self.from_date)
+		self.to_hijri_date = convert_to_hijri(self.to_date)
 		set_account_for_mode_of_payment(self)
 
 	def on_submit(self):

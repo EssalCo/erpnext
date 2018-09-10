@@ -10,6 +10,7 @@ from erpnext.accounts.utils import get_balance_on, get_account_currency
 from erpnext.accounts.party import get_party_account
 from erpnext.hr.doctype.expense_claim.expense_claim import update_reimbursed_amount
 from erpnext.hr.doctype.employee_loan.employee_loan import update_disbursement_status
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 class JournalEntry(AccountsController):
 	def __init__(self, *args, **kwargs):
@@ -17,6 +18,13 @@ class JournalEntry(AccountsController):
 
 	def get_feed(self):
 		return self.voucher_type
+
+	def before_save(self):
+		self.posting_hijri_date = convert_to_hijri(self.posting_date)
+		self.cheque_hijri_date = convert_to_hijri(self.cheque_date)
+		self.clearance_hijri_date = convert_to_hijri(self.clearance_date)
+		self.bill_hijri_date = convert_to_hijri(self.bill_date)
+		self.due_hijri_date = convert_to_hijri(self.due_date)
 
 	def validate(self):
 		if not self.is_opening:

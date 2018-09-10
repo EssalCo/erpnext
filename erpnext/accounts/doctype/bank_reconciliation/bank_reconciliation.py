@@ -6,6 +6,7 @@ import frappe
 from frappe.utils import flt, getdate, nowdate, fmt_money
 from frappe import msgprint, _
 from frappe.model.document import Document
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 form_grid_templates = {
 	"journal_entries": "templates/form_grid/bank_reconciliation_grid.html"
@@ -113,3 +114,7 @@ class BankReconciliation(Document):
 			msgprint(_("Clearance Date updated"))
 		else:
 			msgprint(_("Clearance Date not mentioned"))
+
+	def before_save(self):
+		self.from_hijri_date = convert_to_hijri(self.from_date)
+		self.to_hijri_date = convert_to_hijri(self.to_date)

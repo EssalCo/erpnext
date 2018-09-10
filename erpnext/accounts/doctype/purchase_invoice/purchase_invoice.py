@@ -17,6 +17,7 @@ from erpnext.accounts.doctype.gl_entry.gl_entry import update_outstanding_amt
 from erpnext.buying.utils import check_for_closed_status
 from erpnext.accounts.general_ledger import get_round_off_account_and_cost_center
 from frappe.model.mapper import get_mapped_doc
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 form_grid_templates = {
 	"items": "templates/form_grid/item_grid.html"
@@ -37,6 +38,13 @@ class PurchaseInvoice(BuyingController):
 			'percent_join_field': 'purchase_order',
 			'overflow_type': 'billing'
 		}]
+
+	def before_save(self):
+		self.due_hijri_date = convert_to_hijri(self.due_date)
+		self.posting_hijri_date = convert_to_hijri(self.posting_date)
+		self.bill_hijri_date = convert_to_hijri(self.bill_date)
+		self.from_hijri_date = convert_to_hijri(self.from_date)
+		self.to_hijri_date = convert_to_hijri(self.to_date)
 
 	def validate(self):
 		if not self.is_opening:

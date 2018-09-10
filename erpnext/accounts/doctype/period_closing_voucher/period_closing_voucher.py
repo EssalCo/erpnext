@@ -7,11 +7,16 @@ from frappe.utils import flt
 from frappe import _
 from erpnext.accounts.utils import get_account_currency
 from erpnext.controllers.accounts_controller import AccountsController
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 class PeriodClosingVoucher(AccountsController):
 	def validate(self):
 		self.validate_account_head()
 		self.validate_posting_date()
+
+	def before_save(self):
+		self.transaction_hijri_date = convert_to_hijri(self.transaction_date)
+		self.posting_hijri_date = convert_to_hijri(self.posting_date)
 
 	def on_submit(self):
 		self.make_gl_entries()

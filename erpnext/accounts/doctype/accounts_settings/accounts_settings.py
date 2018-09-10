@@ -8,6 +8,7 @@ import frappe
 from frappe.utils import cint
 from frappe.model.document import Document
 from frappe.custom.doctype.property_setter.property_setter import make_property_setter
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 
 class AccountsSettings(Document):
@@ -17,6 +18,9 @@ class AccountsSettings(Document):
 	def validate(self):
 		self.validate_stale_days()
 		self.enable_payment_schedule_in_print()
+
+	def before_save(self):
+		self.accounts_frozen_hijri_date = convert_to_hijri(self.acc_frozen_upto)
 
 	def validate_stale_days(self):
 		if not self.allow_stale and cint(self.stale_days) <= 0:

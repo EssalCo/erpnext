@@ -8,8 +8,13 @@ from frappe import msgprint, _
 from frappe.model.document import Document
 from erpnext.accounts.utils import get_outstanding_invoices
 from erpnext.controllers.accounts_controller import get_advance_payment_entries
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 class PaymentReconciliation(Document):
+	def before_save(self):
+		self.from_invoice_hijri_date = convert_to_hijri(self.from_date)
+		self.to_invoice_hijri_date = convert_to_hijri(self.to_date)
+
 	def get_unreconciled_entries(self):
 		self.get_nonreconciled_payment_entries()
 		self.get_invoice_entries()

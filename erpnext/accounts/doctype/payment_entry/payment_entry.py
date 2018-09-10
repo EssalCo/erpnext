@@ -13,6 +13,7 @@ from erpnext.setup.utils import get_exchange_rate
 from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.hr.doctype.expense_claim.expense_claim import update_reimbursed_amount
 from erpnext.controllers.accounts_controller import AccountsController
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 
 class InvalidPaymentEntry(ValidationError):
@@ -24,6 +25,11 @@ class PaymentEntry(AccountsController):
 		super(PaymentEntry, self).__init__(*args, **kwargs)
 		if not self.is_new():
 			self.setup_party_account_field()
+
+	def before_save(self):
+		self.posting_hijri_date = convert_to_hijri(self.posting_date)
+		self.reference_hijri_date = convert_to_hijri(self.reference_date)
+		self.clearance_hijri_date = convert_to_hijri(self.clearance_date)
 
 	def setup_party_account_field(self):
 		self.party_account_field = None

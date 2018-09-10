@@ -10,11 +10,16 @@ import copy
 from frappe import throw, _
 from frappe.utils import flt, cint
 from frappe.model.document import Document
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 
 class MultiplePricingRuleConflict(frappe.ValidationError): pass
 
 class PricingRule(Document):
+	def before_save(self):
+		self.valid_form_hijri_date = convert_to_hijri(self.valid_from)
+		self.vaild_updo_hijri_date = convert_to_hijri(self.valid_upto)
+
 	def validate(self):
 		self.validate_mandatory()
 		self.validate_applicable_for_selling_or_buying()

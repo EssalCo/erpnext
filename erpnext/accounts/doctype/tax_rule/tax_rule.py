@@ -10,6 +10,7 @@ from frappe.utils import cstr, cint
 from frappe.contacts.doctype.address.address import get_default_address
 from frappe.utils.nestedset import get_root_of
 from erpnext.setup.doctype.customer_group.customer_group import get_parent_customer_groups
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 class IncorrectCustomerGroup(frappe.ValidationError): pass
 class IncorrectSupplierType(frappe.ValidationError): pass
@@ -18,6 +19,10 @@ class ConflictingTaxRule(frappe.ValidationError): pass
 class TaxRule(Document):
 	def __setup__(self):
 		self.flags.ignore_these_exceptions_in_test = [ConflictingTaxRule]
+
+	def before_save(self):
+		self.form_hijri_date = convert_to_hijri(self.from_date)
+		self.to_hijri_date = convert_to_hijri(self.to_date)
 
 	def validate(self):
 		self.validate_tax_template()

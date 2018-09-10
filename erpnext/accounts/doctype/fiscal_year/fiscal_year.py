@@ -8,8 +8,13 @@ from frappe.utils import getdate, add_days, add_years, cstr
 from dateutil.relativedelta import relativedelta
 
 from frappe.model.document import Document
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 class FiscalYear(Document):
+	def before_save(self):
+		self.start_hijri_date = convert_to_hijri(self.year_start_date)
+		self.end_hijri_date = convert_to_hijri(self.year_end_date)
+
 	def set_as_default(self):
 		frappe.db.set_value("Global Defaults", None, "current_fiscal_year", self.name)
 		global_defaults = frappe.get_doc("Global Defaults")

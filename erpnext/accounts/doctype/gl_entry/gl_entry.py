@@ -10,6 +10,7 @@ from erpnext.accounts.party import validate_party_gle_currency, validate_party_f
 from erpnext.accounts.utils import get_account_currency
 from erpnext.accounts.utils import get_fiscal_year
 from erpnext.exceptions import InvalidAccountCurrency
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 exclude_from_linked_with = True
 
@@ -26,6 +27,9 @@ class GLEntry(Document):
 			self.validate_party()
 			self.validate_currency()
 
+	def before_save(self):
+		self.posting_hijri_date = convert_to_hijri(self.posting_date)
+		self.transaction_hijri_date = convert_to_hijri(self.transaction_date)
 
 	def on_update_with_args(self, adv_adj, update_outstanding = 'Yes', from_repost=False):
 		if not from_repost:

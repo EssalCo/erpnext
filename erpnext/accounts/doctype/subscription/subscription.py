@@ -12,6 +12,7 @@ from dateutil.relativedelta import relativedelta
 from frappe.utils.user import get_system_managers
 from frappe.utils import cstr, getdate, split_emails, add_days, today, get_last_day, get_first_day
 from frappe.model.document import Document
+from erpnext.utilities.hijri_date import convert_to_hijri
 
 month_map = {'Monthly': 1, 'Quarterly': 3, 'Half-yearly': 6, 'Yearly': 12}
 class Subscription(Document):
@@ -24,6 +25,11 @@ class Subscription(Document):
 
 		validate_template(self.subject or "")
 		validate_template(self.message or "")
+
+	def before_save(self):
+		self.start_hijri_date = convert_to_hijri(self.start_date)
+		self.end_hijri_date = convert_to_hijri(self.end_date)
+		self.schedule_hijri_date = convert_to_hijri(self.next_schedule_date)
 
 	def before_submit(self):
 		if not self.next_schedule_date:
