@@ -505,4 +505,4 @@ erpnext.patches.v10_0.update_status_in_purchase_receipt
 erpnext.patches.v10_0.update_address_template_for_india
 erpnext.patches.v10_0.set_discount_amount
 erpnext.patches.v10_0.recalculate_gross_margin_for_project
-execute:frappe.db.sql("update `tabJournal Entry` je set je.owner_name = (select u.full_name from `tabUser` u where u.name = je.owner) where je.owner_name is null;")
+execute:frappe.db.sql("update `tabJournal Entry` je set je.owner_name = (select u.full_name from `tabUser` u where u.name = je.owner) where je.owner_name is null;") # 2018-09-10
