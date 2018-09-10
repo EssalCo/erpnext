@@ -560,3 +560,4 @@ erpnext.patches.v11_0.set_department_for_doctypes
 erpnext.patches.v11_0.update_allow_transfer_for_manufacture
 erpnext.patches.v11_0.rename_healthcare_doctype_and_fields
 erpnext.patches.v11_0.add_item_group_defaults
+execute:frappe.db.sql("update `tabJournal Entry` je set je.created_by = (select u.full_name from `tabUser` u where u.name = je.owner) where je.created_by is null;")
