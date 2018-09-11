@@ -8,6 +8,7 @@ def convert_to_hijri(date):
         return ""
     if "." in str(date):
         date = str(date).split(".")[0]
+        date = str(date).split(" ")[0]
     day = int(datetime.strptime(str(date), '%Y-%m-%d').strftime('%d'))
     month = int(datetime.strptime(str(date), '%Y-%m-%d').strftime('%m'))
     year = int(datetime.strptime(str(date), '%Y-%m-%d').strftime('%Y'))
