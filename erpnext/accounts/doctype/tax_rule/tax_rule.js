@@ -56,3 +56,42 @@ frappe.ui.form.on("Tax Rule", "supplier", function(frm) {
 		});
 	}
 });
+
+cur_frm.cscript.custom_from_date = function() {
+	if(!cur_frm.doc.from_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.from_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("form_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_to_date = function() {
+	if(!cur_frm.doc.to_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.to_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("to_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+

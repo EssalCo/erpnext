@@ -1,7 +1,8 @@
 from umalqurra.hijri_date import HijriDate
 from datetime import datetime
+import frappe
 
-
+@frappe.whitelist(allow_guest=True)
 def convert_to_hijri(date):
     if not date:
         return ""

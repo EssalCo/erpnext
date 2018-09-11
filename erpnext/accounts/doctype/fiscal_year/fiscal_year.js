@@ -35,3 +35,41 @@ $.extend(cur_frm.cscript, {
 		this.frm.set_value("year_end_date", year_end_date);
 	},
 });
+
+cur_frm.cscript.custom_year_start_date = function() {
+	if(!cur_frm.doc.year_start_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.year_start_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("start_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_year_end_date = function() {
+	if(!cur_frm.doc.year_end_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.year_end_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("end_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};

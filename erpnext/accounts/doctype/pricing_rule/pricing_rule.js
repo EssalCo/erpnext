@@ -114,4 +114,42 @@ frappe.ui.form.on('Pricing Rule', {
 			}
 		}
 	}
-})
+});
+
+cur_frm.cscript.custom_valid_from = function() {
+	if(!cur_frm.doc.valid_from){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.valid_from
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("valid_form_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_valid_upto = function() {
+	if(!cur_frm.doc.valid_upto){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.valid_upto
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("vaild_updo_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};

@@ -863,3 +863,60 @@ frappe.ui.form.on('Payment Entry Deduction', {
 		frm.events.set_unallocated_amount(frm);
 	}
 })
+
+cur_frm.cscript.custom_posting_date = function() {
+	if(!cur_frm.doc.posting_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.posting_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("posting_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_reference_date = function() {
+	if(!cur_frm.doc.reference_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.reference_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("reference_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_clearance_date = function() {
+	if(!cur_frm.doc.clearance_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.clearance_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("clearance_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};

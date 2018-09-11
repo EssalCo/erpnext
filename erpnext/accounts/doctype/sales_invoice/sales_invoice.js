@@ -634,3 +634,97 @@ var calculate_total_billing_amount =  function(frm) {
 	refresh_field('total_billing_amount')
 }
 
+cur_frm.cscript.custom_posting_date = function() {
+	if(!cur_frm.doc.posting_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.posting_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("posting_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_due_date = function() {
+	if(!cur_frm.doc.due_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.due_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("due_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_po_date = function() {
+	if(!cur_frm.doc.po_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.po_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("purchase_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_from_date = function() {
+	if(!cur_frm.doc.from_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.from_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("from_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};
+
+cur_frm.cscript.custom_to_date = function() {
+	if(!cur_frm.doc.to_date){
+		return
+	}
+	frappe.call({
+				method: "erpnext.utilities.hijri_date.convert_to_hijri",
+				args:{
+					date:cur_frm.doc.to_date
+				},
+				callback: function (r) {
+					if (r.message) {
+						cur_frm.set_value("to_hijri_date", r.message);
+
+					}
+				}
+			})
+
+};

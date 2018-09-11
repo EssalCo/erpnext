@@ -908,3 +908,11 @@ def get_average_exchange_rate(account):
 		exchange_rate = bank_balance_in_company_currency / bank_balance_in_account_currency
 
 	return exchange_rate
+
+
+@frappe.whitelist()
+def get_data_according_date(data,filters):
+	# DocumentStatus
+
+	frappe.msgprint(data,filters)
+	return []
