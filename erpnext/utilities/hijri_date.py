@@ -6,7 +6,7 @@ import frappe
 def convert_to_hijri(date):
     if not date:
         return ""
-    if "." not in str(date):
+    if "." in str(date):
         date = str(date).split(".")[0]
     day = int(datetime.strptime(str(date), '%Y-%m-%d').strftime('%d'))
     month = int(datetime.strptime(str(date), '%Y-%m-%d').strftime('%m'))
