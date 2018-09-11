@@ -20,6 +20,8 @@ class JournalEntry(AccountsController):
 		return self.voucher_type
 
 	def before_save(self):
+		if not self.owner_name:
+			self.owner_name = frappe.get_value("User", self.owner, "full_name")
 		self.posting_hijri_date = convert_to_hijri(self.posting_date)
 		self.cheque_hijri_date = convert_to_hijri(self.cheque_date)
 		self.clearance_hijri_date = convert_to_hijri(self.clearance_date)
@@ -69,7 +71,11 @@ class JournalEntry(AccountsController):
 		for voucher_type, order_list in advance_paid.items():
 			for voucher_no in list(set(order_list)):
 				frappe.get_doc(voucher_type, voucher_no).set_total_advance_paid()
-
+	
+	def before_insert(self):
+		if not self.owner_name:
+			self.owner_name = frappe.get_value("User", self.owner, "full_name")
+		
 	def on_cancel(self):
 		from erpnext.accounts.utils import unlink_ref_doc_from_payment_entries
 		from erpnext.hr.doctype.salary_slip.salary_slip import unlink_ref_doc_from_salary_slip
