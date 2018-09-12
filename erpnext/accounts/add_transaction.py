@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import traceback
 from datetime import datetime
 
 import frappe
+from erpnext.utilities.send_telegram import send_msg_telegram
 # from erpnext.accounts.general_ledger import make_gl_entries
 from frappe.utils import flt
 
@@ -24,6 +26,7 @@ def add_transaction():
     # `vat_account`
     # `cost_center`
     try:
+
         data = frappe.form_dict
         from_account = data.get('from_account')
         to_account = data.get('to_account')
@@ -57,14 +60,25 @@ def add_transaction():
         # if from_account == to_account:
         #     return dict(status=False, message="You cannot transfer within the same account")
 
-        if len(frappe.get_list("Customer",filters = {"customer_name": ("LIKE", "%@{0}".format(customer_id))})) == 0:
+        if len(frappe.get_list("Customer", filters={"customer_name": ("LIKE", "%@{0}".format(customer_id))})) == 0:
+            customer_group = frappe.get_list("Customer Group",
+                                             fields=["name"],
+                                             ignore_permissions=True,
+                                             limit=1)
+            customer_group = customer_group[0]["name"] if len(customer_group) else "Individual"
+            customer_territory = frappe.get_list("Territory",
+                                                 fields=["name"],
+                                                 ignore_permissions=True,
+                                                 limit=1)
+            customer_territory = customer_territory[0]["name"] if len(customer_territory) else "All Territories"
+
             to_customer = frappe.get_doc(
                 doctype="Customer",
                 naming_series="CUST-",
                 customer_name="{0}@{1}".format(customer_name, customer_id),
                 customer_type="Individual",
-                customer_group="Individual",
-                territory="All Territories",
+                customer_group=customer_group,
+                territory=customer_territory,
                 disabled=0,
                 default_currency="SAR",
                 language="ar"
@@ -260,16 +274,8 @@ def add_transaction():
         #         merge_entries=False)
         frappe.db.commit()
     except Exception as e:
-        import traceback
-        error_msg = "Error : " + traceback.format_exc() + "/////" +str(e)
-        import requests
-        bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
-        chat_id = "-285634604"
-        requests.post(
-            "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
-            {"text": error_msg}
-        )
-
+        error_msg = "Error : " + traceback.format_exc()
+        send_msg_telegram(error_msg)
         return dict(status=False, message=str(e))
     return dict(status=True, message="Transactions are added to erpnext successfully")
 
