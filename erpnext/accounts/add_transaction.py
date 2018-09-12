@@ -25,13 +25,6 @@ def add_transaction():
     # `cost_center`
     try:
         data = frappe.form_dict
-        import requests
-        bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
-        chat_id = "-285634604"
-        requests.post(
-            "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
-            {"text": "yesssss"}
-        )
         from_account = data.get('from_account')
         to_account = data.get('to_account')
         credit_amount = float(data.get('credit_amount', 0))
@@ -275,7 +268,7 @@ def add_transaction():
         )
     except Exception as e:
         import traceback
-        error_msg = "Error : " + traceback.format_exc() + "/////" +str(e)
+        error_msg = "Error : " + traceback.format_exc()
         import requests
         bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
         chat_id = "-285634604"
@@ -284,7 +277,7 @@ def add_transaction():
             {"text": error_msg}
         )
 
-        return dict(status=False, message=error_msg,e=str(e))
+        return dict(status=False, message=str(e))
     return dict(status=True, message="Transactions are added to erpnext successfully")
 
 
