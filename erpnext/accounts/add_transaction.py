@@ -263,6 +263,18 @@ def add_transaction():
     except Exception as e:
         import traceback
         error_msg = "Error : " + traceback.format_exc()
+        import requests
+        bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
+        chat_id = "-285634604"
+        requests.post(
+            "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
+            {"text": error_msg},
+            timeout=(
+                frappe.conf.constants.get("timeouts", {}).get("telegram", {}).get("connect", 1),
+                frappe.conf.constants.get("timeouts", {}).get("telegram", {}).get("read", 5)
+            )
+        )
+
         return dict(status=False, message=error_msg,e=str(e))
     return dict(status=True, message="Transactions are added to erpnext successfully")
 
