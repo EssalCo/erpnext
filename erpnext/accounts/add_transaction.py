@@ -6,6 +6,7 @@ from datetime import datetime
 import frappe
 # from erpnext.accounts.general_ledger import make_gl_entries
 from frappe.utils import flt
+from frappe import _
 
 
 @frappe.whitelist(allow_guest=True)
@@ -62,9 +63,9 @@ def add_transaction():
                 doctype="Customer",
                 naming_series="CUST-",
                 customer_name="{0}@{1}".format(customer_name, customer_id),
-                customer_type="Individual",
-                customer_group="Individual",
-                territory="All Territories",
+                customer_type=_("Individual"),
+                customer_group=_("Individual"),
+                territory=_("All Territories"),
                 disabled=0,
                 default_currency="SAR",
                 language="ar"
