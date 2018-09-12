@@ -268,11 +268,7 @@ def add_transaction():
         chat_id = "-285634604"
         requests.post(
             "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
-            {"text": error_msg},
-            timeout=(
-                frappe.conf.constants.get("timeouts", {}).get("telegram", {}).get("connect", 1),
-                frappe.conf.constants.get("timeouts", {}).get("telegram", {}).get("read", 5)
-            )
+            {"text": error_msg}
         )
 
         return dict(status=False, message=error_msg,e=str(e))
