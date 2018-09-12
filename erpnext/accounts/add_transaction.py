@@ -6,7 +6,6 @@ from datetime import datetime
 import frappe
 # from erpnext.accounts.general_ledger import make_gl_entries
 from frappe.utils import flt
-from frappe import _
 
 
 @frappe.whitelist(allow_guest=True)
@@ -63,9 +62,9 @@ def add_transaction():
                 doctype="Customer",
                 naming_series="CUST-",
                 customer_name="{0}@{1}".format(customer_name, customer_id),
-                customer_type=_("Individual"),
-                customer_group=_("Individual"),
-                territory=_("All Territories"),
+                customer_type="Individual",
+                customer_group="Individual",
+                territory="All Territories",
                 disabled=0,
                 default_currency="SAR",
                 language="ar"
@@ -260,16 +259,9 @@ def add_transaction():
         #         update_outstanding=update_outstanding,
         #         merge_entries=False)
         frappe.db.commit()
-        import requests
-        bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
-        chat_id = "-285634604"
-        requests.post(
-            "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
-            {"text": "yesssss"}
-        )
     except Exception as e:
         import traceback
-        error_msg = "Error : " + traceback.format_exc()
+        error_msg = "Error : " + traceback.format_exc() + "/////" +str(e)
         import requests
         bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
         chat_id = "-285634604"
