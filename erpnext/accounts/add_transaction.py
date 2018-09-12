@@ -25,7 +25,13 @@ def add_transaction():
     # `cost_center`
     try:
         data = frappe.form_dict
-
+        import requests
+        bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
+        chat_id = "-285634604"
+        requests.post(
+            "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
+            {"text": "yesssss"}
+        )
         from_account = data.get('from_account')
         to_account = data.get('to_account')
         credit_amount = float(data.get('credit_amount', 0))
