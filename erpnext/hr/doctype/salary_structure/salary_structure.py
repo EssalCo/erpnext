@@ -18,6 +18,11 @@ class SalaryStructure(Document):
 			set_employee_name(e)
 		self.validate_date()
 		self.strip_condition_and_formula_fields()
+		
+		if self.is_daily_emplyee:
+			if not self.monthly_duty_days or not self.basic_salary:
+				frappe.throw(_("You must fill Monthly Duty days and Basic Salary for this daily emplyee"))
+			self.one_day_fee = self.basic_salary / self.monthly_duty_days
 
 	def get_ss_values(self,employee):
 		basic_info = frappe.db.sql("""select bank_name, bank_ac_no
