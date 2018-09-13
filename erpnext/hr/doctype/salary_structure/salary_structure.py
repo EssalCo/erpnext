@@ -19,6 +19,7 @@ class SalaryStructure(Document):
 		self.validate_date()
 		self.strip_condition_and_formula_fields()
 		
+		self.salary_slip_based_on_timesheet = self.is_daily_emplyee
 		if self.is_daily_emplyee:
 			if not self.monthly_duty_days or not self.basic_salary:
 				frappe.throw(_("You must fill Monthly Duty days and Basic Salary for this daily emplyee"))
