@@ -100,6 +100,7 @@ def get_naming_series():
 
 @frappe.whitelist()
 def upload():
+
     if not frappe.has_permission("Attendance", "create"):
         raise frappe.PermissionError
 
@@ -111,7 +112,8 @@ def upload():
     if not rows:
         msg = [_("Please select a csv file")]
         return {"messages": msg, "error": msg}
-    if "Emp No." in rows[0]:
+
+    if len(rows[0]) == 1:
         upload_murbiha_attendance(rows)
         return
     columns = [scrub(f) for f in rows[4]]
@@ -147,7 +149,11 @@ def upload():
 
 
 def upload_murbiha_attendance(rows):
-    for index, row in enumerate(rows):
+    all_data = []
+    for row in rows:
+        all_data.append(row[0].split(";"))
+
+    for index, row in enumerate(all_data):
         if index == 0:
             continue
         emp_id = "EMP/{:04}".format(int(row[0]))
