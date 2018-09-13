@@ -61,6 +61,11 @@ def get_data():
 			"items": [
 				{
 					"type": "doctype",
+					"name": "Annual Accrued Vacation",
+					"description": _("Annual Accrued Vacation."),
+				},
+				{
+					"type": "doctype",
 					"name": "Leave Application",
 					"description": _("Applications for leave."),
 				},
