@@ -24,6 +24,8 @@ class SalaryStructure(Document):
 				frappe.throw(_("You must fill Monthly Duty days and Basic Salary for this daily emplyee"))
 			self.one_day_fee = self.basic_salary / self.monthly_duty_days
 			self.salary_slip_based_on_timesheet = 1
+			self.hour_rate = self.one_day_fee / 8
+			self.salary_component = "Basic Salary"
 
 	def get_ss_values(self,employee):
 		basic_info = frappe.db.sql("""select bank_name, bank_ac_no
