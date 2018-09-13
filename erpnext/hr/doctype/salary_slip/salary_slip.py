@@ -150,13 +150,16 @@ class SalarySlip(TransactionBase):
 	def set_time_sheet(self):
 		if self.salary_slip_based_on_timesheet:
 			self.set("timesheets", [])
-			timesheets = frappe.db.sql(""" select * from `tabTimesheet` where employee = %(employee)s and start_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Submitted' or
-				status = 'Billed')""", {'employee': self.employee, 'start_date': self.start_date, 'end_date': self.end_date}, as_dict=1)
+			timesheets = frappe.db.sql(
+				""" select * from `tabAttendance` where employee = %(employee)s 
+and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Present' or status = 'Half Day')""", 
+				{'employee': self.employee, 'start_date': self.start_date, 'end_date': self.end_date}, 
+				as_dict=1)
 
 			for data in timesheets:
 				self.append('timesheets', {
 					'time_sheet': data.name,
-					'working_hours': data.total_hours
+					'working_hours': 8 if data.status == 'Present' else 4
 				})
 
 	def get_date_details(self):
@@ -192,7 +195,7 @@ class SalarySlip(TransactionBase):
 
 		if self.salary_slip_based_on_timesheet:
 			self.salary_structure = self._salary_structure_doc.name
-			self.hour_rate = self._salary_structure_doc.hour_rate
+			self.hour_rate = self._salary_structure_doc.one_day_fee / 8
 			self.total_working_hours = sum([d.working_hours or 0.0 for d in self.timesheets]) or 0.0
 			wages_amount = self.hour_rate * self.total_working_hours
 
@@ -326,6 +329,7 @@ class SalarySlip(TransactionBase):
 				frappe.throw(_("Salary Slip of employee {0} already created for this period").format(self.employee))
 		else:
 			for data in self.timesheets:
+				continue
 				if frappe.db.get_value('Timesheet', data.time_sheet, 'status') == 'Payrolled':
 					frappe.throw(_("Salary Slip of employee {0} already created for time sheet {1}").format(self.employee, data.time_sheet))
 
@@ -443,6 +447,7 @@ class SalarySlip(TransactionBase):
 			msgprint(_("{0}: Employee email not found, hence email not sent").format(self.employee_name))
 
 	def update_status(self, salary_slip=None):
+		pass
 		for data in self.timesheets:
 			if data.time_sheet:
 				timesheet = frappe.get_doc('Timesheet', data.time_sheet)
