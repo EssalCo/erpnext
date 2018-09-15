@@ -453,7 +453,7 @@ and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Prese
         pass
         for data in self.attendances:
             if data.attendance:
-                timesheet = frappe.get_doc('Attendance', data.time_sheet)
+                timesheet = frappe.get_doc('Attendance', data.attendance)
                 timesheet.salary_slip = salary_slip
                 timesheet.flags.ignore_validate_update_after_submit = True
                 timesheet.set_status()
