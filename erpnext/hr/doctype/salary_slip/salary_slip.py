@@ -197,7 +197,7 @@ and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Prese
         if self.salary_slip_based_on_timesheet:
             self.salary_structure = self._salary_structure_doc.name
             self.hour_rate = self._salary_structure_doc.one_day_fee / 8
-            self.total_working_hours = sum([d.working_hours or 0.0 for d in self.attendences]) or 0.0
+            self.total_working_hours = sum([d.working_hours or 0.0 for d in self.attendances]) or 0.0
             wages_amount = self.hour_rate * self.total_working_hours
 
             self.add_earning_for_hourly_wages(self, self._salary_structure_doc.salary_component, wages_amount)
