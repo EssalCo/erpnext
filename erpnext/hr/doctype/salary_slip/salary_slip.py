@@ -330,10 +330,10 @@ and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Prese
         else:
             for data in self.attendances:
                 continue
-                if frappe.db.get_value('Attendance', data.time_sheet, 'status') == 'Draft':
+                if frappe.db.get_value('Attendance', data.attendance, 'status') == 'Draft':
                     frappe.throw(
                         _("Salary Slip of employee {0} already created for time sheet {1}").format(self.employee,
-                                                                                                   data.time_sheet))
+                                                                                                   data.attendance))
 
     def sum_components(self, component_type, total_field):
         joining_date, relieving_date = frappe.db.get_value("Employee", self.employee,
