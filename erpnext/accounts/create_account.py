@@ -42,7 +42,8 @@ def create_account():
                                 "account_type", 
                                 "tax_rate",
                                 "freeze_account",
-                                "balance_must_be"
+                                "balance_must_be",
+                                "is_group"
                             ], as_dict=True)
             
             if not parent_account_data:
@@ -59,6 +60,8 @@ def create_account():
                 freeze_account = parent_account_data.freeze_account
             if not balance_must_be:
                 balance_must_be = parent_account_data.balance_must_be
+            if not parent_account_data.is_group:
+                frappe.db.set_value("Account", parent_account, "is_group", 1)
                 
         account = frappe.get_doc(
             dict(
