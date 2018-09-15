@@ -240,7 +240,10 @@ and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Prese
                                                                ["date_of_joining", "relieving_date"])
 
         holidays = self.get_holidays_for_employee(self.start_date, self.end_date)
-        working_days = date_diff(self.end_date, self.start_date) + 1
+	if self.salary_slip_based_on_timesheet:
+		working_days = len(self.attendances)
+	if not working_days:
+        	working_days = date_diff(self.end_date, self.start_date) + 1
         actual_lwp = self.calculate_lwp(holidays, working_days)
         if not cint(frappe.db.get_value("HR Settings", None, "include_holidays_in_total_working_days")):
             working_days -= len(holidays)
