@@ -156,7 +156,9 @@ def upload_murbiha_attendance(rows):
     for index, row in enumerate(all_data):
         if index == 0:
             continue
-        emp_id = "EMP/{:04}".format(int(row[0]))
+        emp_id = frappe.get_value("Employee", {"id":int(row[0])}, "name")
+        if not emp_id:
+            frappe.throw("This ID {0} is not associated with any employee in the system".format(int(row[0])))
         from datetime import datetime
 
         attendance_doc = frappe.get_doc({
