@@ -1,3 +1,51 @@
+Payment Entry,قيد مدفوعات
+
+Accounts Receivable,حسابات المدينون
+
+Accounts Payable,حسابات الدائنون
+
+Update Bank Transaction Dates,تحديث العمليات البنكية
+
+Bank Reconciliation Statement,كشف التسويات البنكية
+
+Purchase Taxes and Charges Template,قالب الضرائب على المشتريات والرسوم
+
+Period Closing Voucher,سند إغلاق فترة
+
+Cheque Print Template,نموذج طباعة شيك مصرفي
+
+Opening Invoice Creation Tool,أداة إنشاء فاتورة افتتاحية
+
+Currency Exchange,تغيير وصرف العملات
+
+Payment Gateway Account,حساب بوابة الدفع الإلكترونية
+
+Gross Profit,مجمل الربح
+
+Purchase Invoice Trends,أصناف فواتير المشتريات
+
+Sales Invoice Trends,أصناف فواتير المبيعات
+
+To Bill,الفوترة
+
+Ordered Items To Be Billed,فوترة الأصناف المطلوبة
+
+Delivered Items To Be Billed,فوترة الأصناف التي تم تسليمها
+
+Purchase Order Items To Be Billed,فوترة البنود التي تم شراءها
+
+Received Items To Be Billed,فوترة البنود التي تم استلامها
+
+Trial Balance for Party,ميزان مراجعة لحساب معين
+
+Payment Period Based On Invoice Date,مدة السداد بناء على تاريخ الفاتورة
+
+Masters,الحسابات الرئيسية
+
+Customer,العميل
+
+Item,الصنف
+
 DocType: Employee,Salary Mode,طريقة تحصيل الراتب
 
 apps/erpnext/erpnext/hub_node/page/hub/hub.js +67,Register,تسجيل
@@ -11394,3 +11442,50 @@ Individual,فرد
 All Territories,جميع الأقاليم
 Posting Hijri Date,تاريخ الانشاء هجري
 
+Payment Entry,قيد مدفوعات
+
+Accounts Receivable,حسابات المدينون
+
+Accounts Payable,حسابات الدائنون
+
+Update Bank Transaction Dates,تحديث العمليات البنكية
+
+Bank Reconciliation Statement,كشف التسويات البنكية
+
+Purchase Taxes and Charges Template,قالب الضرائب على المشتريات والرسوم
+
+Period Closing Voucher,سند إغلاق فترة
+
+Cheque Print Template,نموذج طباعة شيك مصرفي
+
+Opening Invoice Creation Tool,أداة إنشاء فاتورة افتتاحية
+
+Currency Exchange,تغيير وصرف العملات
+
+Payment Gateway Account,حساب بوابة الدفع الإلكترونية
+
+Gross Profit,مجمل الربح
+
+Purchase Invoice Trends,أصناف فواتير المشتريات
+
+Sales Invoice Trends,أصناف فواتير المبيعات
+
+To Bill,الفوترة
+
+Ordered Items To Be Billed,فوترة الأصناف المطلوبة
+
+Delivered Items To Be Billed,فوترة الأصناف التي تم تسليمها
+
+Purchase Order Items To Be Billed,فوترة البنود التي تم شراءها
+
+Received Items To Be Billed,فوترة البنود التي تم استلامها
+
+Trial Balance for Party,ميزان مراجعة لحساب معين
+
+Payment Period Based On Invoice Date,مدة السداد بناء على تاريخ الفاتورة
+
+Masters,الحسابات الرئيسية
+
+Customer,العميل
+
+Item,الصنف
