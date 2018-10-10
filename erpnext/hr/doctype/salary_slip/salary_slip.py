@@ -159,7 +159,7 @@ and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Prese
             for data in timesheets:
                 self.append('attendances', {
                     'attendance': data.name,
-                    'working_hours': 8 if data.status == 'Present' else 4
+                    'working_hours': self._salary_structure_doc.days_working_hours if data.status == 'Present' else self._salary_structure_doc.days_working_hours / 2
                 })
 
     def get_date_details(self):
@@ -196,7 +196,7 @@ and attendance_date BETWEEN %(start_date)s AND %(end_date)s and (status = 'Prese
 
         if self.salary_slip_based_on_timesheet:
             self.salary_structure = self._salary_structure_doc.name
-            self.hour_rate = self._salary_structure_doc.one_day_fee / 8
+            self.hour_rate = self._salary_structure_doc.one_day_fee / self._salary_structure_doc.days_working_hours
             self.total_working_hours = sum([d.working_hours or 0.0 for d in self.attendances]) or 0.0
             wages_amount = self.hour_rate * self.total_working_hours
 
