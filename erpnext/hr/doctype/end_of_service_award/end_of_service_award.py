@@ -92,6 +92,8 @@ class EndofServiceAward(Document):
                 "contract_end_date"
             ], as_dict=True
         )
+        if not employee_details.contract_end_date or not employee_details.date_of_joining:
+            frappe.throw(_("Employee must have 'Contract End Date' and 'Date of Joining' in their profile"))
         from datetime import datetime
         if (datetime.strptime(str(employee_details.contract_end_date), '%Y-%m-%d').date() - datetime.strptime(
                 str(employee_details.date_of_joining), '%Y-%m-%d').date()).days < 365:
