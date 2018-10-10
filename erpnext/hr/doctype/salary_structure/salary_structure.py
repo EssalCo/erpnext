@@ -21,11 +21,11 @@ class SalaryStructure(Document):
 		
 		self.salary_slip_based_on_timesheet = self.is_daily_emplyee
 		if self.is_daily_emplyee:
-			if not self.monthly_duty_days or not self.basic_salary:
+			if not self.monthly_duty_days or not self.basic_salary or not self.days_working_hours:
 				frappe.throw(_("You must fill Monthly Duty days and Basic Salary for this daily emplyee"))
 			self.one_day_fee = self.basic_salary / self.monthly_duty_days
 			self.salary_slip_based_on_timesheet = 1
-			self.hour_rate = self.one_day_fee / 8
+			self.hour_rate = self.one_day_fee / self.days_working_hours
 			self.salary_component = "Basic Salary"
 
 	def get_ss_values(self,employee):
