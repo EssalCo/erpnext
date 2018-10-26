@@ -47,6 +47,7 @@ def add_transaction():
         vat_amount = float(data.get('vat_amount', 0))
         vat_account = data.get('vat_account')
         cost_center = data.get('cost_center')
+        date = data.get('date', datetime.now())
 
         frappe.set_user("Administrator")
 
@@ -131,7 +132,7 @@ def add_transaction():
                 title=statement,
                 voucher_type="Journal Entry",
                 naming_series="JV-",
-                posting_date=datetime.now(),
+                posting_date=date,
                 company=company_id,
                 user_remark=statement,
                 total_debit=abs(debit_amount),
