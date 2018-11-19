@@ -28,7 +28,7 @@ def get_cost_centers_accounts():
 
         frappe.set_user("Administrator")
 
-        company = frappe.get_value("Company", company_name, "company")
+        company = frappe.get_value("Company", company_name, "name")
 
         if not company:
             return dict(status=False, message="{0} is not an existing company".format(company_name))
