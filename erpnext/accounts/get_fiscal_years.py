@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import traceback
+# from erpnext.utilities.send_telegram import send_msg_telegram
+from operator import itemgetter
 
 import frappe
-# from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 @frappe.whitelist(allow_guest=True)
@@ -38,6 +38,10 @@ def get_fiscal_years():
             ),
             ignore_permissions=True,
             ignore_ifnull=True)
+        for year in years:
+            year.year = int(year)
+            
+        years = sorted(years, key=itemgetter('year'), reverse=True)
 
     except Exception as e:
         return dict(status=False, message=str(e))
