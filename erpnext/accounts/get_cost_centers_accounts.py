@@ -52,7 +52,7 @@ def get_cost_centers_accounts():
             from_date=from_date,
             to_date=to_date,
             fiscal_year=fiscal_year,
-            show_zero_values=1
+            show_zero_values=True
         )
         data = get_data(filters)
 
@@ -64,7 +64,7 @@ def get_cost_centers_accounts():
 
     except Exception as e:
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Success", accounts=accounts)
+    return dict(status=True, message="Success", accounts=accounts or budget_accounts)
 
 
 value_fields = ("opening_debit", "opening_credit", "debit", "credit", "closing_debit", "closing_credit")
@@ -166,7 +166,7 @@ WHERE
     data = filter_out_zero_value_rows(
         data,
         parent_children_map,
-        show_zero_values=filters.get("show_zero_values", False))
+        show_zero_values=True)
 
     return data
 
