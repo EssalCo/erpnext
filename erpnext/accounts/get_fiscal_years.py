@@ -39,7 +39,7 @@ def get_fiscal_years():
             ignore_permissions=True,
             ignore_ifnull=True)
         for year in years:
-            year.year = int(year)
+            year.year = int(year.year)
             
         years = sorted(years, key=itemgetter('year'), reverse=True)
 
