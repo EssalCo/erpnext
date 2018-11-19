@@ -42,4 +42,4 @@ def get_fiscal_years():
     except Exception as e:
         return dict(status=False, message=str(e))
 
-    return dict(status=True, message="Success", years=years)
+    return dict(status=True, message="Success", years=years, years_list=[temp.year for temp in years])
