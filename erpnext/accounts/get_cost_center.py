@@ -17,16 +17,17 @@ def get_cost_center():
         
         company = frappe.get_value("Account", account, "company")
         
-        cost_centers = [temp.cost_center_name for temp in frappe.get_list("Cost Center",
-                                       fields=["cost_center_name"],
+        cost_centers = frappe.get_list("Cost Center",
+                                       fields=["name", "cost_center_name"],
                                        filters=dict(
                                            company=company,
                                            is_group=0
                                        ),
                                        ignore_permissions=True,
-                                       ignore_ifnull=True)]
+                                       ignore_ifnull=True)
         
+        cost_centers_list = [temp.cost_center_name for temp in fcost_centers]
     except Exception as e:
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Success", cost_centers=cost_centers)
+    return dict(status=True, message="Success", cost_centers=cost_centers_list, cost_centers_dict=cost_centers)
 
