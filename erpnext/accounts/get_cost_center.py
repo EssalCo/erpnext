@@ -26,7 +26,7 @@ def get_cost_center():
                                        ignore_permissions=True,
                                        ignore_ifnull=True)
         
-        cost_centers_list = [temp.cost_center_name for temp in fcost_centers]
+        cost_centers_list = [temp.cost_center_name for temp in cost_centers]
     except Exception as e:
         return dict(status=False, message=str(e))
     return dict(status=True, message="Success", cost_centers=cost_centers_list, cost_centers_dict=cost_centers)
