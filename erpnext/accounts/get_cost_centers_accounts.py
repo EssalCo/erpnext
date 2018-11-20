@@ -38,7 +38,7 @@ def get_cost_centers_accounts():
         if cost_center_company != company_name:
             return dict(status=False, message="This cost center does not belong to {0}".format(company_name))
 
-        budgets = [temp.account for temp in frappe.get_list(
+        budgets = [temp.name for temp in frappe.get_list(
             "Budget",
             fields=["name"],
             filters=dict(
