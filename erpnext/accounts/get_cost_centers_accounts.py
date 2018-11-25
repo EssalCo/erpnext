@@ -38,14 +38,23 @@ def get_cost_centers_accounts():
         if cost_center_company != company_name:
             return dict(status=False, message="This cost center does not belong to {0}".format(company_name))
 
-        budgets = [temp.name for temp in frappe.get_list(
-            "Budget",
-            fields=["name"],
-            filters=dict(
-                cost_center=cost_center
+        budgets = [temp.name for temp in frappe.db.sql(
+            """SELECT DISTINCT 
+    jia.`account` 
+FROM 
+    `tabJournal Entry` ji
+INNER JOIN
+    `tabJournal Entry Account` ji 
+ON (jia.`parent` = ji.`name` AND jia.`cost_center` = '{cost_center}')
+WHERE 
+    ji.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
+        AND `company` = '{company}';""".format(
+                cost_center=cost_center,
+                from_date=from_date,
+                to_date=to_date,
+                company=company_name
             ),
-            ignore_permissions=True,
-            ignore_ifnull=True)]
+            as_dict=True)]
         budget_accounts = [temp.account for temp in frappe.get_list(
             "Budget Account",
             fields=["account", "budget_amount"],
