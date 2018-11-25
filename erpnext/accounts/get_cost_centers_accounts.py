@@ -38,7 +38,7 @@ def get_cost_centers_accounts():
         if cost_center_company != company_name:
             return dict(status=False, message="This cost center does not belong to {0}".format(company_name))
 
-        budgets = [temp.account for temp in frappe.db.sql(
+        cost_center_accounts = [temp.account for temp in frappe.db.sql(
             """SELECT DISTINCT 
     jia.`account` 
 FROM 
@@ -55,14 +55,6 @@ WHERE
                 company=company_name
             ),
             as_dict=True)]
-        budget_accounts = [temp.account for temp in frappe.get_list(
-            "Budget Account",
-            fields=["account", "budget_amount"],
-            filters=dict(
-                parent=("in", budgets)
-            ),
-            ignore_permissions=True,
-            ignore_ifnull=True)]
 
         filters = dict(
             company=company_name,
@@ -76,12 +68,12 @@ WHERE
         accounts = list()
         for d in data:
             if d.get("account"):
-                if d['account'] in budget_accounts:
+                if d['account'] in cost_center_accounts:
                     accounts.append(d)
 
     except Exception as e:
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Success", accounts=accounts or budget_accounts)
+    return dict(status=True, message="Success", accounts=accounts or cost_center_accounts)
 
 
 value_fields = ("opening_debit", "opening_credit", "debit", "credit", "closing_debit", "closing_credit")
