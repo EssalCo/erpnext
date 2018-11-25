@@ -44,7 +44,7 @@ def get_cost_centers_accounts():
 FROM 
     `tabJournal Entry` ji
 INNER JOIN
-    `tabJournal Entry Account` ji 
+    `tabJournal Entry Account` jia
 ON (jia.`parent` = ji.`name` AND jia.`cost_center` = '{cost_center}')
 WHERE 
     ji.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
