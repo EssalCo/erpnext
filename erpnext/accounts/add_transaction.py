@@ -25,6 +25,8 @@ def add_transaction():
     # `vat_amount`
     # `vat_account`
     # `cost_center`
+    # `date`
+    # `third_party_creation`
     try:
 
         data = frappe.form_dict
@@ -47,6 +49,7 @@ def add_transaction():
         vat_amount = float(data.get('vat_amount', 0))
         vat_account = data.get('vat_account')
         cost_center = data.get('cost_center')
+        third_party_creation = data.get('third_party_creation')
         date = data.get('date', datetime.now())
 
         frappe.set_user("Administrator")
@@ -143,6 +146,7 @@ def add_transaction():
                 bill_no=contract_id,
                 bill_date=datetime.now(),
                 is_opening="No",
+                third_party_creation=third_party_creation,
                 accounts=[]
             )
         )
