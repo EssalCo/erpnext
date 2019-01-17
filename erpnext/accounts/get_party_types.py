@@ -16,5 +16,5 @@ def get_party_types():
         
     except Exception as e:
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Success", party_types=companies)
+    return dict(status=True, message="Success", party_types=party_types)
 
