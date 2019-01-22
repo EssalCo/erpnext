@@ -364,4 +364,8 @@ body[data-route="pos"] .collapse-btn {
 }
 .leaderboard .list-item_content {
   padding-right: 45px;
+  padding-bottom: 10px;
+}
+li.active-company {
+  background-color: #dfe5ef;
 }
