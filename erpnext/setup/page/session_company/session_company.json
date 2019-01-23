@@ -1,0 +1,21 @@
+{
+  "content": null,
+  "creation": "2019-01-17 21:07:30.688678",
+  "docstatus": 0,
+  "doctype": "Page",
+  "idx": 0,
+  "modified": "2019-01-19 16:52:32.990312",
+  "modified_by": "Administrator",
+  "module": "Setup",
+  "name": "session-company",
+  "owner": "Administrator",
+  "page_name": "session-company",
+  "roles": [
+
+  ],
+  "script": null,
+  "standard": "Yes",
+  "style": null,
+  "system_page": 0,
+  "title": ""
+}
