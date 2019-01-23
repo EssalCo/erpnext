@@ -185,7 +185,9 @@ $.extend(erpnext.utils, {
 	},
 	get_tree_options: function(option) {
 		// get valid options for tree based on user permission & locals dict
-		return localStorage.getItem("session_company");
+		if(localStorage.getItem("session_company_enabled")){
+			return localStorage.getItem("session_company");
+		}
 		let unscrub_option = frappe.model.unscrub(option);
 		let user_permission = frappe.defaults.get_user_permissions();
 		if(user_permission && user_permission[unscrub_option]) {
@@ -196,7 +198,9 @@ $.extend(erpnext.utils, {
 	},
 	get_tree_default: function(option) {
 		// set default for a field based on user permission
-		return localStorage.getItem("session_company");
+		if(localStorage.getItem("session_company_enabled")){
+			return localStorage.getItem("session_company");
+		}
 		let options = this.get_tree_options(option);
 		if(options.includes(frappe.defaults.get_default(option))) {
 			return frappe.defaults.get_default(option);

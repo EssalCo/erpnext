@@ -5,7 +5,7 @@ frappe.pages['session-company'].on_page_load = function(wrapper) {
 
 	let companies = [];
 	frappe.call({
-		method: "erpnext.setup.doctype.company.get_allowed_companies.get_allowed_companies",
+		method: "erpnext.setup.doctype.user_session_company.session_company.get_allowed_companies",
 		args: {
 			user: frappe.session.user
 		},
