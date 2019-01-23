@@ -4,10 +4,13 @@
 frappe.provide("frappe.ui.toolbar");
 frappe.provide('frappe.search');
 
+
 frappe.ui.toolbar.Toolbar = Class.extend({
 	init: function() {
+		console.log("here111111111122222222222")
 		$('header').append(frappe.render_template("navbar", {
-			avatar: frappe.avatar(frappe.session.user)
+			avatar: frappe.avatar(frappe.session.user),
+			companies: this.get_allowed_companies(frappe.session.user)
 		}));
 
 		$(".navbar-right li:eq(1)").after('<li class="dropdown dropdown-navbar-user dropdown-mobile">\n' +
@@ -223,7 +226,7 @@ frappe.ui.toolbar.Toolbar = Class.extend({
 				frappe.ui.toolbar.set_session_company();
 				for(let i=0; i<companies.length; i++){
 					let companyOptionId = companies[i].replace(/ +?/g, '');
-					$('#toolbar-company').append("<li id='" +companyOptionId+"'><a onclick='return frappe.ui.toolbar.set_session_company("+"\"" + companies[i]+"\"" +");'><span>"+companies[i]+"</span></a></li>")
+					$('#toolbar-company').append("<li id='" +companyOptionId+"'><a onclick='return frappe.ui.toolbar.select_company("+"\"" + companies[i]+"\"" +");'><span>"+companies[i]+"</span></a></li>")
 				}
 				return companies
 			}
@@ -311,16 +314,23 @@ frappe.ui.toolbar.set_session_company = function(company_id) {
 		},
 		freeze: true,
 			callback: function(r) {
-			$(".active-company-title").text(r.message);
+				$(".active-company-title").text(r.message);
 
-			$("#toolbar-company").find("li").each(function () {
-				$(this).removeClass("active-company")
-			});
+				$("#toolbar-company").find("li").each(function () {
+					$(this).removeClass("active-company")
+				});
 
-			let company_option_id = r.message.replace(/ +?/g, '');
-			$("#"+company_option_id).addClass("active-company");
-			frappe.boot.user.session_company = r.message;
-			localStorage.setItem("session_company", r.message);
+				let company_option_id = r.message.replace(/ +?/g, '');
+				$("#"+company_option_id).addClass("active-company");
+				frappe.boot.user.session_company = r.message;
+				localStorage.setItem("session_company", r.message);
 			}
 		});
+};
+
+frappe.ui.toolbar.select_company = function (company_id) {
+	frappe.ui.toolbar.set_session_company(company_id);
+	if(window.location.href.includes("Tree/Account")){
+		window.location.reload()
+	}
 };

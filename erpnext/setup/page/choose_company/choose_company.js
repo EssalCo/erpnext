@@ -14,7 +14,6 @@ frappe.pages['choose-company'].on_page_load = function(wrapper) {
 			companies = r.message;
 			companies.forEach(function (company) {
 				if(company === localStorage.getItem("session_company")){
-					console.log("here", company)
 					parent.find(".choose-company").append(new Option(company, company, false, true));
 				}else{
 					parent.find(".choose-company").append(new Option(company, company));
@@ -24,8 +23,7 @@ frappe.pages['choose-company'].on_page_load = function(wrapper) {
 	});
 
 	parent.find(".btn-choose-company").on("click", function() {
-		// let company = $(".choose-company").find(":selected").text();
-		console.log(company);
+		let company = $(".choose-company").val();
 		frappe.ui.toolbar.set_session_company(company);
 		if (company !== null){
 			frappe.ui.toolbar.set_session_company(company);
