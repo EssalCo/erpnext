@@ -7,27 +7,40 @@ frappe.provide('frappe.search');
 
 frappe.ui.toolbar.Toolbar = Class.extend({
 	init: function() {
+
 		$('header').append(frappe.render_template("navbar", {
 			avatar: frappe.avatar(frappe.session.user),
-			companies: this.get_allowed_companies(frappe.session.user)
 		}));
 
-		$(".navbar-right li:eq(1)").after('<li class="dropdown dropdown-navbar-user dropdown-mobile">\n' +
-			'<a class="dropdown-toggle" data-toggle="dropdown" href="#"\n' +
-			'onclick="return false;">\n' +
-			'<span class="ellipsis toolbar-user-fullname hidden-xs hidden-sm active-company-title"></span>\n' +
-			'<b class="caret hidden-xs hidden-sm"></b></a>\n' +
-			'<ul class="dropdown-menu" id="toolbar-company" role="menu">\n' +
-			'</ul>\n' +
-			'</li>');
-
-
-		// frappe.ui.toolbar.set_session_company();
 		$('.dropdown-toggle').dropdown();
 		let awesome_bar = new frappe.search.AwesomeBar();
 		awesome_bar.setup("#navbar-search");
 		awesome_bar.setup("#modal-search");
 		this.make();
+
+		frappe.call({
+			method: "erpnext.setup.doctype.user_session_company.session_company.check_if_user_using_session_company",
+			args: {
+				user_id: frappe.session.user
+			},
+			freeze: true,
+			callback: function(r) {
+				if(r.message){
+					localStorage.setItem("session_company_enabled", 1);
+					frappe.ui.toolbar.get_allowed_companies(frappe.session.user);
+
+					$(".navbar-right li:eq(1)").after('<li class="dropdown dropdown-navbar-user dropdown-mobile">\n' +
+						'<a class="dropdown-toggle" data-toggle="dropdown" href="#"\n' +
+						'onclick="return false;">\n' +
+						'<span class="ellipsis toolbar-user-fullname hidden-xs hidden-sm active-company-title"></span>\n' +
+						'<b class="caret hidden-xs hidden-sm"></b></a>\n' +
+						'<ul class="dropdown-menu" id="toolbar-company" role="menu">\n' +
+						'</ul>\n' +
+						'</li>');
+
+				}
+			}
+		});
 	},
 
 	make: function() {
@@ -39,7 +52,6 @@ frappe.ui.toolbar.Toolbar = Class.extend({
 
 		$(document).trigger('toolbar_setup');
 	},
-
 
 	setup_modules_dialog() {
 		this.modules_select = new frappe.ui.toolbar.ModulesSelect();
@@ -210,26 +222,6 @@ frappe.ui.toolbar.Toolbar = Class.extend({
 				});
 			}
 		}
-	},
-
-	get_allowed_companies: function (user) {
-		let companies = [];
-		frappe.call({
-			method: "erpnext.setup.doctype.company.get_allowed_companies.get_allowed_companies",
-			args: {
-				user: user
-			},
-			freeze: true,
-			callback: function(r) {
-				companies = r.message;
-				frappe.ui.toolbar.set_session_company();
-				for(let i=0; i<companies.length; i++){
-					let companyOptionId = companies[i].replace(/ +?/g, '');
-					$('#toolbar-company').append("<li id='" +companyOptionId+"'><a onclick='return frappe.ui.toolbar.select_company("+"\"" + companies[i]+"\"" +");'><span>"+companies[i]+"</span></a></li>")
-				}
-				return companies
-			}
-		});
 	}
 });
 
@@ -300,13 +292,14 @@ frappe.ui.toolbar.show_about = function() {
 	return false;
 };
 
-frappe.ui.toolbar.set_session_company = function(company_id) {
+frappe.ui.toolbar.set_session_company = function(company_id, allowed_companies) {
 	let stored_session_company = localStorage.getItem("session_company");
-	if(company_id === undefined && stored_session_company !== undefined){
+	if(!company_id && stored_session_company !== undefined
+		&& allowed_companies && allowed_companies.includes(stored_session_company)){
 		company_id = stored_session_company
 	}
 	frappe.call({
-		method: "erpnext.setup.doctype.company.set_session_company.set_session_company",
+		method: "erpnext.setup.doctype.user_session_company.session_company.set_session_company",
 		args: {
 			company_id: company_id,
 			user_id: frappe.session.user
@@ -333,3 +326,23 @@ frappe.ui.toolbar.select_company = function (company_id) {
 		window.location.reload()
 	}
 };
+
+frappe.ui.toolbar.get_allowed_companies = function (user) {
+		let companies = [];
+		frappe.call({
+			method: "erpnext.setup.doctype.user_session_company.session_company.get_allowed_companies",
+			args: {
+				user: user
+			},
+			freeze: true,
+			callback: function(r) {
+				companies = r.message;
+				frappe.ui.toolbar.set_session_company(null, companies);
+				for(let i=0; i<companies.length; i++){
+					let companyOptionId = companies[i].replace(/ +?/g, '');
+					$('#toolbar-company').append("<li id='" +companyOptionId+"'><a onclick='return frappe.ui.toolbar.select_company("+"\"" + companies[i]+"\"" +");'><span>"+companies[i]+"</span></a></li>")
+				}
+				return companies
+			}
+		});
+	};
