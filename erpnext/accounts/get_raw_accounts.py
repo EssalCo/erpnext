@@ -11,11 +11,9 @@ def get_raw_accounts():
         accounts = frappe.get_all(
           "Account",
           fields=["*"],
-         filters=dict(
-         ),
          ignore_permissions=True,
-         ignore_ifnull=True)]
+         ignore_ifnull=True)
         
     except Exception as e:
         return dict(status=False, message=str(e))
-return dict(status=True, message="Success", accounts=accounts)
+    return dict(status=True, message="Success", accounts=accounts)
