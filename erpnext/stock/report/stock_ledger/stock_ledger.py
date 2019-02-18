@@ -20,8 +20,10 @@ def execute(filters=None):
     for sle in sl_entries:
         item_detail = item_details[sle.item_code]
         customer_name = ""
-        if sle.voucher_no:
+        if sle.voucher_no and sle.voucher_type == "Sales Invoice":
             customer_name = frappe.get_value("Sales Invoice",sle.voucher_no,"customer_name")
+        elif sle.voucher_no and sle.voucher_type == "Delivery Note":
+            customer_name = frappe.get_value("Delivery Note",sle.voucher_no,"customer_name")
         data.append([sle.date, sle.item_code, item_detail.item_name, item_detail.item_group,
                  item_detail.brand, item_detail.description, sle.warehouse,
                  item_detail.stock_uom, sle.actual_qty, sle.qty_after_transaction,
