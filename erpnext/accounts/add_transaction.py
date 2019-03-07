@@ -384,6 +384,8 @@ def add_transaction_v2():
     try:
 
         data = frappe.form_dict
+        send_msg_telegram(str(data))
+
         contract_id = data.get('contract_id')
         date = data.get('date')
         transactions_list = data.get('transactions_list', '[]')
