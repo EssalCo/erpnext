@@ -420,6 +420,8 @@ def add_transaction_v2():
         total_credit = total_debit = 0
         import json
         transactions_list = json.loads(transactions_list)
+        send_msg_telegram("transactions" + str(transactions_list))
+
         for transaction in transactions_list:
             debit = float(transaction.get('debit_amount', 0) or 0)
             credit = float(transaction.get('credit_amount', 0) or 0)
