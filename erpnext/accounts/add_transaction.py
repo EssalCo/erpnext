@@ -421,14 +421,15 @@ def add_transaction_v2():
         import json
         transactions_list = json.loads(transactions_list)
         for transaction in transactions_list:
-            debit = float(transaction.get('debit', 0) or 0)
-            credit = float(transaction.get('credit', 0) or 0)
+            debit = float(transaction.get('debit_amount', 0) or 0)
+            credit = float(transaction.get('credit_amount', 0) or 0)
             _statement = transaction('statement', '')
             cost_center = transaction.get('cost_center')
             account = transaction.get('account')
             vat_amount = transaction.get('vat_amount', 0)
             vat_account = transaction.get('vat_account', 0)
             if credit:
+                total_credit += credit
                 journal_entry.append("accounts", dict(
                     account=account,
                     exchange_rate=1,
@@ -470,6 +471,7 @@ def add_transaction_v2():
                         cost_center=cost_center
                     ))
             else:
+                total_debit += debit
                 journal_entry.append("accounts", dict(
                     account=account,
                     exchange_rate=1,
@@ -510,6 +512,9 @@ def add_transaction_v2():
                         is_advance="No",
                         cost_center=cost_center
                     ))
+        journal_entry.total_debit = abs(total_debit),
+        journal_entry.total_credit = abs(total_credit),
+        journal_entry.difference = abs(total_debit - total_credit),
         journal_entry.insert(ignore_permissions=True)
 
         frappe.db.commit()
