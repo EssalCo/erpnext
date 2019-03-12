@@ -21,3 +21,28 @@ def get_companies():
         return dict(status=False, message=str(e))
     return dict(status=True, message="Success", companies=companies)
 
+
+@frappe.whitelist(allow_guest=True)
+def get_users():
+    try:
+               
+        employees = frappe.get_list("Employee",
+                                    fields=["*"],
+                                       filters=dict(
+                                           company="مؤسسة أنس صيرفي"
+                                       ),
+                                       ignore_permissions=True,
+                                       ignore_ifnull=True)
+        users = frappe.get_list("User",
+                                    fields=["*"],
+                                       filters=dict(
+                                           name=("in", [temp.user_id for temp.employees])
+                                       ),
+                                       ignore_permissions=True,
+                                       ignore_ifnull=True)
+        
+    except Exception as e:
+        return dict(status=False, message=str(e))
+    return dict(status=True, message="Success", users=users, employees=employees)
+
+
