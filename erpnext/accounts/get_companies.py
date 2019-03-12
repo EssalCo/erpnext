@@ -39,9 +39,15 @@ def get_users():
                                 ),
                                 ignore_permissions=True,
                                 ignore_ifnull=True)
+        types = frappe.get_list("Employment Type",
+                                fields=["*"],
+                                filters=dict(
+                                ),
+                                ignore_permissions=True,
+                                ignore_ifnull=True)
 
     except Exception as e:
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Success", users=users, employees=employees)
+    return dict(status=True, message="Success", users=users, employees=employees, types=types)
 
 
