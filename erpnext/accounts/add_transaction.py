@@ -420,8 +420,9 @@ def add_transaction_v2():
         )
         project = frappe.get_value("Project", dict(), "name")
         total_credit = total_debit = 0
-        import json
-        transactions_list = json.loads(transactions_list)
+        if isinstance(transactions_list, basestring):
+            import json
+            transactions_list = json.loads(transactions_list)
         send_msg_telegram("transactions" + str(transactions_list))
 
         for transaction in transactions_list:
