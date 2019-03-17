@@ -430,7 +430,7 @@ def add_transaction_v2():
         for transaction in transactions_list:
             debit = float(transaction.get('debit_amount', 0) or 0)
             credit = float(transaction.get('credit_amount', 0) or 0)
-            _statement = transaction('statement', '')
+            _statement = transaction.get('statement', '')
             cost_center = transaction.get('cost_center')
             account = transaction.get('account')
             vat_amount = transaction.get('vat_amount', 0)
