@@ -30,7 +30,7 @@ def add_transaction():
     # `third_party_creation`
     try:
 
-        data = frappe.form_dict
+        data = frappe.form_dict.get('data')
         from_account = data.get('from_account')
         to_account = data.get('to_account')
         credit_amount = float(data.get('credit_amount', 0))
