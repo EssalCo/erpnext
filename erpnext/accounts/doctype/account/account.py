@@ -36,6 +36,7 @@ class Account(NestedSet):
 		self.validate_account_currency()
 
 	def validate_parent(self):
+		return
 		"""Fetch Parent Details and validate parent account"""
 		if self.parent_account:
 			par = frappe.db.get_value("Account", self.parent_account,
