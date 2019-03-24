@@ -23,7 +23,6 @@ class Account(NestedSet):
 		self.name = get_account_autoname(self.account_number, self.account_name, self.company)
 
 	def validate(self):
-		return
 		if frappe.local.flags.allow_unverified_charts:
 			return
 		self.validate_parent()
@@ -37,7 +36,6 @@ class Account(NestedSet):
 		self.validate_account_currency()
 
 	def validate_parent(self):
-		return
 		"""Fetch Parent Details and validate parent account"""
 		if self.parent_account:
 			par = frappe.db.get_value("Account", self.parent_account,
