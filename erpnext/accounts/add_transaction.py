@@ -529,4 +529,4 @@ def add_transaction_v2():
         error_msg = "Error : " + traceback.format_exc()
         send_msg_telegram(error_msg)
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Transactions are added to erpnext successfully")
+    return dict(status=True, message="Transactions are added to erpnext successfully", journal_entry_id=journal_entry.name)
