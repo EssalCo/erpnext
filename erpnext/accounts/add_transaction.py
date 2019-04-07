@@ -529,4 +529,15 @@ def add_transaction_v2():
         error_msg = "Error : " + traceback.format_exc()
         send_msg_telegram(error_msg)
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Transactions are added to erpnext successfully", journal_entry_id=journal_entry.name)
+    import os
+    sites_path = os.path.abspath(__file__.split("apps")[0] + "sites")
+
+    current_site = os.path.join(sites_path, 'currentsite.txt')
+    with open(current_site, 'r') as fp:
+        site_name = fp.read().strip()
+    return dict(
+        status=True,
+        message="Transactions are added to erpnext successfully",
+        journal_entry_link="{site_name}/desk#Form/Journal Entry/{_id}".format(
+            site_name=site_name,
+            _id=journal_entry.name))
