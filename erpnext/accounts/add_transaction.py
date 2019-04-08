@@ -382,9 +382,10 @@ def add_transaction_v2():
     # 'third_party_creation'
 
     try:
-
+        import get_site_name method from frappe.utils import get_site_name 
+        site_name = get_site_name(frappe.local.request.host) 
         data = frappe.form_dict.get('data')
-        #send_msg_telegram(str(data))
+        send_msg_telegram(site_name)
         if isinstance(data, basestring):
             import json
             data = json.loads(data)
@@ -529,12 +530,7 @@ def add_transaction_v2():
         error_msg = "Error : " + traceback.format_exc()
         send_msg_telegram(error_msg)
         return dict(status=False, message=str(e))
-    import os
-    sites_path = os.path.abspath(__file__.split("apps")[0] + "sites")
 
-    current_site = os.path.join(sites_path, 'currentsite.txt')
-    with open(current_site, 'r') as fp:
-        site_name = fp.read().strip()
     return dict(
         status=True,
         message="Transactions are added to erpnext successfully",
