@@ -45,8 +45,8 @@ def execute(filters=None):
                            qty_dict.out_val, qty_dict.bal_qty,
                            qty_dict.bal_val,
 						   qty_dict.val_rate,
-						   0,
-						   qty_dict.val_rate * 1,
+                           item_map[item]["closing_price"],
+						   qty_dict.val_rate * item_map[item]["closing_price"],
                            item_reorder_level,
                            item_reorder_qty,
                            company
@@ -222,7 +222,7 @@ def get_item_details(items, sle, filters):
 
     if items:
         for item in frappe.db.sql("""
-			select name, item_name, description, item_group, brand, stock_uom
+			select name, item_name, description, item_group, brand, stock_uom, closing_price
 			from `tabItem`
 			where name in ({0}) and ifnull(disabled, 0) = 0
 			""".format(', '.join(['"' + frappe.db.escape(i, percent=False) + '"' for i in items])), as_dict=1):
