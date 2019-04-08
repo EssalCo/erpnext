@@ -46,7 +46,7 @@ def execute(filters=None):
                            qty_dict.bal_val,
 						   qty_dict.val_rate,
                            item_map[item]["closing_price"],
-						   qty_dict.val_rate * qty_dict.bal_qty,
+                           item_map[item]["closing_price"] * qty_dict.bal_qty,
                            item_reorder_level,
                            item_reorder_qty,
                            company
