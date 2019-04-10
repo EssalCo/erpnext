@@ -26,7 +26,11 @@ def get_allowed_companies(user):
 @frappe.whitelist(allow_guest=1)
 def set_session_company(user_id=None, company_id=None):
     if not company_id and user_id:
-        company_id = get_allowed_companies(user_id)[0]
+	companies = get_allowed_companies(user_id)
+	if len(companies) != 0:
+	        company_id = get_allowed_companies(user_id)[0]
+	else:
+		company_id = None
     frappe.local.session_company = company_id
     return company_id
 
