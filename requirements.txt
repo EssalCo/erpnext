@@ -3,3 +3,8 @@ unidecode
 pygithub
 googlemaps
 umalqurra
+python-stdnum
+braintree
+gocardless_pro
+woocommerce
+pandas

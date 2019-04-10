@@ -15,6 +15,10 @@
  "fields": [
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -31,7 +35,11 @@
    "label": "Transfer Type", 
    "length": 0, 
    "no_copy": 0, 
+<<<<<<< HEAD
    "options": "\nIssue\nPurchase\nTransfer\n\n", 
+=======
+   "options": "\nIssue\nPurchase\nTransfer", 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "permlevel": 0, 
    "precision": "", 
    "print_hide": 0, 
@@ -42,10 +50,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -71,10 +87,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -101,10 +125,15 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -135,6 +164,9 @@
   }, 
   {
    "allow_bulk_edit": 0, 
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -160,10 +192,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -192,15 +232,27 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
    "columns": 0, 
    "depends_on": "eval:doc.transfer_type != 'Issue'", 
+<<<<<<< HEAD
+=======
+   "fetch_from": "from_shareholder.folio_no", 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "fieldname": "from_folio_no", 
    "fieldtype": "Data", 
    "hidden": 0, 
@@ -224,10 +276,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -256,10 +316,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -288,10 +356,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -317,10 +393,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -349,15 +433,27 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
    "columns": 0, 
    "depends_on": "eval:doc.transfer_type != 'Purchase'", 
+<<<<<<< HEAD
+=======
+   "fetch_from": "to_shareholder.folio_no", 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "fieldname": "to_folio_no", 
    "fieldtype": "Data", 
    "hidden": 0, 
@@ -381,10 +477,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -410,10 +514,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -441,10 +553,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -472,10 +592,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -502,10 +630,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -531,10 +667,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -561,10 +705,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -592,10 +744,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -622,10 +782,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -651,10 +819,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -682,10 +858,18 @@
    "reqd": 1, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -711,10 +895,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -741,10 +933,18 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }, 
   {
    "allow_bulk_edit": 0, 
+<<<<<<< HEAD
+=======
+   "allow_in_quick_entry": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
@@ -771,6 +971,10 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
+<<<<<<< HEAD
+=======
+   "translatable": 0, 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "unique": 0
   }
  ], 
@@ -784,7 +988,11 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 0, 
+<<<<<<< HEAD
  "modified": "2018-09-10 13:39:30.353767", 
+=======
+ "modified": "2018-09-18 14:14:46.233568", 
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
  "modified_by": "Administrator", 
  "module": "Accounts", 
  "name": "Share Transfer", 
@@ -793,7 +1001,10 @@
  "permissions": [
   {
    "amend": 1, 
+<<<<<<< HEAD
    "apply_user_permissions": 0, 
+=======
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "cancel": 0, 
    "create": 1, 
    "delete": 1, 
@@ -813,6 +1024,7 @@
   }, 
   {
    "amend": 0, 
+<<<<<<< HEAD
    "apply_user_permissions": 0, 
    "cancel": 0, 
    "create": 1, 
@@ -854,6 +1066,8 @@
   {
    "amend": 0, 
    "apply_user_permissions": 0, 
+=======
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "cancel": 0, 
    "create": 1, 
    "delete": 1, 
@@ -873,7 +1087,10 @@
   }, 
   {
    "amend": 0, 
+<<<<<<< HEAD
    "apply_user_permissions": 0, 
+=======
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
    "cancel": 0, 
    "create": 1, 
    "delete": 1, 
@@ -890,6 +1107,7 @@
    "share": 1, 
    "submit": 0, 
    "write": 1
+<<<<<<< HEAD
   }, 
   {
    "amend": 0, 
@@ -910,6 +1128,8 @@
    "share": 1, 
    "submit": 0, 
    "write": 1
+=======
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
   }
  ], 
  "quick_entry": 0, 
@@ -919,5 +1139,10 @@
  "sort_field": "modified", 
  "sort_order": "DESC", 
  "track_changes": 1, 
+<<<<<<< HEAD
  "track_seen": 0
+=======
+ "track_seen": 0, 
+ "track_views": 0
+>>>>>>> b0c939d280fc519f43ce595618a6b68e5daf2be7
 }
