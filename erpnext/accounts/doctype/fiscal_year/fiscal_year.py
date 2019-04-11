@@ -27,6 +27,7 @@ class FiscalYear(Document):
 		msgprint(_("{0} is now the default Fiscal Year. Please refresh your browser for the change to take effect.").format(self.name))
 
 	def validate(self):
+		return
 		self.validate_dates()
 		self.validate_overlap()
 
