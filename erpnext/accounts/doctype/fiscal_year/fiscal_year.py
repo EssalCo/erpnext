@@ -35,8 +35,11 @@ class FiscalYear(Document):
 				from `tabFiscal Year` where name=%s""", (self.name))
 
 			if year_start_end_dates:
-				if getdate(self.year_start_date) != year_start_end_dates[0][0] or getdate(self.year_end_date) != year_start_end_dates[0][1]:
-					frappe.throw(_("Cannot change Fiscal Year Start Date and Fiscal Year End Date once the Fiscal Year is saved."))
+				if getdate(self.year_start_date) != year_start_end_dates[0][0] or getdate(
+					self.year_end_date) != year_start_end_dates[0][1]:
+					frappe.throw(_(
+						"Cannot change Fiscal Year Start Date and Fiscal Year End Date once the Fiscal Year is saved."),
+						    raise_exception=False)
 
 	def validate_dates(self):
 		if getdate(self.year_start_date) > getdate(self.year_end_date):
