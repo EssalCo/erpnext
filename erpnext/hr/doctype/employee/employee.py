@@ -63,6 +63,7 @@ class Employee(NestedSet):
 			self.update_user_permissions()
 
 	def update_user_permissions(self):
+		return
 		frappe.permissions.add_user_permission("Employee", self.name, self.user_id)
 		frappe.permissions.set_user_permission_if_allowed("Company", self.company, self.user_id)
 
