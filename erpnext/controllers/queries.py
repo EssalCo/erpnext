@@ -14,24 +14,9 @@ def employee_query(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name, employee_name from `tabEmployee`
 		where status = 'Active'
 			and docstatus < 2
-			and ({key} like %(txt)s
-				or employee_name like %(txt)s)
-			{fcond} {mcond}
 		order by
-			if(locate(%(_txt)s, name), locate(%(_txt)s, name), 99999),
-			if(locate(%(_txt)s, employee_name), locate(%(_txt)s, employee_name), 99999),
 			idx desc,
-			name, employee_name
-		limit %(start)s, %(page_len)s""".format(**{
-			'key': searchfield,
-			'fcond': get_filters_cond(doctype, filters, conditions),
-			'mcond': get_match_cond(doctype)
-		}), {
-			'txt': "%%%s%%" % txt,
-			'_txt': txt.replace("%", ""),
-			'start': start,
-			'page_len': page_len
-		})
+			name, employee_name""")
 
  # searches for leads which are not converted
 def lead_query(doctype, txt, searchfield, start, page_len, filters):
