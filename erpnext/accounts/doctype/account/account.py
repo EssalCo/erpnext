@@ -177,7 +177,10 @@ def get_account_currency(account):
 	if not account:
 		return
 	def generator():
-		account_currency, company = frappe.db.get_value("Account", account, ["account_currency", "company"])
+		try:
+			account_currency, company = frappe.db.get_value("Account", account, ["account_currency", "company"])
+		except: throw(_("Account {0} does not exist! Please choose a valid account.").format(account))
+
 		if not account_currency:
 			account_currency = frappe.db.get_value("Company", company, "default_currency")
 

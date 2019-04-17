@@ -45,7 +45,8 @@ class LeaveApplication(Document):
 		if (not self.previous_doc and self.leave_approver) or (self.previous_doc and \
 				self.status == "Open" and self.previous_doc.leave_approver != self.leave_approver):
 			# notify leave approver about creation
-			self.notify_leave_approver()
+			#self.notify_leave_approver()
+			pass
 
 	def on_submit(self):
 		if self.status == "Open":

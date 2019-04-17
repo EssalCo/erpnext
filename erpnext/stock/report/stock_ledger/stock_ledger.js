@@ -70,7 +70,13 @@ frappe.query_reports["Stock Ledger"] = {
 			"label": __("Project"),
 			"fieldtype": "Link",
 			"options": "Project"
-		}
+		},
+		{
+                        "fieldname":"customer",
+                        "label": __("Customer"),
+                        "fieldtype": "Data",
+                }
+
 	]
 }
 

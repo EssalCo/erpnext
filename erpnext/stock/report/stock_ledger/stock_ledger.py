@@ -16,14 +16,18 @@ def execute(filters=None):
     data = []
     if opening_row:
         data.append(opening_row)
-
+    
     for sle in sl_entries:
         item_detail = item_details[sle.item_code]
         customer_name = ""
         if sle.voucher_no and sle.voucher_type == "Sales Invoice":
-            customer_name = frappe.get_value("Sales Invoice",sle.voucher_no,"customer_name")
+	    customer_doc = frappe.get_value("Sales Invoice", sle.voucher_no, ["customer_name", "customer"], as_dict=True)
+
         elif sle.voucher_no and sle.voucher_type == "Delivery Note":
-            customer_name = frappe.get_value("Delivery Note",sle.voucher_no,"customer_name")
+            customer_doc = frappe.get_value("Delivery Note", sle.voucher_no, ["customer_name", "customer"], as_dict=True)
+	customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
+        if filters.get("customer") and filters.get("customer").lower() not in customer_name.lower() and filters.get("customer").lower() not in customer_id.lower():
+	    continue
         data.append([sle.date, sle.item_code, item_detail.item_name, item_detail.item_group,
                  item_detail.brand, item_detail.description, sle.warehouse,
                  item_detail.stock_uom, sle.actual_qty, sle.qty_after_transaction,
@@ -37,10 +41,10 @@ def execute(filters=None):
 
 def get_columns():
     columns = [
-        _("Date") + ":Datetime:95", _("Item") + ":Link/Item:130",
-        _("Item Name") + "::100", _("Item Group") + ":Link/Item Group:100",
-        _("Brand") + ":Link/Brand:100", _("Description") + "::200",
-        _("Warehouse") + ":Link/Warehouse:100", _("Stock UOM") + ":Link/UOM:100",
+        _("Date") + ":Datetime:120", _("Item") + ":Link/Item:130",
+        _("Item Name") + "::230", _("Item Group") + ":Link/Item Group:100",
+        _("Brand") + ":Link/Brand:100", _("Description") + "::220",
+        _("Warehouse") + ":Link/Warehouse:140", _("Stock UOM") + ":Link/UOM:100",
         _("Qty") + ":Float:50", _("Balance Qty") + ":Float:100",
         {"label": _("Incoming Rate"), "fieldtype": "Currency", "width": 110,
          "options": "Company:company:default_currency"},
@@ -50,11 +54,11 @@ def get_columns():
          "options": "Company:company:default_currency"},
         _("Voucher Type") + "::110",
         _("Voucher #") + ":Dynamic Link/" + _("Voucher Type") + ":100",
-        _("Customer Name") + ":100",
+        _("Customer Name") + "::250",
         _("Batch") + ":Link/Batch:100",
         _("Serial #") + ":Link/Serial No:100",
         _("Project") + ":Link/Project:100",
-        {"label": _("Company"), "fieldtype": "Link", "width": 110,
+        {"label": _("Company"), "fieldtype": "Link", "width": 200,
          "options": "company", "fieldname": "company"}
     ]
 
