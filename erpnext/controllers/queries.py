@@ -14,9 +14,12 @@ def employee_query(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select name, employee_name from `tabEmployee`
 		where status = 'Active'
 			and docstatus < 2
+			and (name like %(txt)s
+				or employee_name like %(txt)s)
 		order by
 			idx desc,
-			name, employee_name""")
+			name, employee_name""", {
+			'txt': "%%%s%%" % txt})
 
  # searches for leads which are not converted
 def lead_query(doctype, txt, searchfield, start, page_len, filters):
