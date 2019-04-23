@@ -450,19 +450,19 @@ def add_transaction_v2():
                     is_advance="No",
                     cost_center=cost_center
                 ))
-                journal_entry.append("accounts", dict(
-                    account=account,
-                    party_type="Company",
-                    party=company,
-                    exchange_rate=1,
-                    debit_in_account_currency=abs(credit) - abs(vat_amount),
-                    debit=abs(credit) - abs(vat_amount),
-                    journal_note=_statement,
-                    credit_in_account_currency=0,
-                    credit=0,
-                    project=project,
-                    is_advance="No",
-                    cost_center=cost_center
+                # journal_entry.append("accounts", dict(
+                #     account=account,
+                #     party_type="Company",
+                #     party=company,
+                #     exchange_rate=1,
+                #     debit_in_account_currency=abs(credit) - abs(vat_amount),
+                #     debit=abs(credit) - abs(vat_amount),
+                #     journal_note=_statement,
+                #     credit_in_account_currency=0,
+                #     credit=0,
+                #     project=project,
+                #     is_advance="No",
+                #     cost_center=cost_center
                 ))
                 if vat_amount and vat_account:
                     journal_entry.append("accounts", dict(
@@ -492,20 +492,20 @@ def add_transaction_v2():
                     is_advance="No",
                     cost_center=cost_center
                 ))
-                journal_entry.append("accounts", dict(
-                    account=account,
-                    party_type="Company",
-                    party=company,
-                    exchange_rate=1,
-                    debit_in_account_currency=0,
-                    debit=0,
-                    credit_in_account_currency=abs(debit) - abs(vat_amount),
-                    credit=abs(debit) - abs(vat_amount),
-                    project=project,
-                    is_advance="No",
-                    journal_note=_statement,
-                    cost_center=cost_center
-                ))
+                # journal_entry.append("accounts", dict(
+                #     account=account,
+                #     party_type="Company",
+                #     party=company,
+                #     exchange_rate=1,
+                #     debit_in_account_currency=0,
+                #     debit=0,
+                #     credit_in_account_currency=abs(debit) - abs(vat_amount),
+                #     credit=abs(debit) - abs(vat_amount),
+                #     project=project,
+                #     is_advance="No",
+                #     journal_note=_statement,
+                #     cost_center=cost_center
+                # ))
                 if vat_amount and vat_account:
                     journal_entry.append("accounts", dict(
                         account=vat_account,
