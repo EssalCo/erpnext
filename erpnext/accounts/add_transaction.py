@@ -463,7 +463,7 @@ def add_transaction_v2():
                 #     project=project,
                 #     is_advance="No",
                 #     cost_center=cost_center
-                ))
+                # ))
                 if vat_amount and vat_account:
                     journal_entry.append("accounts", dict(
                         account=vat_account,
