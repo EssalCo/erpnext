@@ -240,14 +240,17 @@ class StockEntry(StockController):
 	def set_incoming_rate(self):
 		for d in self.items:
 			if d.s_warehouse:
-				args = self.get_args_for_incoming_rate(d)
-				d.basic_rate = get_incoming_rate(args)
+				pass
+				#args = self.get_args_for_incoming_rate(d)
+				#d.basic_rate = get_incoming_rate(args)
 			elif d.allow_zero_valuation_rate and not d.s_warehouse:
-				d.basic_rate = 0.0
+				#d.basic_rate = 0.0
+				pass
 			elif d.t_warehouse and not d.basic_rate:
-				d.basic_rate = get_valuation_rate(d.item_code, d.t_warehouse,
-					self.doctype, d.name, d.allow_zero_valuation_rate,
-					currency=erpnext.get_company_currency(self.company))
+				pass
+				#d.basic_rate = get_valuation_rate(d.item_code, d.t_warehouse,
+				#	self.doctype, d.name, d.allow_zero_valuation_rate,
+				#	currency=erpnext.get_company_currency(self.company))
 
 	def set_actual_qty(self):
 		allow_negative_stock = cint(frappe.db.get_value("Stock Settings", None, "allow_negative_stock"))
@@ -298,6 +301,7 @@ class StockEntry(StockController):
 
 	def set_basic_rate(self, force=False, update_finished_item_rate=True):
 		"""get stock and incoming rate on posting date"""
+		return
 		raw_material_cost = 0.0
 		scrap_material_cost = 0.0
 		fg_basic_rate = 0.0

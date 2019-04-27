@@ -330,6 +330,8 @@ class LeaveApplication(Document):
 		})
 
 	def notify(self, args):
+		# returned since it is causinf errro in import chat
+		return
 		args = frappe._dict(args)
 		from frappe.desk.page.chat.chat import post
 		post(**{"txt": args.message, "contact": args.message_to, "subject": args.subject,

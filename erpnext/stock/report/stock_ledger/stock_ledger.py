@@ -19,15 +19,26 @@ def execute(filters=None):
     
     for sle in sl_entries:
         item_detail = item_details[sle.item_code]
-        customer_name = ""
+        customer_doc, customer_name = None, ""
         if sle.voucher_no and sle.voucher_type == "Sales Invoice":
 	    customer_doc = frappe.get_value("Sales Invoice", sle.voucher_no, ["customer_name", "customer"], as_dict=True)
 
         elif sle.voucher_no and sle.voucher_type == "Delivery Note":
             customer_doc = frappe.get_value("Delivery Note", sle.voucher_no, ["customer_name", "customer"], as_dict=True)
-	customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
-        if filters.get("customer") and filters.get("customer").lower() not in customer_name.lower() and filters.get("customer").lower() not in customer_id.lower():
-	    continue
+	if filters.get("customer"):
+#	elif sle.voucher_no and sle.voucher_type == "Purchase Invoice":
+#            customer_doc = frappe.get_value("Supplier", sle.voucher_no, ["supplier_name", "supplier"], as_dict=True)
+	       	if not customer_doc:
+			continue
+	        customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
+
+		if filters.get("customer").lower() not in customer_name.lower() and filters.get("customer").lower() not in customer_id.lower():
+       	        	continue
+	else:
+		if not customer_doc:
+                        continue
+		customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
+
         data.append([sle.date, sle.item_code, item_detail.item_name, item_detail.item_group,
                  item_detail.brand, item_detail.description, sle.warehouse,
                  item_detail.stock_uom, sle.actual_qty, sle.qty_after_transaction,
