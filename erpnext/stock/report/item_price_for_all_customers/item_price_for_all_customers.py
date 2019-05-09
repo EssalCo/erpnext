@@ -21,6 +21,7 @@ def execute(filters=None):
     result = dict()
     customers = list()
     items_names = dict()
+    customers_name = dict()
     for sle in sl_entries:
         item_detail = item_details[sle.item_code]
         customer_doc, customer_name = None, ""
@@ -43,14 +44,16 @@ def execute(filters=None):
             if not customer_doc:
                 continue
             customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
-        if sle.item_code not in result:
-            result[sle.item_code] = dict()
-        if customer_id not in result[sle.item_code]:
-            result[sle.item_code][customer_id] = sle.actual_qty
+        if str(sle.item_code) not in result:
+            result[str(sle.item_code)] = dict()
+        if customer_id not in result[str(sle.item_code)]:
+            result[str(sle.item_code)][customer_id] = sle.actual_qty
         else:
-            result[sle.item_code][customer_id] = result[sle.item_code][customer_id] + sle.actual_qty
-        items_names[sle.item_code] = item_detail.item_name
+            result[str(sle.item_code)][customer_id] = result[str(sle.item_code)][customer_id] + sle.actual_qty
+        items_names[str(sle.item_code)] = item_detail.item_name
+        customers_name[customer_name] = customer_id
         customers.append(customer_name)
+
     customers = list(set(customers))
     for key in customers:
         columns.append(
@@ -62,9 +65,9 @@ def execute(filters=None):
             items_names.get(item, ""),
         ]
         for key in customers:
-            row.append(result.get(item, dict()).get(key, 0))
+            row.append(result.get(item, dict()).get(customers_name.get(key, key), 0))
         data.append(row)
-        
+
     return columns, data
 
 
@@ -186,4 +189,5 @@ def get_item_group_condition(item_group):
                                                                                    item_group_details.rgt)
 
     return ''
+
 
