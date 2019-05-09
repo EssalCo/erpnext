@@ -18,6 +18,9 @@ def execute(filters=None):
     if opening_row:
         data.append(opening_row)
 
+    result = dict()
+    customers = list()
+    items_names = dict()
     for sle in sl_entries:
         item_detail = item_details[sle.item_code]
         customer_doc, customer_name = None, ""
@@ -29,8 +32,6 @@ def execute(filters=None):
             customer_doc = frappe.get_value("Delivery Note", sle.voucher_no, ["customer_name", "customer"],
                                             as_dict=True)
         if filters.get("customer"):
-            #	elif sle.voucher_no and sle.voucher_type == "Purchase Invoice":
-            #            customer_doc = frappe.get_value("Supplier", sle.voucher_no, ["supplier_name", "supplier"], as_dict=True)
             if not customer_doc:
                 continue
             customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
@@ -42,27 +43,35 @@ def execute(filters=None):
             if not customer_doc:
                 continue
             customer_name, customer_id = customer_doc.customer_name or "", customer_doc.customer or ""
-
-        data.append([
-            sle.item_code,
-            item_detail.item_name,
-            sle.actual_qty,
-            sle.voucher_type,
-            sle.voucher_no,
-            customer_name
-        ])
-
+        if sle.item_code not in result:
+            result[sle.item_code] = dict()
+        if customer_id not in result[sle.item_code]:
+            result[sle.item_code][customer_id] = sle.actual_qty
+        else:
+            result[sle.item_code][customer_id] = result[sle.item_code][customer_id] + sle.actual_qty
+        items_names[sle.item_code] = item_detail.item_name
+        customers.append(customer_name)
+    customers = list(set(customers))
+    for key in customers:
+        columns.append(
+            _(key) + "::250",
+        )
+    for item in result:
+        row = [
+            item,
+            items_names.get(item, ""),
+        ]
+        for key in customers:
+            row.append(result.get(item, dict()).get(key, 0))
+        data.append(row)
+        
     return columns, data
 
 
 def get_columns():
     columns = [
-        _("Item") + ":Link/Item:100",
-        _("Item Code") + ":Data:250",
-        _("Qty") + ":Float:50",
-        _("Voucher Type") + "::130",
-        _("Voucher #") + ":Dynamic Link/" + _("Voucher Type") + ":110",
-        _("Customer Name") + "::250",
+        _("Item Code") + ":Link/Item:90",
+        _("Item Name") + ":Data:250"
     ]
 
     return columns
