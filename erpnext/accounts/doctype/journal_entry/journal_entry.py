@@ -446,7 +446,7 @@ class JournalEntry(AccountsController):
 						"credit_in_account_currency": flt(d.credit_in_account_currency, d.precision("credit_in_account_currency")),
 						"against_voucher_type": d.reference_type,
 						"against_voucher": d.reference_name,
-						"remarks": self.remark,
+						"remarks": d.journal_note or self.remark,
 						"cost_center": d.cost_center,
 						"project": d.project
 					})
