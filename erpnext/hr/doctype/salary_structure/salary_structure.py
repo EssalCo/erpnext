@@ -88,6 +88,8 @@ def make_salary_slip(source_name, target_doc = None, employee = None, as_print =
 		if employee:
 			employee_details = frappe.db.get_value("Employee", employee, 
 							["employee_name", "branch", "designation", "department"], as_dict=1)
+			if not employee_details:
+				frappe.throw("Employee {0} is not listed in Employee list. Choose another employee")
 			target.employee = employee
 			target.employee_name = employee_details.employee_name
 			target.branch = employee_details.branch
