@@ -23,7 +23,7 @@ frappe.ui.form.on('Account', {
 			
 		}
 		
-		if (frm_cur.doc.account_serial === Undefined || frm_cur.doc.account_serial == "" ) {
+		if (frm.doc.account_serial === Undefined || frm.doc.account_serial == "" ) {
 			frappe.db.get_value('Account', {'name': frm.doc.parent_account}, ["account_serial"], function () {
 			frm.set_value('account_serial', r.account_serial === Undefined ? r.account_serial : 1);
 		});
