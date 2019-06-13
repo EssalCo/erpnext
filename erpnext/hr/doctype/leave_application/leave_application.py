@@ -416,11 +416,11 @@ def get_approved_leaves_for_period(employee, leave_type, from_date, to_date):
 	return leave_days
 
 def get_leave_allocation_records(date, employee=None):
-	conditions = " and employee='{0}'".format(employee) if employee else ""
-	leave_allocation_records = frappe.db.sql("""
+	conditions = " and employee='{0}'".format(frappe.db.escape(employee)) if employee else ""
+	leave_allocation_records = """
 		select employee, leave_type, total_leaves_allocated, from_date, to_date
 		from `tabLeave Allocation`
-		where %s between from_date and to_date and docstatus=1 {0}""".format(frappe.db.escape(conditions)), (date), as_dict=1)
+		where %s between from_date and to_date and docstatus=1 {0}""".format(conditions)
 	try:
 		leave_allocation_records = frappe.db.sql(leave_allocation_records, (date), as_dict=1)
 	except:
