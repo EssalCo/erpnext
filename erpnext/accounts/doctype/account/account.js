@@ -21,6 +21,9 @@ frappe.ui.form.on('Account', {
 			frappe.msgprint(__("Please create new account from Chart of Accounts."));
 			throw "cannot create";
 		}
+		frappe.db.get_value('Account', {'name': frm.doc.parent_account}, ["account_serial"], function () {
+			frm.set_value('account_serial', r.account_serial === Undefined ? r.account_serial : 1);
+		}
 
 		frm.toggle_display('account_name', frm.doc.__islocal);
 
