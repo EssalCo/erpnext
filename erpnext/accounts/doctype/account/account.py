@@ -23,6 +23,15 @@ class Account(NestedSet):
 		self.name = get_account_autoname(self.account_number, self.account_name, self.company)
 
 	def validate(self):
+		if getattr(self, "account_serial", None):
+			if frappe.db.exists(
+				"Account",
+				dict(
+					company=self.company,
+					account_serial=self.account_serial
+				)
+			):
+				frappe.throw("This Account Serial is already used")
 		if frappe.local.flags.allow_unverified_charts:
 			return
 		self.validate_parent()
