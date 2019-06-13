@@ -23,9 +23,9 @@ frappe.ui.form.on('Account', {
 			
 		}
 		
-		if (frm.doc.account_serial === Undefined || frm.doc.account_serial == "" ) {
+		if (frm.doc.account_serial === undefined || frm.doc.account_serial == "" || frm.doc.account_serial == "0") {
 			frappe.db.get_value('Account', {'name': frm.doc.parent_account}, ["account_serial"], function () {
-			frm.set_value('account_serial', r.account_serial === Undefined ? r.account_serial : 1);
+			frm.set_value('account_serial', r.account_serial === undefined ? r.account_serial : 1);
 		});
 		}
 		frm.toggle_display('account_name', frm.doc.__islocal);
