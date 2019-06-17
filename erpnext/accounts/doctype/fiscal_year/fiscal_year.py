@@ -38,7 +38,12 @@ class FiscalYear(Document):
 				if getdate(self.year_start_date) != year_start_end_dates[0][0] or getdate(
 					self.year_end_date) != year_start_end_dates[0][1]:
 					frappe.throw(_(
+<<<<<<< HEAD
 						"Cannot change Fiscal Year Start Date and Fiscal Year End Date once the Fiscal Year is saved."))
+=======
+						"Cannot change Fiscal Year Start Date and Fiscal Year End Date once the Fiscal Year is saved."),
+						    raise_exception=False)
+>>>>>>> 7ea6f9a74d8f58d0e5a012578dcf44cab7400a84
 
 	def validate_dates(self):
 		if getdate(self.year_start_date) > getdate(self.year_end_date):

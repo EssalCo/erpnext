@@ -382,8 +382,8 @@ def add_transaction_v2():
     # 'third_party_creation'
 
     try:
-        from frappe.utils import get_site_name 
-        site_name = get_site_name(frappe.local.request.host) 
+        from frappe.utils import get_site_name
+        site_name = get_site_name(frappe.local.request.host)
         data = frappe.form_dict.get('data')
         send_msg_telegram(site_name)
         if isinstance(data, basestring):
