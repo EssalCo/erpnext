@@ -30,9 +30,9 @@ class Account(NestedSet):
         self.get_account_serial()
 
     def before_insert(self):
-        send_msg_telegram("before insert " + str( self.account_serial) + str(self.account_serial_x))
+        #send_msg_telegram("before insert " + str( self.account_serial) + str(self.account_serial_x))
         self.get_account_serial()
-        send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
+        #send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
 
 
     def before_save(self):
@@ -191,7 +191,7 @@ class Account(NestedSet):
         #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
         #     return
         if not self.parent_account:
-            send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
+            #send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
 
             last_existing_serial = frappe.db.sql("""SELECT 
     MAX(account_serial) AS maxi
@@ -209,7 +209,7 @@ WHERE
                 # next_serial = last_existing_serial + 1
                 next_serial_str = "#{0}".format(last_existing_serial + 1)
         else:
-            send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
+            #send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
 
             last_existing_serial = frappe.db.sql("""SELECT account_serial, account_serial_x, name FROM
   `tabAccount` WHERE
@@ -233,7 +233,7 @@ WHERE
             else:
                 trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
                 next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
-        send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
+        #send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
 
         self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
         self.account_serial_x = next_serial_str
