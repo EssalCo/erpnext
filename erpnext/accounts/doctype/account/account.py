@@ -30,9 +30,9 @@ class Account(NestedSet):
         self.get_account_serial()
 
     def before_insert(self):
-        send_msg_telegram("before insert" + str( self.account_serial) + str(self.account_serial_x))
+        send_msg_telegram("before insert " + str( self.account_serial) + str(self.account_serial_x))
         self.get_account_serial()
-        send_msg_telegram("after insert" + str( self.account_serial) + str(self.account_serial_x))
+        send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
 
 
     def before_save(self):
@@ -187,9 +187,9 @@ class Account(NestedSet):
         super(Account, self).on_trash(True)
 
     def get_account_serial(self):
-        if not getattr(self, "account_serial_x", None):
-            send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
-            return
+        # if not getattr(self, "account_serial_x", None):
+        #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
+        #     return
         if not self.parent_account:
             send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
 
