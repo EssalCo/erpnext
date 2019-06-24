@@ -36,7 +36,7 @@ class Account(NestedSet):
 
 
     def before_save(self):
-        if not self.account_serial or "#" not in self.account_serial or self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
+        if not self.account_serial or self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
             self.get_account_serial()
 
     def validate(self):
