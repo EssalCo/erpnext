@@ -26,7 +26,8 @@ class Account(NestedSet):
 
     def autoname(self):
         self.name = get_account_autoname(self.account_number, self.account_name, self.company)
-
+        self.get_account_serial()
+        
     def before_insert(self):
         self.get_account_serial()
 
