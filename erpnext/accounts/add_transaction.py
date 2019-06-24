@@ -397,7 +397,7 @@ def add_transaction_v2():
         user_id = data.get('user_id')
         statement = data.get('statement', '')
         third_party_creation = data.get('third_party_creation', datetime.now())
-
+        label = data.get('label', statement)
         frappe.set_user("Administrator")
 
         if branch:
@@ -406,7 +406,7 @@ def add_transaction_v2():
         journal_entry = frappe.get_doc(
             dict(
                 doctype="Journal Entry",
-                title=statement,
+                title=label,
                 voucher_type="Journal Entry",
                 naming_series="JV-",
                 posting_date=date,
@@ -436,10 +436,12 @@ def add_transaction_v2():
             account = transaction.get('account')
             vat_amount = transaction.get('vat_amount', 0)
             vat_account = transaction.get('vat_account', 0)
+            _label = transaction.get('label', _statement)
             if credit:
                 total_credit += credit
                 journal_entry.append("accounts", dict(
                     account=account,
+                    title=_label,
                     exchange_rate=1,
                     debit_in_account_currency=0,
                     debit=0,
@@ -469,6 +471,7 @@ def add_transaction_v2():
                         account=vat_account,
                         party_type="Company",
                         party=company,
+                        title=_label,
                         exchange_rate=1,
                         debit_in_account_currency=0,
                         debit=0,
@@ -483,6 +486,7 @@ def add_transaction_v2():
                 journal_entry.append("accounts", dict(
                     account=account,
                     exchange_rate=1,
+                    title=_label,
                     debit_in_account_currency=abs(debit) - abs(vat_amount),
                     debit=abs(debit) - abs(vat_amount),
                     credit_in_account_currency=0,
@@ -511,6 +515,7 @@ def add_transaction_v2():
                         account=vat_account,
                         party_type="Company",
                         party=company,
+                        title=_label,
                         exchange_rate=1,
                         debit_in_account_currency=abs(vat_amount),
                         debit=abs(vat_amount),
