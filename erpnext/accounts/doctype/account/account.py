@@ -179,6 +179,8 @@ class Account(NestedSet):
         super(Account, self).on_trash(True)
 
     def get_account_serial(self):
+        if not getattr(self, "serial_account_str", None):
+            return 
         if not self.parent_account:
             last_existing_serial = frappe.db.sql("""SELECT 
     MAX(account_serial) AS maxi
@@ -196,7 +198,7 @@ WHERE
                 # next_serial = last_existing_serial + 1
                 next_serial_str = "#{0}".format(last_existing_serial + 1)
         else:
-            last_existing_serial = frappe.db.sql("""SELECT serial_account, serial_account_str, name FROM
+            last_existing_serial = frappe.db.sql("""SELECT serial_account, serial_account_x, name FROM
   `tabAccount` WHERE
    account_serial = (
 SELECT 
@@ -216,7 +218,7 @@ WHERE
                 # next_serial = last_existing_serial + 1
                 next_serial_str = "{0}.{1}".format(parent_serial, 1)
             else:
-                trimmed_serial = str(last_existing_serial[0].serial_account_str).split(".")[-1]
+                trimmed_serial = str(last_existing_serial[0].serial_account_x).split(".")[-1]
                 next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
         self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
         self.account_serial_x = next_serial_str
