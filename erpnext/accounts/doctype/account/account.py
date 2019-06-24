@@ -179,7 +179,7 @@ class Account(NestedSet):
         super(Account, self).on_trash(True)
 
     def get_account_serial(self):
-        if not getattr(self, "serial_account_str", None):
+        if not getattr(self, "serial_account_x", None):
             return
         if not self.parent_account:
             last_existing_serial = frappe.db.sql("""SELECT 
