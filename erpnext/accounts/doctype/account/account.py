@@ -43,7 +43,7 @@ class Account(NestedSet):
         self.validate_frozen_accounts_modifier()
         self.validate_balance_must_be_debit_or_credit()
         self.validate_account_currency()
-        if self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
+        if not self.account_serial or self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
             self.get_account_serial()
 
     def validate_parent(self):
@@ -180,7 +180,7 @@ class Account(NestedSet):
 
     def get_account_serial(self):
         if not getattr(self, "serial_account_str", None):
-            return 
+            return
         if not self.parent_account:
             last_existing_serial = frappe.db.sql("""SELECT 
     MAX(account_serial) AS maxi
@@ -190,7 +190,7 @@ WHERE
     company = %s
         AND parent_account IS NULL;""", (self.company,), as_dict=True)
             if len(last_existing_serial) == 0:
-                last_existing_serial = 0
+                # last_existing_serial = 0
                 # next_serial = 1
                 next_serial_str = "#1"
             else:
