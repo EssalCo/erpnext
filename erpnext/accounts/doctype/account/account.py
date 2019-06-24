@@ -30,6 +30,10 @@ class Account(NestedSet):
     def before_insert(self):
         self.get_account_serial()
 
+    def before_save(self):
+        if not self.account_serial or self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
+            self.get_account_serial()
+
     def validate(self):
 
         if frappe.local.flags.allow_unverified_charts:
@@ -43,8 +47,7 @@ class Account(NestedSet):
         self.validate_frozen_accounts_modifier()
         self.validate_balance_must_be_debit_or_credit()
         self.validate_account_currency()
-        if not self.account_serial or self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
-            self.get_account_serial()
+
 
     def validate_parent(self):
         """Fetch Parent Details and validate parent account"""
@@ -198,7 +201,7 @@ WHERE
                 # next_serial = last_existing_serial + 1
                 next_serial_str = "#{0}".format(last_existing_serial + 1)
         else:
-            last_existing_serial = frappe.db.sql("""SELECT serial_account, account_serial_x, name FROM
+            last_existing_serial = frappe.db.sql("""SELECT account_serial, account_serial_x, name FROM
   `tabAccount` WHERE
    account_serial = (
 SELECT 
