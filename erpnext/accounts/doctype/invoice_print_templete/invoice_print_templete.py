@@ -21,7 +21,7 @@ class InvoicePrintTemplete(Document):
         self.total_without_vat = sum(temp.total for temp in self.records)
         self.vat = self.total_without_vat * 5 / 105.0
         self.total = self.total_without_vat + self.vat
-        self.invoice_id = frappe.count(
+        self.invoice_id = frappe.db.count(
             "Invoice Print Templete",
             dict(
                 company=self.company
