@@ -34,7 +34,7 @@ class JournalEntry(AccountsController):
         if not self.is_opening:
             self.is_opening = 'No'
         self.clearance_date = None
-
+        self.company_currency = frappe.get_value("Company", self.company, "default_currency")
         self.validate_party()
         self.validate_cheque_info()
         self.validate_entries_for_advance()
@@ -343,8 +343,8 @@ class JournalEntry(AccountsController):
 
         if alternate_currency:
             if not self.multi_currency:
-                send_msg_telegram(
-                    "{0} - {1}\n{2}".format(str(alternate_currency), self.company_currency, self.get("accounts")))
+                # send_msg_telegram(
+                #     "{0} - {1}\n{2}".format(str(alternate_currency), self.company_currency, self.get("accounts")))
                 frappe.throw(_("Please check Multi Currency option to allow accounts with other currency"))
 
         self.set_exchange_rate()
