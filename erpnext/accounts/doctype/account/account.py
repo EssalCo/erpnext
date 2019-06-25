@@ -187,57 +187,59 @@ class Account(NestedSet):
         super(Account, self).on_trash(True)
 
     def get_account_serial(self):
-        # if not getattr(self, "account_serial_x", None):
-        #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
-        #     return
-        if not self.parent_account:
-            #send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
+        try:
+            # if not getattr(self, "account_serial_x", None):
+            #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
+            #     return
+            if not self.parent_account:
+                #send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
 
-            last_existing_serial = frappe.db.sql("""SELECT 
-    MAX(account_serial) AS maxi
-FROM
-    tabAccount
-WHERE 
-    company = %s
-        AND parent_account IS NULL;""", (self.company,), as_dict=True)
-            if len(last_existing_serial) == 0:
-                # last_existing_serial = 0
-                # next_serial = 1
-                next_serial_str = "#1"
+                last_existing_serial = frappe.db.sql("""SELECT 
+        MAX(account_serial) AS maxi
+    FROM
+        tabAccount
+    WHERE 
+        company = %s
+            AND parent_account IS NULL;""", (self.company,), as_dict=True)
+                if len(last_existing_serial) == 0:
+                    # last_existing_serial = 0
+                    # next_serial = 1
+                    next_serial_str = "#1"
+                else:
+                    last_existing_serial = last_existing_serial[0].maxi
+                    # next_serial = last_existing_serial + 1
+                    next_serial_str = "#{0}".format(last_existing_serial + 1)
             else:
-                last_existing_serial = last_existing_serial[0].maxi
-                # next_serial = last_existing_serial + 1
-                next_serial_str = "#{0}".format(last_existing_serial + 1)
-        else:
-            #send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
+                #send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
 
-            last_existing_serial = frappe.db.sql("""SELECT account_serial, account_serial_x, name FROM
-  `tabAccount` WHERE
-   account_serial = (
-SELECT 
-    MAX(account_serial) AS maxi
-FROM
-    tabAccount
-WHERE 
-    company = %s
-        AND parent_account = %s);""", (self.company, self.parent_account), as_dict=True)
-            parent_serial = frappe.db.get_value(
-                "Account",
-                self.parent_account,
-                "account_serial"
-            )
-            if len(last_existing_serial) == 0:
-                # last_existing_serial = parent_serial * 10
-                # next_serial = last_existing_serial + 1
-                next_serial_str = "{0}.{1}".format(parent_serial, 1)
-            else:
-                trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
-                next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
-        #send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
+                last_existing_serial = frappe.db.sql("""SELECT account_serial, account_serial_x, name FROM
+      `tabAccount` WHERE
+       account_serial = (
+    SELECT 
+        MAX(account_serial) AS maxi
+    FROM
+        tabAccount
+    WHERE 
+        company = %s
+            AND parent_account = %s);""", (self.company, self.parent_account), as_dict=True)
+                parent_serial = frappe.db.get_value(
+                    "Account",
+                    self.parent_account,
+                    "account_serial"
+                )
+                if len(last_existing_serial) == 0:
+                    # last_existing_serial = parent_serial * 10
+                    # next_serial = last_existing_serial + 1
+                    next_serial_str = "{0}.{1}".format(parent_serial, 1)
+                else:
+                    trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
+                    next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
+            #send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
 
-        self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
-        self.account_serial_x = next_serial_str
-
+            self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
+            self.account_serial_x = next_serial_str
+        except:
+            pass
 
 def get_parent_account(doctype, txt, searchfield, start, page_len, filters):
     return frappe.db.sql("""select name from tabAccount
@@ -325,3 +327,14 @@ def merge_account(old, new, is_group, root_type, company):
     frappe.rename_doc("Account", old, new, merge=1, ignore_permissions=1)
 
     return new
+
+
+def add_serial_to_existing_account_tree(company):
+    parent_account = None
+
+    first_orders_accounts = frappe.db.sql("""SELECT
+    name
+    FROM
+    tabAccount 
+    WHERE company = %s 
+    AND parent_account IS NULL;""", (company,), as_dict=True)
