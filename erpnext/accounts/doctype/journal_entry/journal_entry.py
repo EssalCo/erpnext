@@ -11,7 +11,7 @@ from erpnext.accounts.party import get_party_account
 from erpnext.hr.doctype.expense_claim.expense_claim import update_reimbursed_amount
 from erpnext.hr.doctype.employee_loan.employee_loan import update_disbursement_status
 from erpnext.utilities.hijri_date import convert_to_hijri
-
+from erpnext.utilities.send_telegram import send_msg_telegram
 class JournalEntry(AccountsController):
 	def __init__(self, *args, **kwargs):
 		super(JournalEntry, self).__init__(*args, **kwargs)
@@ -332,6 +332,7 @@ class JournalEntry(AccountsController):
 
 		if alternate_currency:
 			if not self.multi_currency:
+				send_msg_telegram("{0} - {1}\n{2}".format(str(alternate_currency), self.company_currency, self.get("accounts")))
 				frappe.throw(_("Please check Multi Currency option to allow accounts with other currency"))
 
 		self.set_exchange_rate()
