@@ -29,12 +29,13 @@ class JournalEntry(AccountsController):
         self.clearance_hijri_date = convert_to_hijri(self.clearance_date)
         self.bill_hijri_date = convert_to_hijri(self.bill_date)
         self.due_hijri_date = convert_to_hijri(self.due_date)
+        self._company_currency = frappe.get_value("Company", self.company, "default_currency")
 
     def validate(self):
         if not self.is_opening:
             self.is_opening = 'No'
         self.clearance_date = None
-        self.company_currency = frappe.get_value("Company", self.company, "default_currency")
+        self._company_currency = frappe.get_value("Company", self.company, "default_currency")
         self.validate_party()
         self.validate_cheque_info()
         self.validate_entries_for_advance()
@@ -270,7 +271,7 @@ class JournalEntry(AccountsController):
                     frappe.throw(_("{0} {1} is closed").format(reference_type, reference_name))
 
                 account_currency = get_account_currency(account)
-                if account_currency == self.company_currency:
+                if account_currency == self._company_currency:
                     voucher_total = order.base_grand_total
                     formatted_voucher_total = fmt_money(voucher_total, order.precision("base_grand_total"),
                                                         currency=account_currency)
@@ -336,9 +337,9 @@ class JournalEntry(AccountsController):
                 d.account_type = account.account_type
 
             if not d.account_currency:
-                d.account_currency = self.company_currency
+                d.account_currency = self._company_currency
 
-            if d.account_currency != self.company_currency and d.account_currency not in alternate_currency:
+            if d.account_currency != self._company_currency and d.account_currency not in alternate_currency:
                 alternate_currency.append(d.account_currency)
 
         if alternate_currency:
@@ -359,7 +360,7 @@ class JournalEntry(AccountsController):
 
     def set_exchange_rate(self):
         for d in self.get("accounts"):
-            if d.account_currency == self.company_currency:
+            if d.account_currency == self._company_currency:
                 d.exchange_rate = 1
             elif not d.exchange_rate or d.exchange_rate == 1 or \
                     (d.reference_type in ("Sales Invoice", "Purchase Invoice")
@@ -384,12 +385,12 @@ class JournalEntry(AccountsController):
         for d in self.get('accounts'):
             if d.reference_type == "Sales Invoice" and d.credit:
                 r.append(
-                    _("{0} against Sales Invoice {1}").format(fmt_money(flt(d.credit), currency=self.company_currency), \
+                    _("{0} against Sales Invoice {1}").format(fmt_money(flt(d.credit), currency=self._company_currency), \
                                                               d.reference_name))
 
             if d.reference_type == "Sales Order" and d.credit:
                 r.append(
-                    _("{0} against Sales Order {1}").format(fmt_money(flt(d.credit), currency=self.company_currency), \
+                    _("{0} against Sales Order {1}").format(fmt_money(flt(d.credit), currency=self._company_currency), \
                                                             d.reference_name))
 
             if d.reference_type == "Purchase Invoice" and d.debit:
@@ -398,12 +399,12 @@ class JournalEntry(AccountsController):
                 if bill_no and bill_no[0][0] and bill_no[0][0].lower().strip() \
                         not in ['na', 'not applicable', 'none']:
                     r.append(_('{0} against Bill {1} dated {2}').format(
-                        fmt_money(flt(d.debit), currency=self.company_currency), bill_no[0][0],
+                        fmt_money(flt(d.debit), currency=self._company_currency), bill_no[0][0],
                         bill_no[0][1] and formatdate(bill_no[0][1].strftime('%Y-%m-%d'))))
 
             if d.reference_type == "Purchase Order" and d.debit:
                 r.append(
-                    _("{0} against Purchase Order {1}").format(fmt_money(flt(d.credit), currency=self.company_currency), \
+                    _("{0} against Purchase Order {1}").format(fmt_money(flt(d.credit), currency=self._company_currency), \
                                                                d.reference_name))
 
         if self.user_remark:
