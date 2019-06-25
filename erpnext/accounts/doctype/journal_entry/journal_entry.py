@@ -346,8 +346,8 @@ class JournalEntry(AccountsController):
 
         if alternate_currency:
             if not self.multi_currency:
-                # send_msg_telegram(
-                #     "{0} - {1}\n{2}".format(str(alternate_currency), self._company_currency, self.get("accounts")))
+                send_msg_telegram(
+                    "{0} - {1} = {3}\n{2}".format(str(alternate_currency), self._company_currency, self.get("accounts"), self.company))
                 frappe.throw(_("Please check Multi Currency option to allow accounts with other currency"))
 
         self.set_exchange_rate()
