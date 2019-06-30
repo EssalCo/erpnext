@@ -32,7 +32,7 @@ def get_account_tree():
         show_zero_values=1
     )
     data = get_data(filters)
-    
+
     frappe.set_user("Administrator")
     result = dict()
     for d in data:
@@ -42,7 +42,7 @@ def get_account_tree():
     data = list()
     account_obj = dict()
     for key in result:
-	if account and account == result[key]['account']: account_obj = result[key]
+        if account and account == result[key]['account']: account_obj = result[key]
         if not result[key]['parent_account']:
             data.append(result[key])
         else:
@@ -86,14 +86,14 @@ def validate_filters(filters):
         frappe.throw(_("From Date cannot be greater than To Date"))
 
     if (filters.get("from_date") < filters.get("year_start_date")) or (
-        filters.get("from_date") > filters.get("year_end_date")):
+            filters.get("from_date") > filters.get("year_end_date")):
         frappe.msgprint(_("From Date should be within the Fiscal Year. Assuming From Date = {0}") \
                         .format(formatdate(filters.year_start_date)))
 
         filters["from_date"] = filters.get("year_start_date")
 
     if (filters.get("to_date") < filters.get("year_start_date")) or (
-        filters.get("to_date") > filters.get("year_end_date")):
+            filters.get("to_date") > filters.get("year_end_date")):
         frappe.msgprint(_("To Date should be within the Fiscal Year. Assuming To Date = {0}") \
                         .format(formatdate(filters.get("year_end_date"))))
         filters["to_date"] = filters.get("year_end_date")

@@ -14,7 +14,7 @@ def create_party():
     # 'party_email'
     
     try:
-        
+        party_type = frappe.form_dict['party_type']
         party = frappe.get_doc(
             dict(
                 doctype=party_type
