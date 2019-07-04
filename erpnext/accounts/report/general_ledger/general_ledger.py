@@ -142,7 +142,7 @@ def get_gl_entries(filters):
             posting_date, account, party_type, party,
             voucher_type, voucher_no, cost_center, project,
             against_voucher_type, against_voucher, account_currency,
-            remarks, against, is_opening, journal_note {select_fields}
+            remarks, against, is_opening, title {select_fields}
         from `tabGL Entry`
         where company=%(company)s {conditions} {group_by_statement}
         {order_by_statement}
@@ -457,8 +457,8 @@ def get_columns(filters):
             "width": 00
         },
         {
-            "label": _("Journal Note"),
-            "fieldname": "journal_note",
+            "label": _("Label"),
+            "fieldname": "title",
             "width": 100
         }
     ])
