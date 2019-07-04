@@ -14,6 +14,7 @@ from frappe import _, _dict
 from frappe.utils import getdate, cstr, flt
 
 
+@frappe.whitelist()
 def execute(filters=None):
     if not filters:
         return [], []
