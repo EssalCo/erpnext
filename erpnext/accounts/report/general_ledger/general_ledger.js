@@ -128,7 +128,7 @@ frappe.query_reports["General Ledger"] = {
 			"fieldname": "presentation_currency",
 			"label": __("Currency"),
 			"fieldtype": "Select",
-			"options": erpnext.get_presentation_currency_list()
+			"options": "Currency"
 		},
 		{
 			"fieldname":"cost_center",
