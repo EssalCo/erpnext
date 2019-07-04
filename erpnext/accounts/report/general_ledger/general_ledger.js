@@ -125,12 +125,12 @@ frappe.query_reports["General Ledger"] = {
 			"fieldtype": "Data",
 			"hidden": 1
 		},
-		{
-			"fieldname": "presentation_currency",
-			"label": __("Currency"),
-			"fieldtype": "Select",
-			"options": "Currency"
-		},
+		// {
+		// 	"fieldname": "presentation_currency",
+		// 	"label": __("Currency"),
+		// 	"fieldtype": "Select",
+		// 	"options": "Currency"
+		// },
 		{
 			"fieldname":"cost_center",
 			"label": __("Cost Center"),

@@ -8,7 +8,7 @@ from six import iteritems
 import frappe
 from erpnext import get_company_currency, get_default_company
 # from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import get_accounting_dimensions
-from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
+# from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
 from erpnext.accounts.utils import get_account_currency
 from frappe import _, _dict
 from frappe.utils import getdate, cstr, flt
@@ -120,7 +120,6 @@ def get_result(filters, account_details):
 
 
 def get_gl_entries(filters):
-    currency_map = get_currency(filters)
     select_fields = """, debit, credit, debit_in_account_currency,
 		credit_in_account_currency """
 
@@ -154,10 +153,7 @@ def get_gl_entries(filters):
         ),
         filters, as_dict=1)
 
-    if filters.get('presentation_currency'):
-        return convert_to_presentation_currency(gl_entries, currency_map)
-    else:
-        return gl_entries
+    return gl_entries
 
 
 def get_conditions(filters):
