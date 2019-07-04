@@ -2,14 +2,16 @@
 # For license information, please see license.txt
 
 from __future__ import unicode_literals
-import frappe, erpnext
-from erpnext import get_company_currency, get_default_company
-# from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
-from frappe.utils import getdate, cstr, flt, fmt_money
-from frappe import _, _dict
-from erpnext.accounts.utils import get_account_currency
+
 # from erpnext.accounts.report.financial_statements import get_cost_centers_with_children
 from six import iteritems
+
+import frappe
+from erpnext import get_company_currency, get_default_company
+from erpnext.accounts.utils import get_account_currency
+from frappe import _, _dict
+# from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
+from frappe.utils import getdate, cstr, flt
 
 
 def execute(filters=None):
@@ -19,9 +21,9 @@ def execute(filters=None):
     account_details = {}
 
     if (
-        filters
-        and filters.get("print_in_account_currency")
-        and not filters.get("account")
+            filters
+            and filters.get("print_in_account_currency")
+            and not filters.get("account")
     ):
         frappe.throw(_("Select an account to print in account currency"))
 
@@ -53,9 +55,9 @@ def validate_filters(filters, account_details):
         frappe.throw(_("Account {0} does not exists").format(filters.account))
 
     if (
-        filters.get("account")
-        and filters.get("group_by") == _("Group by Account")
-        and account_details[filters.account].is_group == 0
+            filters.get("account")
+            and filters.get("group_by") == _("Group by Account")
+            and account_details[filters.account].is_group == 0
     ):
         frappe.throw(_("Can not filter based on Account, if grouped by Account"))
 
@@ -112,7 +114,7 @@ def set_account_currency(filters):
                 account_currency = (
                     None
                     if filters.party_type
-                    in ["Employee", "Student", "Shareholder", "Member"]
+                       in ["Employee", "Student", "Shareholder", "Member"]
                     else frappe.db.get_value(
                         filters.party_type, filters.party[0], "default_currency"
                     )
@@ -120,8 +122,8 @@ def set_account_currency(filters):
 
         filters["account_currency"] = account_currency or filters.company_currency
         if (
-            filters.account_currency != filters.company_currency
-            and not filters.presentation_currency
+                filters.account_currency != filters.company_currency
+                and not filters.presentation_currency
         ):
             filters.presentation_currency = filters.account_currency
 
@@ -183,9 +185,9 @@ def get_conditions(filters):
         conditions.append("voucher_no=%(voucher_no)s")
 
     if not (
-        filters.get("account")
-        or filters.get("party")
-        or filters.get("group_by") in ["Group by Account", "Group by Party"]
+            filters.get("account")
+            or filters.get("party")
+            or filters.get("group_by") in ["Group by Account", "Group by Party"]
     ):
         conditions.append("posting_date >=%(from_date)s")
         conditions.append("posting_date <=%(to_date)s")
@@ -277,7 +279,7 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
     from_date, to_date = getdate(filters.from_date), getdate(filters.to_date)
     for gle in gl_entries:
         if gle.posting_date < from_date or (
-            cstr(gle.is_opening) == "Yes" and not filters.get("show_opening_entries")
+                cstr(gle.is_opening) == "Yes" and not filters.get("show_opening_entries")
         ):
             update_value_in_dict(gle_map[gle.get(group_by)].totals, "opening", gle)
             update_value_in_dict(totals, "opening", gle)
@@ -319,9 +321,9 @@ def get_result_as_list(data, filters):
 def get_supplier_invoice_details():
     inv_details = {}
     for d in frappe.db.sql(
-        """ select name, bill_no from `tabPurchase Invoice`
-		where docstatus = 1 and bill_no is not null and bill_no != '' """,
-        as_dict=1,
+            """ select name, bill_no from `tabPurchase Invoice`
+            where docstatus = 1 and bill_no is not null and bill_no != '' """,
+            as_dict=1,
     ):
         inv_details[d.name] = d.bill_no
 
@@ -335,14 +337,14 @@ def get_balance(row, balance, debit_field, credit_field):
 
 
 def get_columns(filters):
-    if filters.get("presentation_currency"):
-        currency = filters["presentation_currency"]
+    # if filters.get("presentation_currency"):
+    #     currency = filters["presentation_currency"]
+    # else:
+    if filters.get("company"):
+        currency = get_company_currency(filters["company"])
     else:
-        if filters.get("company"):
-            currency = get_company_currency(filters["company"])
-        else:
-            company = get_default_company()
-            currency = get_company_currency(company)
+        company = get_default_company()
+        currency = get_company_currency(company)
 
     columns = [
         {
@@ -368,19 +370,19 @@ def get_columns(filters):
         {
             "label": _("Debit ({0})".format(currency)),
             "fieldname": "debit",
-            "fieldtype": "Currency",
+            "fieldtype": "Data",
             "width": 100,
         },
         {
             "label": _("Credit ({0})".format(currency)),
             "fieldname": "credit",
-            "fieldtype": "Currency",
+            "fieldtype": "Data",
             "width": 100,
         },
         {
             "label": _("Balance ({0})".format(currency)),
             "fieldname": "balance",
-            "fieldtype": "Currency",
+            "fieldtype": "Data",
             "width": 130,
         },
         {"label": _("Journal Note"), "fieldname": "journal_note", "width": 400},
@@ -399,4 +401,3 @@ def get_columns(filters):
     )
 
     return columns
-
