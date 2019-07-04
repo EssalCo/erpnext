@@ -7,7 +7,7 @@ from six import iteritems
 
 import frappe
 from erpnext import get_company_currency, get_default_company
-from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import get_accounting_dimensions
+# from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import get_accounting_dimensions
 from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
 from erpnext.accounts.utils import get_account_currency
 from frappe import _, _dict
@@ -200,12 +200,12 @@ def get_conditions(filters):
     if match_conditions:
         conditions.append(match_conditions)
 
-    accounting_dimensions = get_accounting_dimensions()
-
-    if accounting_dimensions:
-        for dimension in accounting_dimensions:
-            if filters.get(dimension):
-                conditions.append("{0} in (%({0})s)".format(dimension))
+    # accounting_dimensions = get_accounting_dimensions()
+    #
+    # if accounting_dimensions:
+    #     for dimension in accounting_dimensions:
+    #         if filters.get(dimension):
+    #             conditions.append("{0} in (%({0})s)".format(dimension))
 
     return "and {}".format(" and ".join(conditions)) if conditions else ""
 
