@@ -134,18 +134,22 @@ frappe.query_reports["General Ledger"] = {
 		{
 			"fieldname":"cost_center",
 			"label": __("Cost Center"),
-			"fieldtype": "MultiSelectList",
-			get_data: function(txt) {
-				return frappe.db.get_link_options('Cost Center', txt);
-			}
+			"fieldtype": "Link",
+			"options": "Cost Center"
+			// "fieldtype": "MultiSelectList",
+			// get_data: function(txt) {
+			// 	return frappe.db.get_link_options('Cost Center', txt);
+			// }
 		},
 		{
 			"fieldname":"project",
 			"label": __("Project"),
-			"fieldtype": "MultiSelectList",
-			get_data: function(txt) {
-				return frappe.db.get_link_options('Project', txt);
-			}
+			"fieldtype": "Link",
+			"options": "Project"
+			// "fieldtype": "MultiSelectList",
+			// get_data: function(txt) {
+			// 	return frappe.db.get_link_options('Project', txt);
+			// }
 		},
 		{
 			"fieldname": "show_opening_entries",
