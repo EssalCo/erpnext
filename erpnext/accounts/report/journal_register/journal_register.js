@@ -48,11 +48,11 @@ frappe.query_reports["Journal Register"] = {
             "label": __("Voucher No"),
             "fieldtype": "Data",
         },
-        {
-            "fieldname": "cost_center",
-            "label": __("Cost Center"),
-            "fieldtype": "Link",
-            "options": "Cost Center"
+        // {
+        //     "fieldname": "cost_center",
+        //     "label": __("Cost Center"),
+        //     "fieldtype": "Link",
+        //     "options": "Cost Center"
             // "fieldtype": "MultiSelect",
             // get_data: function () {
             // 	var cost_centers = frappe.query_report.get_filter_value("cost_center") || "";
@@ -80,7 +80,7 @@ frappe.query_reports["Journal Register"] = {
             // 	});
             // 	return data;
             // }
-        },
+        // },
         {
             "fieldname": "project",
             "label": __("Project"),
