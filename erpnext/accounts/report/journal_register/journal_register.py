@@ -370,19 +370,19 @@ def get_columns(filters):
         {
             "label": _("Debit ({0})".format(currency)),
             "fieldname": "debit",
-            "fieldtype": "Float",
+            "fieldtype": "Data",
             "width": 100,
         },
         {
             "label": _("Credit ({0})".format(currency)),
             "fieldname": "credit",
-            "fieldtype": "Float",
+            "fieldtype": "Data",
             "width": 100,
         },
         {
             "label": _("Balance ({0})".format(currency)),
             "fieldname": "balance",
-            "fieldtype": "Float",
+            "fieldtype": "Data",
             "width": 130,
         },
         {"label": _("Journal Note"), "fieldname": "journal_note", "width": 400},
