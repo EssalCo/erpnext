@@ -339,7 +339,7 @@ def get_result_as_list(data, filters):
             balance, balance_in_account_currency = 0, 0
 
         balance = get_balance(d, balance, 'debit', 'credit')
-        d['balance'] = balance
+        d['balance'] = round(balance, 4)
 
         d['account_currency'] = filters.account_currency
         d['bill_no'] = inv_details.get(d.get('against_voucher'), '')
@@ -359,7 +359,7 @@ def get_supplier_invoice_details():
 def get_balance(row, balance, debit_field, credit_field):
     balance += (row.get(debit_field, 0) - row.get(credit_field, 0))
 
-    return balance
+    return round(balance, 4)
 
 
 def get_columns(filters):
