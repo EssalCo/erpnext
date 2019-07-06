@@ -29,7 +29,7 @@ def execute(filters=None):
         account_details.setdefault(acc.name, acc)
 
     if filters.get('party'):
-        filters.party = frappe.parse_json(filters.get("party"))
+        filters.party = parse_json(filters.get("party"))
 
     validate_filters(filters, account_details)
 
@@ -42,6 +42,19 @@ def execute(filters=None):
     res = get_result(filters, account_details)
 
     return columns, res
+
+
+def parse_json(val):
+    """
+    Parses json if string else return
+    """
+    import json
+
+    if isinstance(val, (str, unicode)):
+        val = json.loads(val)
+    if isinstance(val, dict):
+        val = frappe._dict(val)
+    return val
 
 
 def validate_filters(filters, account_details):
@@ -63,10 +76,10 @@ def validate_filters(filters, account_details):
         frappe.throw(_("From Date must be before To Date"))
 
     if filters.get('project'):
-        filters.project = frappe.parse_json(filters.get('project'))
+        filters.project = parse_json(filters.get('project'))
 
     if filters.get('cost_center'):
-        filters.cost_center = frappe.parse_json(filters.get('cost_center'))
+        filters.cost_center = parse_json(filters.get('cost_center'))
 
 
 def validate_party(filters):
@@ -83,7 +96,7 @@ def validate_party(filters):
 
 def set_account_currency(filters):
     if filters.get("account") or (filters.get('party') and len(filters.party) == 1):
-        filters["company_currency"] = frappe.get_cached_value('Company', filters.company, "default_currency")
+        filters["company_currency"] = frappe.get_value('Company', filters.company, "default_currency")
         account_currency = None
 
         if filters.get("account"):
@@ -133,8 +146,8 @@ def get_gl_entries(filters):
         group_by_statement = "group by voucher_type, voucher_no, account, cost_center"
 
         select_fields = """, sum(debit) as debit, sum(credit) as credit,
-			sum(debit_in_account_currency) as debit_in_account_currency,
-			sum(credit_in_account_currency) as  credit_in_account_currency"""
+			round(sum(debit_in_account_currency), 4) as debit_in_account_currency,
+			round(sum(credit_in_account_currency), 4) as  credit_in_account_currency"""
 
     gl_entries = frappe.db.sql(
         """
@@ -287,11 +300,11 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
     group_by = group_by_field(filters.get('group_by'))
 
     def update_value_in_dict(data, key, gle):
-        data[key].debit += flt(gle.debit)
-        data[key].credit += flt(gle.credit)
+        data[key].debit += round(flt(gle.debit), 4)
+        data[key].credit += round(flt(gle.credit), 4)
 
-        data[key].debit_in_account_currency += flt(gle.debit_in_account_currency)
-        data[key].credit_in_account_currency += flt(gle.credit_in_account_currency)
+        data[key].debit_in_account_currency += round(flt(gle.debit_in_account_currency), 4)
+        data[key].credit_in_account_currency += round(flt(gle.credit_in_account_currency), 4)
 
     from_date, to_date = getdate(filters.from_date), getdate(filters.to_date)
     for gle in gl_entries:

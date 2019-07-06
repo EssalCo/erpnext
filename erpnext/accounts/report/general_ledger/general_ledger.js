@@ -38,23 +38,23 @@ frappe.query_reports["General Ledger"] = {
 			"label": __("Account"),
 			"fieldtype": "Link",
 			"options": "Account",
-			"get_query": function() {
-				var company = frappe.query_report.get_filter_value('company');
-				return {
-					"doctype": "Account",
-					"filters": {
-						"company": company,
-					}
-				}
-			}
+			// "get_query": function() {
+			// 	var company = frappe.query_report.get_filter_value('company');
+			// 	return {
+			// 		"doctype": "Account",
+			// 		"filters": {
+			// 			"company": company,
+			// 		}
+			// 	}
+			// }
 		},
 		{
 			"fieldname":"voucher_no",
 			"label": __("Voucher No"),
 			"fieldtype": "Data",
-			on_change: function() {
-				frappe.query_report.set_filter_value('group_by', "");
-			}
+			// on_change: function() {
+			// 	frappe.query_report.set_filter_value('group_by', "");
+			// }
 		},
 		{
 			"fieldtype": "Break",
@@ -65,9 +65,9 @@ frappe.query_reports["General Ledger"] = {
 			"fieldtype": "Link",
 			"options": "Party Type",
 			"default": "",
-			on_change: function() {
-				frappe.query_report.set_filter_value('party', "");
-			}
+			// on_change: function() {
+			// 	frappe.query_report.set_filter_value('party', "");
+			// }
 		},
 		{
 			"fieldname":"party",
