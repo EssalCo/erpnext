@@ -351,7 +351,7 @@
  "issingle": 0, 
  "istable": 0, 
  "max_attachments": 5, 
- "modified": "2019-06-24 15:45:30.218242",
+ "modified": "2019-06-25 15:45:30.218242",
  "modified_by": "Administrator", 
  "module": "Accounts", 
  "name": "Invoice Print Templete", 
@@ -445,7 +445,7 @@
  "show_name_in_global_search": 1, 
  "sort_field": "modified", 
  "sort_order": "DESC",
- "title_field": "company",
+ "title_field": "customer_name",
  "track_changes": 1, 
  "track_seen": 0, 
  "track_views": 0
