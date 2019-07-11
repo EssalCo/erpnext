@@ -468,7 +468,7 @@ def get_columns(filters):
             "label": _("Remarks"),
             "fieldname": "remarks",
             "width": 00
-        },
+        }
         # {
         #     "label": _("Label"),
         #     "fieldname": "title",
