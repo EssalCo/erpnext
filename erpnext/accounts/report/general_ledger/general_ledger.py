@@ -410,6 +410,7 @@ def get_columns(filters):
         {
             "label": _("Voucher Type"),
             "fieldname": "voucher_type",
+            "fieldtype": "Data",
             "width": 120
         },
         {
@@ -422,22 +423,26 @@ def get_columns(filters):
         {
             "label": _("Against Account"),
             "fieldname": "against",
+            "fieldtype": "Data",
             "width": 120
         },
         {
             "label": _("Party Type"),
             "fieldname": "party_type",
+            "fieldtype": "Data",
             "width": 100
         },
         {
             "label": _("Party"),
             "fieldname": "party",
+            "fieldtype": "Data",
             "width": 100
         },
         {
             "label": _("Project"),
             "options": "Project",
             "fieldname": "project",
+            "fieldtype": "Link",
             "width": 100
         },
         {
@@ -449,6 +454,7 @@ def get_columns(filters):
         {
             "label": _("Against Voucher Type"),
             "fieldname": "against_voucher_type",
+            "fieldtype": "Data",
             "width": 100
         },
         {
@@ -467,6 +473,7 @@ def get_columns(filters):
         {
             "label": _("Remarks"),
             "fieldname": "remarks",
+            "fieldtype": "Data",
             "width": 00
         }
         # {
