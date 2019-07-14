@@ -396,7 +396,7 @@ def get_columns(filters):
                 "options": "Cost Center",
                 "fieldname": "cost_center",
                 "width": 100,
-            },
+            }
         ]
     )
 
