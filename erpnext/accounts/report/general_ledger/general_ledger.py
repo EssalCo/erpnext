@@ -204,7 +204,8 @@ def get_conditions(filters):
     if filters.get("party_type"):
         conditions.append("party_type=%(party_type)s")
 
-    if filters.get("party"):
+    if filters.get("party_name"):
+        filters['party'] = filters['party_name']
         conditions.append("party in %(party)s")
 
     if not (filters.get("account") or filters.get("party") or
