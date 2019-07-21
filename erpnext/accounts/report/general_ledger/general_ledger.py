@@ -76,10 +76,10 @@ def validate_filters(filters, account_details):
         frappe.throw(_("From Date must be before To Date"))
 
     if filters.get('project'):
-        filters.project = parse_json(filters.get('project'))
+        filters.project = filters.get('project')
 
     if filters.get('cost_center'):
-        filters.cost_center = parse_json(filters.get('cost_center'))
+        filters.cost_center = filters.get('cost_center')
 
 
 def validate_party(filters):
@@ -206,7 +206,7 @@ def get_conditions(filters):
 
     if filters.get("party_name"):
         filters['party'] = filters['party_name']
-        conditions.append("party in %(party)s")
+        conditions.append("party = %(party)s")
 
     if not (filters.get("account") or filters.get("party") or
             filters.get("group_by") in ["Group by Account", "Group by Party"]):
@@ -214,7 +214,7 @@ def get_conditions(filters):
         conditions.append("posting_date <=%(to_date)s")
 
     if filters.get("project"):
-        conditions.append("project in %(project)s")
+        conditions.append("project = %(project)s")
 
     if filters.get("finance_book"):
         conditions.append("ifnull(finance_book, '') in (%(finance_book)s, '')")
@@ -503,13 +503,13 @@ def get_columns(filters):
 
 
 def get_cost_centers_with_children(cost_centers):
-    if not isinstance(cost_centers, list):
-        cost_centers = [d.strip() for d in cost_centers.strip().split(',') if d]
+    # if not isinstance(cost_centers, list):
+    #     cost_centers = [d.strip() for d in cost_centers.strip().split(',') if d]
 
     all_cost_centers = []
-    for d in cost_centers:
-        lft, rgt = frappe.db.get_value("Cost Center", d, ["lft", "rgt"])
-        children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
-        all_cost_centers += [c.name for c in children]
+    # for d in cost_centers:
+    lft, rgt = frappe.db.get_value("Cost Center", cost_centers, ["lft", "rgt"])
+    children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
+    all_cost_centers += [c.name for c in children]
 
     return list(set(all_cost_centers))
