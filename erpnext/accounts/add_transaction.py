@@ -546,6 +546,10 @@ def add_transaction_v2():
             else:
                 total_debit += debit
                 journal_entry.append("accounts", dict(
+                    party_type="Customer" if account_data.account_type in ("Payable",
+                                                                           "Receivable") else None,
+                    party=to_customer.name if account_data.account_type in ("Payable",
+                                                                            "Receivable") else None,
                     account=account,
                     exchange_rate=1,
                     title=_label,
