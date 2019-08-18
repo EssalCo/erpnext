@@ -8,7 +8,6 @@ import frappe
 from erpnext.utilities.send_telegram import send_msg_telegram
 # from erpnext.accounts.general_ledger import make_gl_entries
 from frappe.utils import flt
-import json
 
 
 @frappe.whitelist(allow_guest=True)
@@ -381,29 +380,29 @@ def add_transaction_v2():
     # 'statement'
     # 'third_party_creation'
 
-#     x = {
-#     "contract_id": "10",
-#     "date": "2019-01-01",
-#     "transactions_list": [
-#         {
-#             "credit_amount": 0,
-#             "debit_amount": "100000",
-#             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
-#             "cost_center": "ادارة املاك - T",
-#             "account": "مجموعة الاعمال المتعددة المحدودة - T"
-#         },
-#         {
-#             "credit_amount": "100000",
-#             "debit_amount": 0,
-#             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
-#             "cost_center": "ادارة املاك - T",
-#             "account": "صالح بن حسن بن صالح الرويتع - T"
-#         }
-#     ],
-#     "company": "tamouh",
-#     "branch": "tamouhsa",
-#     "user_id": "3"
-# }
+    #     x = {
+    #     "contract_id": "10",
+    #     "date": "2019-01-01",
+    #     "transactions_list": [
+    #         {
+    #             "credit_amount": 0,
+    #             "debit_amount": "100000",
+    #             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
+    #             "cost_center": "ادارة املاك - T",
+    #             "account": "مجموعة الاعمال المتعددة المحدودة - T"
+    #         },
+    #         {
+    #             "credit_amount": "100000",
+    #             "debit_amount": 0,
+    #             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
+    #             "cost_center": "ادارة املاك - T",
+    #             "account": "صالح بن حسن بن صالح الرويتع - T"
+    #         }
+    #     ],
+    #     "company": "tamouh",
+    #     "branch": "tamouhsa",
+    #     "user_id": "3"
+    # }
     try:
         from frappe.utils import get_site_name
         site_name = get_site_name(frappe.local.request.host)
@@ -450,7 +449,7 @@ def add_transaction_v2():
         if isinstance(transactions_list, basestring):
             import json
             transactions_list = json.loads(transactions_list)
-        #send_msg_telegram("transactions" + str(transactions_list))
+        # send_msg_telegram("transactions" + str(transactions_list))
 
         for transaction in transactions_list:
             debit = float(transaction.get('debit_amount', 0) or 0)
@@ -461,10 +460,49 @@ def add_transaction_v2():
             vat_amount = transaction.get('vat_amount', 0)
             vat_account = transaction.get('vat_account', 0)
             _label = transaction.get('label', _statement)
+
+            account_data = frappe.db.get_value("Account", account, [
+                "account_type", "account_name"], as_dict=True)
+            if account_data.account_type in ("Payable",
+                                             "Receivable"):
+                if len(frappe.get_list("Customer",
+                                       filters={"customer_name": "{0}@{1}".format(account_data.account_name,
+                                                                                  site_name)})) == 0:
+
+                    customer_group = "Individual"
+                    customer_territory = "All Territories"
+
+                    to_customer = frappe.get_doc(
+                        doctype="Customer",
+                        naming_series="CUST-",
+                        customer_name="{0}@{1}".format(account_data.account_name, site_name),
+                        customer_type="Individual",
+                        customer_group=customer_group,
+                        territory=customer_territory,
+                        disabled=0,
+                        default_currency="SAR",
+                        language="ar"
+                    )
+                    to_customer.insert(ignore_permissions=True)
+                else:
+                    to_customer = frappe.get_value(
+                        "Customer",
+                        dict(
+                            customer_name="{0}@{1}".format(account_data.account_name, site_name)
+                        ),
+                        [
+                            "name"
+                        ], as_dict=True
+                    )
+
             if credit:
                 total_credit += credit
                 journal_entry.append("accounts", dict(
                     account=account,
+                    party_type="Customer" if account_data.account_type in ("Payable",
+                                                                           "Receivable") else None,
+                    party=to_customer.name if account_data.account_type in ("Payable",
+                                                                            "Receivable") else None,
                     title=_label,
                     exchange_rate=1,
                     debit_in_account_currency=0,
