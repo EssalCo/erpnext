@@ -381,34 +381,34 @@ def add_transaction_v2():
     # 'statement'
     # 'third_party_creation'
 
-    x = {
-    "contract_id": "10",
-    "date": "2019-01-01",
-    "transactions_list": [
-        {
-            "credit_amount": 0,
-            "debit_amount": "100000",
-            "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
-            "cost_center": "ادارة املاك - T",
-            "account": "مجموعة الاعمال المتعددة المحدودة - T"
-        },
-        {
-            "credit_amount": "100000",
-            "debit_amount": 0,
-            "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
-            "cost_center": "ادارة املاك - T",
-            "account": "صالح بن حسن بن صالح الرويتع - T"
-        }
-    ],
-    "company": "tamouh",
-    "branch": "tamouhsa",
-    "user_id": "3"
-}
+#     x = {
+#     "contract_id": "10",
+#     "date": "2019-01-01",
+#     "transactions_list": [
+#         {
+#             "credit_amount": 0,
+#             "debit_amount": "100000",
+#             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
+#             "cost_center": "ادارة املاك - T",
+#             "account": "مجموعة الاعمال المتعددة المحدودة - T"
+#         },
+#         {
+#             "credit_amount": "100000",
+#             "debit_amount": 0,
+#             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
+#             "cost_center": "ادارة املاك - T",
+#             "account": "صالح بن حسن بن صالح الرويتع - T"
+#         }
+#     ],
+#     "company": "tamouh",
+#     "branch": "tamouhsa",
+#     "user_id": "3"
+# }
     try:
         from frappe.utils import get_site_name
         site_name = get_site_name(frappe.local.request.host)
-        data = x
-        # data = frappe.form_dict.get('data')
+        # data = x
+        data = frappe.form_dict.get('data')
         send_msg_telegram(site_name)
         if isinstance(data, basestring):
             import json
