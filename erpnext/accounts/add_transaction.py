@@ -556,7 +556,7 @@ def add_transaction_v2():
 
         frappe.db.commit()
     except Exception as e:
-        error_msg = "Error : {0}".format(traceback.format_exc())
+        error_msg = traceback.format_exc()
         send_msg_telegram(error_msg)
         return dict(status=False, message=str(e))
 
