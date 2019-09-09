@@ -46,7 +46,6 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 		if to_date == get_first_day(to_date):
 			# if to_date is the first day, get the last day of previous month
 			to_date = add_days(to_date, -1)
-
 		if to_date <= year_end_date:
 			# the normal case
 			period.to_date = to_date
@@ -82,7 +81,7 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 			"year_start_date": year_start_date,
 			"year_end_date": year_end_date
 		})
-		send_msg_telegram(str(opts))
+	send_msg_telegram(str(period_list))
 
 	return period_list
 
