@@ -8,6 +8,7 @@ from frappe import _
 from frappe.utils import (flt, getdate, get_first_day, get_last_day, date_diff,
 	add_months, add_days, formatdate, cint)
 from erpnext.accounts.utils import get_fiscal_year
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_values=False,
@@ -81,6 +82,7 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 			"year_start_date": year_start_date,
 			"year_end_date": year_end_date
 		})
+	send_msg_telegram(str(period_list))
 
 	return period_list
 
