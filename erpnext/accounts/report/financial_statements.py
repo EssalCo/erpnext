@@ -82,7 +82,7 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 			"year_start_date": year_start_date,
 			"year_end_date": year_end_date
 		})
-	send_msg_telegram(str(period_list))
+		send_msg_telegram(str(opts))
 
 	return period_list
 
