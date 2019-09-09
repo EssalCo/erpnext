@@ -14,6 +14,7 @@ from erpnext.utilities.hijri_date import convert_to_hijri
 from erpnext.utilities.send_telegram import send_msg_telegram
 
 
+
 class JournalEntry(AccountsController):
     def __init__(self, *args, **kwargs):
         super(JournalEntry, self).__init__(*args, **kwargs)
