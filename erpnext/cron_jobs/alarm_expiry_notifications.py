@@ -41,7 +41,7 @@ def execute():
                 str(employee.valid_upto)[:10],
                 '%Y-%m-%d').date() > (datetime.now() - timedelta(days=28)).date():
             remained_days = int(math.ceil((datetime.strptime(
-                str(employee.residence_valid_to)[:10],
+                str(employee.valid_upto)[:10],
                 '%Y-%m-%d').date() - datetime.now().date()).total_seconds() / 3600 / 24))
             alert = frappe.get_doc(
                 doctype="Note",
