@@ -37,6 +37,7 @@ def execute():
             )
         )
     current_file = get_file_path(cost_centers)
+    current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
     print("Starting Cost Centers..")
 
     with open(current_file, 'rb') as csvfile:
@@ -70,6 +71,7 @@ def execute():
     print("Starting Accounts..")
 
     current_file = get_file_path(accounts_tree)
+    current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
 
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
@@ -116,6 +118,7 @@ def execute():
     print ("****************")
     print("Starting Journal Entries..")
     current_file = get_file_path(journal_file)
+    current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
 
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
