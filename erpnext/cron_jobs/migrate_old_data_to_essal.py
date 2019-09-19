@@ -58,7 +58,6 @@ def execute():
                 "name"
             )
             children_units = row[4]
-
             doc = frappe.get_doc(
                 dict(
                     doctype="Cost Center",
@@ -69,8 +68,11 @@ def execute():
                 )
             )
             doc.flags.ignore_mandatory = True
-            doc.insert(ignore_permissions=True)
+            try:
 
+                doc.insert(ignore_permissions=True)
+            except frappe.exceptions.DuplicateEntryError:
+                pass
             print serial_no
     frappe.db.commit()
 
