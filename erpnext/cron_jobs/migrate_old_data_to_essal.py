@@ -97,13 +97,13 @@ def execute():
             parent_account = row[10].decode('utf-8')
 
             parent_acc = frappe.get_value(
-                        "Account",
-                        dict(
-                            account_name=("like", "%{0}".format(parent_account)),
-                            company=company.name
-                        ),
-                        "name"
-                    )
+                "Account",
+                dict(
+                    account_name=("like", "%{0}".format(parent_account)),
+                    company=company.name
+                ),
+                "name"
+            )
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
@@ -123,15 +123,16 @@ def execute():
                 doc.insert(ignore_permissions=True)
             except frappe.exceptions.DuplicateEntryError:
                 if frappe.db.exists(
-                    "Account",
-                    dict(
-                        company=company.name,
-                        account_serial=serial_no
-                    )
+                        "Account",
+                        dict(
+                            company=company.name,
+                            account_serial=serial_no
+                        )
                 ):
                     continue
                 else:
-                    account_name = "مكرر {0}".format(account_name)
+                    account_name = "{0} - {1}".format(parent_account, account_name)
+                    doc.account_name = account_name
                     doc.insert(ignore_permissions=True)
 
             except frappe.exceptions.ValidationError:
@@ -173,11 +174,11 @@ def execute():
             month = int(journal_date[1].replace(" ", ""))
             year = int(journal_date[0].replace(" ", ""))
             journal_date = HijriDate(year, month, day, gr=False)
-            journal_date = "{:04d}-{:02d}-{:02d}".format(int(journal_date.year_gr), int(journal_date.month_gr), int(journal_date.day_gr))
+            journal_date = "{:04d}-{:02d}-{:02d}".format(int(journal_date.year_gr), int(journal_date.month_gr),
+                                                         int(journal_date.day_gr))
             print journal_date
             if serial_no != current_entry_index:
                 if journal_entry:
-
                     journal_entry.total_debit = abs(total_debit)
                     journal_entry.total_credit = abs(total_credit)
                     journal_entry.difference = abs(total_debit - total_credit)
@@ -237,6 +238,5 @@ def execute():
                 is_advance="No",
                 cost_center=None
             ))
-
 
     print("Done Accounts.")
