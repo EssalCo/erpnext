@@ -14,9 +14,9 @@ from umalqurra.hijri_date import HijriDate
 
 
 def execute():
-    journal_file = "/private/files/journal_entry.csv"
+    journal_file = "/private/files/journal_entry2.csv"
     cost_centers = "/private/files/cost_centers.csv"
-    accounts_tree = "/private/files/accounts_tree.csv"
+    accounts_tree = "/private/files/accounts_tree2.csv"
     year = "1439"
     try:
         company = frappe.get_doc(
@@ -92,8 +92,8 @@ def execute():
                 continue
             account_name = row[1].decode('utf-8')
             account_type = row[2].decode('utf-8')
-            children_units = row[12]
-            parent_account = row[14].decode('utf-8')
+            children_units = row[8]
+            parent_account = row[10].decode('utf-8')
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
