@@ -201,6 +201,8 @@ def execute():
                                                 account_serial=account_name
                                             ),
                                             "name")
+            if not account_name:
+                print("no account")
             # print account_name
             debit = float(row[3])
             credit = float(row[4])
@@ -208,36 +210,22 @@ def execute():
 
             if credit:
                 total_credit += credit
-                journal_entry.append("accounts", dict(
-                    account=account_name,
-                    party_type=None,
-                    party=None,
-                    title=description,
-                    exchange_rate=1,
-                    debit_in_account_currency=0,
-                    debit=0,
-                    journal_note=description,
-                    credit_in_account_currency=abs(credit),
-                    credit=abs(credit),
-                    is_advance="No",
-                    cost_center=None
-                ))
             else:
                 total_debit += debit
-                journal_entry.append("accounts", dict(
-                    party_type=None,
-                    party=None,
-                    account=account_name,
-                    exchange_rate=1,
-                    title=description,
-                    debit_in_account_currency=abs(debit),
-                    debit=abs(debit),
-                    credit_in_account_currency=0,
-                    credit=0,
-                    project=None,
-                    journal_note=description,
-                    is_advance="No",
-                    cost_center=None
-                ))
+            journal_entry.append("accounts", dict(
+                account=account_name,
+                party_type=None,
+                party=None,
+                title=description,
+                exchange_rate=1,
+                debit_in_account_currency=abs(debit),
+                debit=abs(debit),
+                journal_note=description,
+                credit_in_account_currency=abs(credit),
+                credit=abs(credit),
+                is_advance="No",
+                cost_center=None
+            ))
+
 
     print("Done Accounts.")
