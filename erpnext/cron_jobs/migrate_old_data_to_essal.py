@@ -107,7 +107,8 @@ def execute():
                     parent_account=frappe.get_value(
                         "Account",
                         dict(
-                            account_name=("like", "%{0}".format(parent_account))
+                            account_name=("like", "%{0}".format(parent_account)),
+                            company=company.name
                         ),
                         "name"
                     ),
