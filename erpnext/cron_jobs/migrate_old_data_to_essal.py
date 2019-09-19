@@ -270,4 +270,6 @@ def execute():
         doc.flags.ignore_permissions = True
 
         doc.submit()
+        frappe.db.commit()
         print doc.name
+
