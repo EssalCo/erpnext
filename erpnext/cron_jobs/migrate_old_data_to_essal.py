@@ -63,7 +63,7 @@ def execute():
             doc.flags.ignore_mandatory = True
             doc.insert(ignore_permissions=True)
 
-            print cost_center_name
+            print serial_no
     frappe.db.commit()
 
     print("Done Cost Centers")
@@ -112,7 +112,7 @@ def execute():
                 "account_serial",
                 serial_no
             )
-        print account_name
+        print serial_no
     print("Done Accounts.")
 
     print ("****************")
@@ -143,7 +143,7 @@ def execute():
                     journal_entry.total_credit = abs(total_credit)
                     journal_entry.difference = abs(total_debit - total_credit)
                     journal_entry.insert(ignore_permissions=True)
-
+                    print journal_entry.name
                     journal_entry = frappe.get_doc(
                         dict(
                             doctype="Journal Entry",
