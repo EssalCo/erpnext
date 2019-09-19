@@ -10,7 +10,7 @@ sys.path.append('../..')
 import csv
 from frappe.utils.file_manager import get_file_path
 from datetime import datetime
-
+from umalqurra.hijri_date import HijriDate
 
 def execute():
     journal_file = "/private/files/journal_entry.csv"
@@ -125,8 +125,12 @@ def execute():
                 continue
             if not serial_no:
                 continue
-            journal_date = row[1]
-
+            journal_date = str(row[1]).split("/")
+            day = int(journal_date[2].replace(" ", ""))
+            month = int(journal_date[1].replace(" ", ""))
+            year = int(journal_date[0].replace(" ", ""))
+            journal_date = HijriDate(year, month, day, gr=False)
+            journal_date = "{:04d}-{:02d}-{:02d}".format(journal_date.year_gr, journal_date.month_gr, journal_date.day_gr)
             if serial_no != current_entry_index:
                 if journal_entry:
                     journal_entry.total_debit = abs(total_debit)
