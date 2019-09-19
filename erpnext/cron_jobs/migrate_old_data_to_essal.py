@@ -101,7 +101,7 @@ def execute():
                     account_number=None,
                     account_serial=serial_no,
                     company=company.name,
-                    is_group=int(children_units) > 0,
+                    is_group=float(children_units) > 0,
                     account_currency="SAR",
                     parent_account=frappe.get_value(
                         "Account",
