@@ -77,69 +77,69 @@ def execute():
     # frappe.db.commit()
 
     # print("Done Cost Centers")
-    # print ("****************")
-    # print("Starting Accounts..")
-    #
-    # current_file = get_file_path(accounts_tree)
-    # # current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
-    #
-    # with open(current_file, 'rb') as csvfile:
-    #     spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
-    #     for row in spamreader:
-    #         try:
-    #             serial_no = int(row[0])
-    #         except:
-    #             continue
-    #         # print row
-    #         account_name = row[1].decode('utf-8')
-    #         account_type = row[2].decode('utf-8')
-    #         children_units = row[8]
-    #         parent_account = row[10].decode('utf-8')
-    #
-    #         parent_acc = frappe.get_value(
-    #                     "Account",
-    #                     dict(
-    #                         account_name=("like", "%{0}".format(parent_account)),
-    #                         company=company.name
-    #                     ),
-    #                     "name"
-    #                 )
-    #         doc = frappe.get_doc(
-    #             dict(
-    #                 doctype="Account",
-    #                 account_name=account_name,
-    #                 account_number=None,
-    #                 account_serial=serial_no,
-    #                 company=company.name,
-    #                 is_group=float(children_units.replace(" ", "")) > 0,
-    #                 account_currency="SAR",
-    #                 parent_account=parent_acc,
-    #                 report_type="Balance Sheet",
-    #                 root_type="Expense"
-    #             )
-    #         )
-    #         doc.flags.ignore_mandatory = True
-    #         try:
-    #             doc.insert(ignore_permissions=True)
-    #         except frappe.exceptions.DuplicateEntryError:
-    #             continue
-    #         except frappe.exceptions.ValidationError:
-    #             frappe.db.set_value(
-    #                 "Account",
-    #                 parent_acc,
-    #                 "is_group",
-    #                 1
-    #             )
-    #             doc.insert(ignore_permissions=True)
-    #         frappe.db.set_value(
-    #             "Account",
-    #             doc.name,
-    #             "account_serial",
-    #             serial_no
-    #         )
-    #     print serial_no
-    # print("Done Accounts.")
-    # frappe.db.commit()
+    print ("****************")
+    print("Starting Accounts..")
+
+    current_file = get_file_path(accounts_tree)
+    # current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
+
+    with open(current_file, 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
+        for row in spamreader:
+            try:
+                serial_no = int(row[0])
+            except:
+                continue
+            # print row
+            account_name = row[1].decode('utf-8')
+            account_type = row[2].decode('utf-8')
+            children_units = row[8]
+            parent_account = row[10].decode('utf-8')
+
+            parent_acc = frappe.get_value(
+                        "Account",
+                        dict(
+                            account_name=("like", "%{0}".format(parent_account)),
+                            company=company.name
+                        ),
+                        "name"
+                    )
+            doc = frappe.get_doc(
+                dict(
+                    doctype="Account",
+                    account_name=account_name,
+                    account_number=None,
+                    account_serial=serial_no,
+                    company=company.name,
+                    is_group=float(children_units.replace(" ", "")) > 0,
+                    account_currency="SAR",
+                    parent_account=parent_acc,
+                    report_type="Balance Sheet",
+                    root_type="Expense"
+                )
+            )
+            doc.flags.ignore_mandatory = True
+            try:
+                doc.insert(ignore_permissions=True)
+            except frappe.exceptions.DuplicateEntryError:
+                account_name = "مكرر {0}".format(account_name)
+            except frappe.exceptions.ValidationError:
+                frappe.db.set_value(
+                    "Account",
+                    parent_acc,
+                    "is_group",
+                    1
+                )
+                doc.insert(ignore_permissions=True)
+            frappe.db.set_value(
+                "Account",
+                doc.name,
+                "account_serial",
+                serial_no
+            )
+        print serial_no
+    print("Done Accounts.")
+    frappe.db.commit()
     print ("****************")
     print("Starting Journal Entries..")
     current_file = get_file_path(journal_file)
