@@ -132,6 +132,7 @@ def execute():
                     continue
                 else:
                     account_name = "{0} - {1}".format(parent_account, account_name)
+                    doc.name = None
                     doc.account_name = account_name
                     doc.insert(ignore_permissions=True)
 
