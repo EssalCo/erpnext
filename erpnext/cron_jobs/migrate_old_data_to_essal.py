@@ -47,8 +47,8 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            cost_center_name = row[1]
-            parent_cost_center = row[6]
+            cost_center_name = unicode(row[1])
+            parent_cost_center = unicode(row[6] or "")
             children_units = row[4]
 
             doc = frappe.get_doc(
