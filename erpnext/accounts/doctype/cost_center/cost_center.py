@@ -15,6 +15,7 @@ class CostCenter(NestedSet):
 			
 
 	def validate(self):
+		return
 		self.validate_mandatory()
 
 	def validate_mandatory(self):
