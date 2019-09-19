@@ -254,6 +254,9 @@ def execute():
     #
     # print("Done Journals.")
 
+#     frappe.db.sql(
+#         """UPDATE `tabJournal Entry` SET `creation` = `posting_date`, `modified` = `posting_date`
+# WHERE `company` = %s;""", (company.name,))
 
     journals = frappe.get_list(
         "Journal Entry",
