@@ -36,47 +36,47 @@ def execute():
                 company_name="Alnama1439"
             )
         )
-    current_file = get_file_path(cost_centers)
-    # current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
-    print("Starting Cost Centers..")
+    # current_file = get_file_path(cost_centers)
+    # # current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
+    # print("Starting Cost Centers..")
+    #
+    # with open(current_file, 'rb') as csvfile:
+    #     spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
+    #     for row in spamreader:
+    #         try:
+    #             serial_no = int(row[0])
+    #         except:
+    #             continue
+    #         cost_center_name = row[1].decode('utf-8')
+    #         parent_cost_center = row[6].decode('utf-8')
+    #         parent_cost_center = frappe.get_value(
+    #             "Cost Center",
+    #             dict(
+    #                 cost_center_name=parent_cost_center,
+    #                 company=company.name,
+    #             ),
+    #             "name"
+    #         )
+    #         children_units = row[4]
+    #         doc = frappe.get_doc(
+    #             dict(
+    #                 doctype="Cost Center",
+    #                 cost_center_name=cost_center_name,
+    #                 parent_cost_center=parent_cost_center,
+    #                 company=company.name,
+    #                 is_group=int(children_units) > 0
+    #             )
+    #         )
+    #         doc.flags.ignore_mandatory = True
+    #         try:
+    #
+    #             doc.insert(ignore_permissions=True)
+    #         except frappe.exceptions.DuplicateEntryError:
+    #             pass
+    #         print serial_no
+    # frappe.db.commit()
 
-    with open(current_file, 'rb') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
-        for row in spamreader:
-            try:
-                serial_no = int(row[0])
-            except:
-                continue
-            cost_center_name = row[1].decode('utf-8')
-            parent_cost_center = row[6].decode('utf-8')
-            parent_cost_center = frappe.get_value(
-                "Cost Center",
-                dict(
-                    cost_center_name=parent_cost_center,
-                    company=company.name,
-                ),
-                "name"
-            )
-            children_units = row[4]
-            doc = frappe.get_doc(
-                dict(
-                    doctype="Cost Center",
-                    cost_center_name=cost_center_name,
-                    parent_cost_center=parent_cost_center,
-                    company=company.name,
-                    is_group=int(children_units) > 0
-                )
-            )
-            doc.flags.ignore_mandatory = True
-            try:
-
-                doc.insert(ignore_permissions=True)
-            except frappe.exceptions.DuplicateEntryError:
-                pass
-            print serial_no
-    frappe.db.commit()
-
-    print("Done Cost Centers")
+    # print("Done Cost Centers")
     print ("****************")
     print("Starting Accounts..")
 
@@ -90,6 +90,7 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
+            print row
             account_name = row[1].decode('utf-8')
             account_type = row[2].decode('utf-8')
             children_units = row[8]
