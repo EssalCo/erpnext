@@ -49,6 +49,14 @@ def execute():
                 continue
             cost_center_name = row[1].decode('utf-8')
             parent_cost_center = row[6].decode('utf-8')
+            parent_cost_center = frappe.get_value(
+                "Cost Center",
+                dict(
+                    cost_center_name=parent_cost_center,
+                    company=company.name,
+                ),
+                "name"
+            )
             children_units = row[4]
 
             doc = frappe.get_doc(
