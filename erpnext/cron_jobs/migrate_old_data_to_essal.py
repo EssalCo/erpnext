@@ -193,12 +193,14 @@ def execute():
 
             account_name = row[2].decode('utf-8')
             account_name = account_name[account_name.index("[") + 1:account_name.index("]")]
+            print account_name
             account_name = frappe.get_value("Account",
                                             dict(
                                                 company=company.name,
                                                 account_serial=account_name
                                             ),
                                             "name")
+            print account_name
             debit = float(row[3])
             credit = float(row[4])
             description = row[7].decode('utf-8')
