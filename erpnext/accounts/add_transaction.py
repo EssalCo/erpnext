@@ -591,9 +591,9 @@ def add_transaction_v2():
                         is_advance="No",
                         cost_center=cost_center
                     ))
-        journal_entry.total_debit = abs(total_debit),
-        journal_entry.total_credit = abs(total_credit),
-        journal_entry.difference = abs(total_debit - total_credit),
+        journal_entry.total_debit = abs(total_debit)
+        journal_entry.total_credit = abs(total_credit)
+        journal_entry.difference = abs(total_debit - total_credit)
         journal_entry.insert(ignore_permissions=True)
 
         frappe.db.commit()
