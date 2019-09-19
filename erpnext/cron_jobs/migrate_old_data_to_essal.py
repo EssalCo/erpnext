@@ -165,29 +165,31 @@ def execute():
             print journal_date
             if serial_no != current_entry_index:
                 if journal_entry:
+
                     journal_entry.total_debit = abs(total_debit)
                     journal_entry.total_credit = abs(total_credit)
                     journal_entry.difference = abs(total_debit - total_credit)
                     journal_entry.insert(ignore_permissions=True)
                     print journal_entry.name
-                    journal_entry = frappe.get_doc(
-                        dict(
-                            doctype="Journal Entry",
-                            title="القيد رقم ({0}) سنة".format(serial_no, year),
-                            voucher_type="Journal Entry",
-                            naming_series="JV-",
-                            posting_date=journal_date,
-                            company=company.name,
-                            user_remark="القيد رقم ({0}) سنة".format(serial_no, year),
-                            multi_currency=0,
-                            remark="القيد رقم ({0}) سنة".format(serial_no, year),
-                            bill_date=datetime.now(),
-                            is_opening="No",
-                            third_party_creation=journal_date,
-                            accounts=[]
-                        )
+
+                journal_entry = frappe.get_doc(
+                    dict(
+                        doctype="Journal Entry",
+                        title="القيد رقم ({0}) سنة".format(serial_no, year),
+                        voucher_type="Journal Entry",
+                        naming_series="JV-",
+                        posting_date=journal_date,
+                        company=company.name,
+                        user_remark="القيد رقم ({0}) سنة".format(serial_no, year),
+                        multi_currency=0,
+                        remark="القيد رقم ({0}) سنة".format(serial_no, year),
+                        bill_date=datetime.now(),
+                        is_opening="No",
+                        third_party_creation=journal_date,
+                        accounts=[]
                     )
-                    current_entry_index = serial_no
+                )
+                current_entry_index = serial_no
 
             account_name = row[2].decode('utf-8')
             account_name = account_name[account_name.index("[") + 1:account_name.index("]")]
