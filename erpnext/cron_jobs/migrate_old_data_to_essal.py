@@ -36,6 +36,14 @@ def execute():
     #             company_name="Alnama1439"
     #         )
     #     )
+    # main_cost_center = frappe.get_value(
+    #     "Cost Center",
+    #     dict(
+    #         company=company.name,
+    #         parent_cost_center=None
+    #     ),
+    #     "name"
+    # )
     # current_file = get_file_path(cost_centers)
     # # current_file = current_file.replace("s1.essal.co", "alnamaa.s1.essal.co")
     # print("Starting Cost Centers..")
@@ -241,7 +249,7 @@ def execute():
     #             credit_in_account_currency=abs(credit),
     #             credit=abs(credit),
     #             is_advance="No",
-    #             cost_center=None
+    #             cost_center=main_cost_center
     #         ))
     #
     # print("Done Journals.")
@@ -261,3 +269,4 @@ def execute():
         doc.flags.ignore_permissions = True
 
         doc.submit()
+        print doc.name
