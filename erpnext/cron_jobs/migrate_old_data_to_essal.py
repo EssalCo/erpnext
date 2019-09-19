@@ -63,7 +63,7 @@ def execute():
             doc.flags.ignore_mandatory = True
             doc.insert(ignore_permissions=True)
 
-            print doc.cost_center_name
+            print cost_center_name
     frappe.db.commit()
 
     print("Done Cost Centers")
@@ -80,10 +80,10 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            account_name = row[1]
-            account_type = row[2]
+            account_name = row[1].decode('utf-8')
+            account_type = row[2].decode('utf-8')
             children_units = row[12]
-            parent_account = row[14]
+            parent_account = row[14].decode('utf-8')
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
@@ -112,7 +112,7 @@ def execute():
                 "account_serial",
                 serial_no
             )
-        print doc.account_name
+        print account_name
     print("Done Accounts.")
 
     print ("****************")
@@ -131,7 +131,7 @@ def execute():
                 continue
             if not serial_no:
                 continue
-            journal_date = str(row[1]).split("/")
+            journal_date = str(row[1].decode('utf-8')).split("/")
             day = int(journal_date[2].replace(" ", ""))
             month = int(journal_date[1].replace(" ", ""))
             year = int(journal_date[0].replace(" ", ""))
@@ -163,7 +163,7 @@ def execute():
                     )
                     current_entry_index = serial_no
 
-            account_name = row[2]
+            account_name = row[2].decode('utf-8')
             account_name = account_name[account_name.index("[") + 1:account_name.index("]")]
             account_name = frappe.get_value("Account",
                                             dict(
@@ -173,7 +173,7 @@ def execute():
                                             "name")
             debit = row[3]
             credit = row[4]
-            description = row[7]
+            description = row[7].decode('utf-8')
 
             if credit:
                 total_credit += credit
