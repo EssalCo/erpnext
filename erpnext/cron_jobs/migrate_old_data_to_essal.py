@@ -31,7 +31,7 @@ def execute():
     except Exception as e:
         print str(e)
         company = frappe.get_doc(
-            "Company"
+            "Company",
             dict(
                 company_name="Alnama1439"
             )
