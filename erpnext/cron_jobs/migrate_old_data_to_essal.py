@@ -122,7 +122,18 @@ def execute():
             try:
                 doc.insert(ignore_permissions=True)
             except frappe.exceptions.DuplicateEntryError:
-                account_name = "مكرر {0}".format(account_name)
+                if frappe.db.exists(
+                    "Account",
+                    dict(
+                        company=company.name,
+                        account_serial=serial_no
+                    )
+                ):
+                    continue
+                else:
+                    account_name = "مكرر {0}".format(account_name)
+                    doc.insert(ignore_permissions=True)
+
             except frappe.exceptions.ValidationError:
                 frappe.db.set_value(
                     "Account",
