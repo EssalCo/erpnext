@@ -12,6 +12,7 @@ from frappe.utils.file_manager import get_file_path
 from datetime import datetime
 from umalqurra.hijri_date import HijriDate
 
+
 def execute():
     journal_file = "/private/files/journal_entry.csv"
     cost_centers = "/private/files/cost_centers.csv"
@@ -27,8 +28,10 @@ def execute():
                 country="Saudi Arabia"
             )
         ).insert(ignore_permissions=True)
-    except:
+    except Exception as e:
+        print str(e)
         company = frappe.get_doc(
+            "Company"
             dict(
                 company_name="Alnama1439"
             )
