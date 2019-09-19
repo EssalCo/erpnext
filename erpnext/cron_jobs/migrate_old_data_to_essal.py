@@ -197,8 +197,8 @@ def execute():
                                                 account_serial=account_name
                                             ),
                                             "name")
-            debit = row[3]
-            credit = row[4]
+            debit = float(row[3])
+            credit = float(row[4])
             description = row[7].decode('utf-8')
 
             if credit:
