@@ -90,7 +90,7 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            print row
+            # print row
             account_name = row[1].decode('utf-8')
             account_type = row[2].decode('utf-8')
             children_units = row[8]
