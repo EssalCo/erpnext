@@ -150,7 +150,7 @@ def execute():
         current_entry_index, total_credit, total_debit = 0, 0, 0
         journal_entry = None
         for row in spamreader:
-            print row
+            # print row
             try:
                 serial_no = int(row[0])
             except:
