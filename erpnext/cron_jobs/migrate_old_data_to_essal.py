@@ -258,7 +258,8 @@ def execute():
     journals = frappe.get_list(
         "Journal Entry",
         filters=dict(
-            company="Alnama1439"
+            company="Alnama1439",
+            docstatus=0
         ),
         ignore_permissions=True,
         ignore_ifnull=True
