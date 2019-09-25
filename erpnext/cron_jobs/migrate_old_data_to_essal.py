@@ -123,7 +123,7 @@ def execute():
                     account_serial=serial_no,
                     company=company.name,
                     is_group=float(children_units.replace(" ", "")) > 0,
-                    account_currency="SAR",
+                    # account_currency="SAR",
                     parent_account=parent_acc,
                     report_type="Balance Sheet",
                     root_type="Expense"
