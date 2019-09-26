@@ -608,3 +608,244 @@ def add_transaction_v2():
         journal_entry_link="{site_name}/desk#Form/Journal Entry/{_id}".format(
             site_name=site_name,
             _id=journal_entry.name))
+
+
+@frappe.whitelist(allow_guest=True)
+def add_transaction_v3():
+    # 'contract_id',
+    # 'date',
+    # 'transactions_list',
+    # 'company',
+    # 'branch',
+    # 'user_id'
+    # 'statement'
+    # 'third_party_creation'
+
+    #     x = {
+    #     "contract_id": "10",
+    #     "date": "2019-01-01",
+    #     "transactions_list": [
+    #         {
+    #             "credit_amount": 0,
+    #             "debit_amount": "100000",
+    #             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
+    #             "cost_center": "ادارة املاك - T",
+    #             "account": "مجموعة الاعمال المتعددة المحدودة - T"
+    #         },
+    #         {
+    #             "credit_amount": "100000",
+    #             "debit_amount": 0,
+    #             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
+    #             "cost_center": "ادارة املاك - T",
+    #             "account": "صالح بن حسن بن صالح الرويتع - T"
+    #         }
+    #     ],
+    #     "company": "tamouh",
+    #     "branch": "tamouhsa",
+    #     "user_id": "3"
+    # }
+    try:
+        from frappe.utils import get_site_name
+        site_name = get_site_name(frappe.local.request.host)
+        # data = x
+        data = frappe.form_dict.get('data')
+        send_msg_telegram(site_name)
+        if isinstance(data, basestring):
+            import json
+            data = json.loads(data)
+        contract_no = data.get('contract_no')
+        date = data.get('date')
+        transactions_list = data.get('transactions_list', '[]')
+        company = data.get('company')
+        branch = frappe.form_dict.get('branch')
+        # user_id = data.get('user_id')
+        statement = data.get('statement', '')
+        third_party_creation = data.get('third_party_creation', datetime.now())
+        label = "أساس - {0}".format(data.get('label', statement))
+        frappe.set_user("Administrator")
+
+        if branch:
+            company = branch
+
+        journal_entry = frappe.get_doc(
+            dict(
+                doctype="Journal Entry",
+                title=label,
+                voucher_type="Journal Entry",
+                naming_series="JV-",
+                posting_date=date,
+                company=company,
+                user_remark=statement,
+                multi_currency=0,
+                remark=statement,
+                bill_no=contract_no,
+                bill_date=datetime.now(),
+                is_opening="No",
+                third_party_creation=third_party_creation,
+                accounts=[]
+            )
+        )
+        project = frappe.get_value("Project", dict(), "name")
+        total_credit = total_debit = 0
+        if isinstance(transactions_list, basestring):
+            import json
+            transactions_list = json.loads(transactions_list)
+        # send_msg_telegram("transactions" + str(transactions_list))
+
+        for transaction in transactions_list:
+            debit = float(transaction.get('debit_amount', 0) or 0)
+            credit = float(transaction.get('credit_amount', 0) or 0)
+            _statement = transaction.get('statement', '')
+            cost_center = transaction.get('cost_center')
+            account = transaction.get('account')
+            vat_amount = transaction.get('vat_amount', 0)
+            vat_account = transaction.get('vat_account', 0)
+            _label = transaction.get('label', _statement)
+
+            account_data = frappe.db.get_value("Account", account, [
+                "account_type", "account_name"], as_dict=True)
+            if account_data.account_type in ("Payable",
+                                             "Receivable"):
+                if len(frappe.get_list("Customer",
+                                       filters={"customer_name": "{0}@{1}".format(account_data.account_name,
+                                                                                  site_name)})) == 0:
+
+                    customer_group = "Individual"
+                    customer_territory = "All Territories"
+
+                    to_customer = frappe.get_doc(
+                        doctype="Customer",
+                        naming_series="CUST-",
+                        customer_name="{0}@{1}".format(account_data.account_name, site_name),
+                        customer_type="Individual",
+                        customer_group=customer_group,
+                        territory=customer_territory,
+                        disabled=0,
+                        default_currency="SAR",
+                        language="ar"
+                    )
+                    to_customer.insert(ignore_permissions=True)
+                else:
+                    to_customer = frappe.get_value(
+                        "Customer",
+                        dict(
+                            customer_name="{0}@{1}".format(account_data.account_name, site_name)
+                        ),
+                        [
+                            "name"
+                        ], as_dict=True
+                    )
+
+            if credit:
+                total_credit += credit
+                journal_entry.append("accounts", dict(
+                    account=account,
+                    party_type="Customer" if account_data.account_type in ("Payable",
+                                                                           "Receivable") else None,
+                    party=to_customer.name if account_data.account_type in ("Payable",
+                                                                            "Receivable") else None,
+                    title=_label,
+                    exchange_rate=1,
+                    debit_in_account_currency=0,
+                    debit=0,
+                    journal_note=_statement,
+                    credit_in_account_currency=abs(credit) - abs(vat_amount),
+                    credit=abs(credit) - abs(vat_amount),
+                    project=project,
+                    is_advance="No",
+                    cost_center=cost_center
+                ))
+                # journal_entry.append("accounts", dict(
+                #     account=account,
+                #     party_type="Company",
+                #     party=company,
+                #     exchange_rate=1,
+                #     debit_in_account_currency=abs(credit) - abs(vat_amount),
+                #     debit=abs(credit) - abs(vat_amount),
+                #     journal_note=_statement,
+                #     credit_in_account_currency=0,
+                #     credit=0,
+                #     project=project,
+                #     is_advance="No",
+                #     cost_center=cost_center
+                # ))
+                if vat_amount and vat_account:
+                    journal_entry.append("accounts", dict(
+                        account=vat_account,
+                        party_type="Company",
+                        party=company,
+                        title=_label,
+                        exchange_rate=1,
+                        debit_in_account_currency=0,
+                        debit=0,
+                        credit_in_account_currency=abs(vat_amount),
+                        credit=abs(vat_amount),
+                        project=project,
+                        is_advance="No",
+                        cost_center=cost_center
+                    ))
+            else:
+                total_debit += debit
+                journal_entry.append("accounts", dict(
+                    party_type="Customer" if account_data.account_type in ("Payable",
+                                                                           "Receivable") else None,
+                    party=to_customer.name if account_data.account_type in ("Payable",
+                                                                            "Receivable") else None,
+                    account=account,
+                    exchange_rate=1,
+                    title=_label,
+                    debit_in_account_currency=abs(debit) - abs(vat_amount),
+                    debit=abs(debit) - abs(vat_amount),
+                    credit_in_account_currency=0,
+                    credit=0,
+                    project=project,
+                    journal_note=_statement,
+                    is_advance="No",
+                    cost_center=cost_center
+                ))
+                # journal_entry.append("accounts", dict(
+                #     account=account,
+                #     party_type="Company",
+                #     party=company,
+                #     exchange_rate=1,
+                #     debit_in_account_currency=0,
+                #     debit=0,
+                #     credit_in_account_currency=abs(debit) - abs(vat_amount),
+                #     credit=abs(debit) - abs(vat_amount),
+                #     project=project,
+                #     is_advance="No",
+                #     journal_note=_statement,
+                #     cost_center=cost_center
+                # ))
+                if vat_amount and vat_account:
+                    journal_entry.append("accounts", dict(
+                        account=vat_account,
+                        party_type="Company",
+                        party=company,
+                        title=_label,
+                        exchange_rate=1,
+                        debit_in_account_currency=abs(vat_amount),
+                        debit=abs(vat_amount),
+                        credit_in_account_currency=0,
+                        credit=0,
+                        project=project,
+                        is_advance="No",
+                        cost_center=cost_center
+                    ))
+        journal_entry.total_debit = abs(total_debit)
+        journal_entry.total_credit = abs(total_credit)
+        journal_entry.difference = abs(total_debit - total_credit)
+        journal_entry.insert(ignore_permissions=True)
+
+        frappe.db.commit()
+    except Exception as e:
+        error_msg = traceback.format_exc()
+        send_msg_telegram(error_msg)
+        return dict(status=False, message=str(e))
+
+    return dict(
+        status=True,
+        message="Transactions are added to erpnext successfully",
+        journal_entry_link="{site_name}/desk#Form/Journal Entry/{_id}".format(
+            site_name=site_name,
+            _id=journal_entry.name))

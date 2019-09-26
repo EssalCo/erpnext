@@ -85,7 +85,7 @@ def execute():
             alert.insert(ignore_permissions=True)
             alert.title = "تذكير بشأن تاريخ صلاحية جواز السفر"
             for user in all_users:
-                if user.name not in ("Administrator", "hr@murbiha.com", "accounts@murbiha.com"):
+                if user.name not in ("Administrator", "hr@murbiha.com", "accounts@murbiha.com", "hr.murbiha@gmail.com"):
                     alert.append("seen_by", dict(
                         user=user.name,
                     ))
@@ -134,7 +134,7 @@ def execute():
             alert.insert(ignore_permissions=True)
             alert.title = "تذكير بشأن تاريخ الإقامة"
             for user in all_users:
-                if user.name not in ("Administrator", "hr@murbiha.com", "accounts@murbiha.com"):
+                if user.name not in ("Administrator", "hr@murbiha.com", "accounts@murbiha.com", "hr.murbiha@gmail.com"):
                     alert.append("seen_by", dict(
                         user=user.name,
                     ))
