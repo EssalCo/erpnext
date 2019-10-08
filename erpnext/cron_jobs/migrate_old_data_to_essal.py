@@ -254,7 +254,7 @@ def execute():
                 is_advance="No",
                 cost_center=main_cost_center
             ))
-
+            frappe.db.commit()
     print("Done Journals.")
 
 #     frappe.db.sql(
