@@ -179,7 +179,7 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            if not serial_no or serial_no != 2183:
+            if not serial_no:
                 continue
             journal_date = str(row[1].decode('utf-8')).split("/")
             day = int(journal_date[2].replace(" ", ""))
