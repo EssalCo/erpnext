@@ -179,7 +179,7 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            if not serial_no:
+            if not serial_no or serial_no != 2183:
                 continue
             journal_date = str(row[1].decode('utf-8')).split("/")
             day = int(journal_date[2].replace(" ", ""))
@@ -255,6 +255,16 @@ def execute():
                 cost_center=main_cost_center
             ))
             frappe.db.commit()
+    if journal_entry:
+        journal_entry.total_debit = abs(total_debit)
+        journal_entry.total_credit = abs(total_credit)
+        journal_entry.difference = abs(total_debit - total_credit)
+        journal_entry.insert(ignore_permissions=True)
+        journal_entry.flags.ignore_permissions = True
+
+        journal_entry.submit()
+
+        print journal_entry.name
     print("Done Journals.")
 
 #     frappe.db.sql(
