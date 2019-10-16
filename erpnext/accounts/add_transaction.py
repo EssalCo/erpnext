@@ -494,7 +494,7 @@ def add_transaction_v2():
                             "name"
                         ], as_dict=True
                     )
-
+            else: to_customer = None
             if credit:
                 total_credit += credit
                 journal_entry.append("accounts", dict(
