@@ -24,15 +24,15 @@ def create_account():
     try:
         from frappe.utils import get_site_name
         site_name = get_site_name(frappe.local.request.host)
-        data = frappe.form_dict.get('data')
+        data = frappe.form_dict
         send_msg_telegram(str(site_name))
         # send_msg_telegram(str(data))
-        if isinstance(data, basestring):
-            import json
-            data = json.loads(data)
-        # send_msg_telegram(str(data))
-        send_msg_telegram(str(site_name))
-        send_msg_telegram(str(frappe.form_dict))
+        # if isinstance(data, basestring):
+        #     import json
+        #     data = json.loads(data)
+        send_msg_telegram(str(data))
+        # send_msg_telegram(str(site_name))
+        # send_msg_telegram(str(frappe.form_dict))
         account_name = data['account_name']
         # is_group = frappe.form_dict['is_group']
         company = data['company']
