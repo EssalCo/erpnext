@@ -38,9 +38,9 @@ def create_account():
         freeze_account = frappe.form_dict.get('freeze_account')
         balance_must_be = frappe.form_dict.get('balance_must_be')
         
-        if not parent_account and not (
-            root_type and report_type and account_type and tax_rate and freeze_account and balance_must_be):
-            frappe.throw("You must send all data since this is a parent account")
+        # if not parent_account and not (
+        #     root_type and report_type and account_type and tax_rate and freeze_account and balance_must_be):
+        #     frappe.throw("You must send all data since this is a parent account")
         if parent_account:
             parent_account_data = frappe.get_value("Account", parent_account, 
                             [
