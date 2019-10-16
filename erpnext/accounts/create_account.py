@@ -30,7 +30,7 @@ def create_account():
         account_name = frappe.form_dict['account_name']
         # is_group = frappe.form_dict['is_group']
         company = frappe.form_dict['company']
-        root_type = frappe.form_dict.get('root_type')
+        root_type = frappe.form_dict.get('root_type', 'Expense')
         report_type = frappe.form_dict.get('report_type')
         parent_account = frappe.form_dict.get('parent_account')
         account_type = frappe.form_dict.get('account_type')
