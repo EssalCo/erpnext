@@ -24,19 +24,25 @@ def create_account():
     try:
         from frappe.utils import get_site_name
         site_name = get_site_name(frappe.local.request.host)
+        data = frappe.form_dict.get('data')
+        send_msg_telegram(str(site_name))
+        # send_msg_telegram(str(data))
+        if isinstance(data, basestring):
+            import json
+            data = json.loads(data)
         # send_msg_telegram(str(data))
         send_msg_telegram(str(site_name))
         send_msg_telegram(str(frappe.form_dict))
-        account_name = frappe.form_dict['account_name']
+        account_name = data['account_name']
         # is_group = frappe.form_dict['is_group']
-        company = frappe.form_dict['company']
-        root_type = frappe.form_dict.get('root_type', 'Expense')
-        report_type = frappe.form_dict.get('report_type')
-        parent_account = frappe.form_dict.get('parent_account')
-        account_type = frappe.form_dict.get('account_type')
-        tax_rate = frappe.form_dict.get('tax_rate')
-        freeze_account = frappe.form_dict.get('freeze_account')
-        balance_must_be = frappe.form_dict.get('balance_must_be')
+        company = data['company']
+        root_type = data.get('root_type', 'Expense')
+        report_type = data.get('report_type')
+        parent_account = data.get('parent_account')
+        account_type = data.get('account_type')
+        tax_rate = data.get('tax_rate')
+        freeze_account = data.get('freeze_account')
+        balance_must_be = data.get('balance_must_be')
         
         # if not parent_account and not (
         #     root_type and report_type and account_type and tax_rate and freeze_account and balance_must_be):
