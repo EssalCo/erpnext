@@ -613,6 +613,7 @@ def add_transaction_v2():
 
 @frappe.whitelist(allow_guest=True)
 def add_transaction_v3():
+    return add_transaction_v2()
     # 'contract_id',
     # 'date',
     # 'transactions_list',
