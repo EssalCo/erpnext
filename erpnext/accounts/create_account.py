@@ -85,6 +85,7 @@ def create_account():
                 balance_must_be=balance_must_be
             )
         )
+        account.flags.ignore_mandatory = True
         account.insert(ignore_permissions=True)
         frappe.db.commit()
 
