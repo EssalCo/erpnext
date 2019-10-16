@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 from datetime import datetime
 
-import frappe
+import traceback
 
+import frappe
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 @frappe.whitelist(allow_guest=True)
 def create_account():
@@ -83,5 +85,8 @@ def create_account():
 
         return dict(status=True, message="Account is added to erpnext successfully")
     except Exception as e:
+
+        error_msg = traceback.format_exc()
+        send_msg_telegram(error_msg)
         return dict(status=False, message=str(e))
 
