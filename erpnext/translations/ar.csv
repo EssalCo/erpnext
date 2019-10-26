@@ -1,3 +1,7 @@
+Doctype:Purchase Order,Select Material Requests,اختر طلبات المواد
+No Material Request found,لم يتم إيجاد أي طلبات مواد 
+VAT Details,تفاصيل ضريبة القيمة المضافة
+VAT DETAILS,تفاصيل ضريبة القيمة المضافة
 Make a new {0}, أنشأ مستند جديد من
 Make a new Material Request, أنشأ طلب مواد جديد
 "حدد Material Requests","اختر طلبات مواد"
