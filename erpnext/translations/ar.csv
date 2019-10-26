@@ -1,27 +1,3 @@
-Make a new {0}, أنشأ مستند جديد من
-Make a new Material Request, أنشأ طلب مواد جديد
-"حدد Material Requests","اختر طلبات مواد"
-Reqd By Date,مطلوب بتاريخ
-Material Requests,طلبات المواد                                                                                     
-Search Term,مصطلح البحث
-Supplier Name in Arabic,اسم المورد باللغة العربية
-Tax Code,كود الضريبة
-Closing Price,سعر نهائي
-Currently no stock available in any warehouse,حاليا لا يوجد مخزون متاح في أي مستودع
-not permitted,غير مسموح به
-VAT details,تفاصيل ضريبة القيمة المضافة
-Permit Number,رقم الترخيص
-Reverse Charge Applicable,رسوم الشحن العكسي
-update rate as per last purchase,معدل التحديث وفقا لآخر عملية شراء
-link to material request,رابط لطلب المواد
-Reqd,مطلوب
-Reqd , مطلوب 
-Material Requests , طلبات المواد                                                                                     
-Material Request,طلب المواد
-Make a new ,أنشأ مستند جديد من 
-No , لا
-" found"," تم إيجاده"
- Material Requests,طلبات المواد    
 Add Child,إضافة فرع
 
 Journal Note,البيان
@@ -11518,3 +11494,28 @@ Item,الصنف
 Journal Note,البيان
 add child,إضافة فرع
 Add Child,إضافة فرع
+Make a new {0}, أنشأ مستند جديد من
+Make a new Material Request, أنشأ طلب مواد جديد
+"حدد Material Requests","اختر طلبات مواد"
+Reqd By Date,مطلوب بتاريخ
+Material Requests,طلبات المواد
+Search Term,مصطلح البحث
+Supplier Name in Arabic,اسم المورد باللغة العربية
+Tax Code,كود الضريبة
+Closing Price,سعر نهائي
+Currently no stock available in any warehouse,حاليا لا يوجد مخزون متاح في أي مستودع
+not permitted,غير مسموح به
+VAT details,تفاصيل ضريبة القيمة المضافة
+Permit Number,رقم الترخيص
+Reverse Charge Applicable,رسوم الشحن العكسي
+update rate as per last purchase,معدل التحديث وفقا لآخر عملية شراء
+link to material request,رابط لطلب المواد
+Reqd,مطلوب
+Reqd , مطلوب
+Material Requests , طلبات المواد
+Material Request,طلب المواد
+Make a new ,أنشأ مستند جديد من
+No , لا
+" found"," تم إيجاده"
+ Material Requests,طلبات المواد
+Select Material Requests,اختر طلبات المواد
