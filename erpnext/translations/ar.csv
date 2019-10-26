@@ -1,3 +1,28 @@
+Make a new {0}, أنشأ مستند جديد من
+Make a new Material Request, أنشأ طلب مواد جديد
+حدد Material Requests,اختر طلبات مواد  
+Reqd By Date,مطلوب بتاريخ
+Material Requests,طلبات المواد                                                                                     
+Search Term,مصطلح البحث
+Supplier Name in Arabic,اسم المورد باللغة العربية
+Reqd By Date,مطلوب بتاريخ
+Tax Code,كود الضريبة
+Closing Price,سعر نهائي
+Currently no stock available in any warehouse,حاليا لا يوجد مخزون متاح في أي مستودع
+not permitted,غير مسموح به
+VAT details,تفاصيل ضريبة القيمة المضافة
+Permit Number,رقم الترخيص
+Reverse Charge Applicable,رسوم الشحن العكسي
+update rate as per last purchase,معدل التحديث وفقا لآخر عملية شراء
+link to material request,رابط لطلب المواد
+Reqd,مطلوب
+Reqd , مطلوب 
+Material Requests , طلبات المواد                                                                                     
+Material Request,طلب المواد
+Make a new ,أنشأ مستند جديد من 
+No , لا
+" found"," تم إيجاده"
+ Material Requests,طلبات المواد    
 Add Child,إضافة فرع
 
 Journal Note,البيان
@@ -8866,7 +8891,7 @@ DocType: POS Profile,Apply Discount On,تطبيق تخفيض على
 
 DocType: Member,Membership Type,نوع العضوية
 
-,Reqd By Date,Reqd حسب التاريخ
+,Reqd By Date,مطلوب  حسب التاريخ
 
 apps/erpnext/erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py +140,Creditors,الدائنين
 
