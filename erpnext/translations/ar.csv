@@ -828,9 +828,6 @@ DocType: Student Admission,Student Admission,قبول الطلاب
 ,Terretory,إقليم
 
 apps/erpnext/erpnext/stock/doctype/item/item.py +729,Item {0} is cancelled,تم إلغاء البند {0}
-
-apps/erpnext/erpnext/buying/doctype/purchase_order/purchase_order.js +948,Material Request,طلب مواد
-
 DocType: Bank Reconciliation,Update Clearance Date,تحديث تاريخ التخليص
 
 DocType: Item,Purchase Details,تفاصيل شراء
