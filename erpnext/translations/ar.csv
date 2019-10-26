@@ -1,11 +1,10 @@
 Make a new {0}, أنشأ مستند جديد من
 Make a new Material Request, أنشأ طلب مواد جديد
-حدد Material Requests,اختر طلبات مواد  
+"حدد Material Requests","اختر طلبات مواد"
 Reqd By Date,مطلوب بتاريخ
 Material Requests,طلبات المواد                                                                                     
 Search Term,مصطلح البحث
 Supplier Name in Arabic,اسم المورد باللغة العربية
-Reqd By Date,مطلوب بتاريخ
 Tax Code,كود الضريبة
 Closing Price,سعر نهائي
 Currently no stock available in any warehouse,حاليا لا يوجد مخزون متاح في أي مستودع
@@ -4378,7 +4377,7 @@ DocType: Packing Slip,To Package No.,لحزم رقم
 
 DocType: Patient Relation,Family,أسرة
 
-DocType: Production Planning Tool,Material Requests,الطلبات المادية
+DocType: Production Planning Tool,Material Requests,طلبات مواد
 
 DocType: Warranty Claim,Issue Date,تاريخ القضية
 
@@ -8890,9 +8889,6 @@ DocType: Sample Collection,SMPL-,SMPL-
 DocType: POS Profile,Apply Discount On,تطبيق تخفيض على
 
 DocType: Member,Membership Type,نوع العضوية
-
-,Reqd By Date,مطلوب  حسب التاريخ
-
 apps/erpnext/erpnext/accounts/doctype/account/chart_of_accounts/verified/standard_chart_of_accounts.py +140,Creditors,الدائنين
 
 DocType: Assessment Plan,Assessment Name,اسم تقييم
