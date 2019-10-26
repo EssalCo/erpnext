@@ -4352,9 +4352,6 @@ DocType: Vehicle,Wheels,عجلات
 DocType: Packing Slip,To Package No.,لحزم رقم
 
 DocType: Patient Relation,Family,أسرة
-
-DocType: Production Planning Tool,Material Requests,طلبات مواد
-
 DocType: Warranty Claim,Issue Date,تاريخ القضية
 
 DocType: Activity Cost,Activity Cost,تكلفة النشاط
@@ -11495,7 +11492,7 @@ Journal Note,البيان
 add child,إضافة فرع
 Add Child,إضافة فرع
 
-Doctype:Purchase Order,Select Material Requests,اختر طلبات المواد
+Select Material Requests,اختر طلبات المواد
 No Material Request found,لم يتم إيجاد أي طلبات مواد
 VAT Details,تفاصيل ضريبة القيمة المضافة
 VAT DETAILS,تفاصيل ضريبة القيمة المضافة
@@ -11522,5 +11519,5 @@ Material Request,طلب المواد
 Make a new ,أنشأ مستند جديد من
 No , لا
 " found"," تم إيجاده"
- Material Requests,طلبات المواد
+" Material Requests",طلبات المواد
 Select Material Requests,اختر طلبات المواد
