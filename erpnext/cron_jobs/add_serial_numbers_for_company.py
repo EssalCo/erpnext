@@ -74,7 +74,6 @@ def execute():
             # self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
             # self.account_serial_x = next_serial_str
         except Exception as e:
-            print account.name
             print str(e)
         # account.get_account_serial()
         # account.save(ignore_permissions=True)
