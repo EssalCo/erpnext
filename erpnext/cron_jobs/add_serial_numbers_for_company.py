@@ -9,9 +9,10 @@ import frappe
 
 
 def execute():
+    company = "شركة ابعاد فنية للمقاولات"
     accounts = frappe.db.sql(
         """SELECT `name` FROM 
-        `tabAccount` WHERE `company` = %(company)s ORDER BY `creation` DESC;""", as_dict=True
+        `tabAccount` WHERE `company` = %(company)s ORDER BY `creation` DESC;""", dict(company=company), as_dict=True
     )
 
     for acc in accounts:
