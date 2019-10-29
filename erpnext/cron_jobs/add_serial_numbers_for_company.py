@@ -25,7 +25,7 @@ def execute():
         for acc in accounts:
             account = frappe.get_doc("Account", acc.name)
             last_existing_serial = frappe.db.sql("""SELECT 
-                        MAX(account_serial) AS maxi
+                        MAX(account_serial * 1) AS maxi
                     FROM
                         tabAccount
                     WHERE parent_account IS NULL;""", as_dict=True)
@@ -73,7 +73,7 @@ def update_children_serials(parent_account):
           `tabAccount` WHERE
            account_serial = (
         SELECT 
-            MAX(account_serial) AS maxi
+            MAX(account_serial * 1) AS maxi
         FROM
             tabAccount
         WHERE 
