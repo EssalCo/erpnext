@@ -89,10 +89,11 @@ WHERE
             # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
             # next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
         # send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
-
+        print str(next_serial_str)
+        print str(next_serial)
         frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}'
         AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
-            int(next_serial_str.replace(".", "").replace("#", "")),
+            next_serial,
             next_serial_str,
             account.name
         ))
