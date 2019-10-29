@@ -16,7 +16,7 @@ def execute():
     )
 
     for _company in companies:
-        company = company.name
+        company = _company.name
         accounts = frappe.db.sql(
             """SELECT `name`, `company` FROM 
             `tabAccount` WHERE `company` = %(company)s AND (`parent_account` IS NULL OR `parent_account` = '') ORDER BY `creation` ASC;""",
