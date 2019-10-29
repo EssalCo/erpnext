@@ -19,8 +19,7 @@ def execute():
         company = _company.name
         accounts = frappe.db.sql(
             """SELECT `name`, `company` FROM 
-            `tabAccount` WHERE `company` = %(company)s AND (`parent_account` IS NULL OR `parent_account` = '') ORDER BY `creation` ASC;""",
-            dict(company=company), as_dict=True
+            `tabAccount` WHERE (`parent_account` IS NULL OR `parent_account` = '') ORDER BY `creation` ASC;""", as_dict=True
         )
 
         for acc in accounts:
@@ -29,9 +28,7 @@ def execute():
                         MAX(account_serial) AS maxi
                     FROM
                         tabAccount
-                    WHERE 
-                        company = %s
-                            AND parent_account IS NULL;""", (account.company,), as_dict=True)
+                    WHERE parent_account IS NULL;""", as_dict=True)
             if len(last_existing_serial) == 0:
                 # last_existing_serial = 0
                 next_serial = 1
@@ -51,8 +48,7 @@ def execute():
 
         accounts = frappe.db.sql(
             """SELECT `name` FROM 
-            `tabAccount` WHERE `company` = %(company)s AND `parent_account` IS NOT NULL ORDER BY `creation` ASC;""",
-            dict(company=company), as_dict=True
+            `tabAccount` WHERE  `parent_account` IS NOT NULL ORDER BY `creation` ASC;""", as_dict=True
         )
 
         for acc in accounts:
@@ -72,8 +68,7 @@ def execute():
     FROM
         tabAccount
     WHERE 
-        company = %s
-            AND parent_account = %s
+         parent_account = %s
             )
             ORDER BY `creation` ASC LIMIT 1;""", (account.company, account.parent_account), as_dict=True)
 
