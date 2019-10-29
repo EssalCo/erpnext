@@ -43,6 +43,8 @@ def execute():
                 next_serial_str,
                 account.name
             ))
+            print str(next_serial)
+            print str(next_serial_str)
             update_children_serials(account.name)
 
         #######################
@@ -91,7 +93,6 @@ def update_children_serials(parent_account):
             next_serial = last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(parent_serial_x, next_serial)
         else:
-            print last_existing_serial
             _last_existing_serial = int(last_existing_serial[0].account_serial)
             next_serial = _last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(last_existing_serial[0].account_serial_x, next_serial)
