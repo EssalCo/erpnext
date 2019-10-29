@@ -12,7 +12,7 @@ def execute():
     company = "شركة ابعاد فنية للمقاولات"
     accounts = frappe.db.sql(
         """SELECT `name` FROM 
-        `tabAccount` WHERE `company` = %(company)s ORDER BY `creation` DESC;""", dict(company=company), as_dict=True
+        `tabAccount` WHERE `company` = %(company)s ORDER BY `creation` ASC;""", dict(company=company), as_dict=True
     )
 
     for acc in accounts:
@@ -67,9 +67,10 @@ def execute():
             # send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
 
             frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}'
-            AND `account_serial_x` = '{1}'""".format(
+            AND `account_serial_x` = '{1}' WHERE `name` = '{2}'""".format(
                 int(next_serial_str.replace(".", "").replace("#", "")),
-                next_serial_str
+                next_serial_str,
+                account.name
             ))
             # self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
             # self.account_serial_x = next_serial_str
