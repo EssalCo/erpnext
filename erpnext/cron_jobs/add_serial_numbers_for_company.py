@@ -2,9 +2,6 @@
 
 from __future__ import unicode_literals
 
-import math
-from datetime import datetime, timedelta
-
 import frappe
 
 
@@ -13,7 +10,8 @@ def execute():
 
     accounts = frappe.db.sql(
         """SELECT `name` FROM 
-        `tabAccount` WHERE `company` = %(company)s AND `parent_account` IS NULL ORDER BY `creation` ASC;""", dict(company=company), as_dict=True
+        `tabAccount` WHERE `company` = %(company)s AND `parent_account` IS NULL ORDER BY `creation` ASC;""",
+        dict(company=company), as_dict=True
     )
 
     for acc in accounts:
@@ -55,7 +53,6 @@ def execute():
         #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
         #     return
 
-
         # send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
 
         last_existing_serial = frappe.db.sql("""SELECT account_serial, account_serial_x, name FROM
@@ -69,16 +66,16 @@ WHERE
     company = %s
         AND parent_account = %s
         )
-        ORDER BY `creation` ASC;""", (account.company, account.parent_account), as_dict=True)
+        ORDER BY `creation` ASC LIMIT 1;""", (account.company, account.parent_account), as_dict=True)
 
         if len(last_existing_serial) == 0:
             parent_serial, parent_serial_x = frappe.db.get_value(
                 "Account",
                 account.parent_account,
                 [
-                "account_serial_x",
+                    "account_serial_x",
                     "account_serial"
-                    ]
+                ]
             )
             last_existing_serial = int(parent_serial) * 100
             next_serial = last_existing_serial + 1
@@ -91,7 +88,7 @@ WHERE
 
             # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
             # next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
-    # send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
+        # send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
 
         frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}'
         AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
@@ -103,5 +100,5 @@ WHERE
     # self.account_serial_x = next_serial_str
     # except Exception as e:
     #     print str(e)
-        # account.get_account_serial()
-        # account.save(ignore_permissions=True)
+    # account.get_account_serial()
+    # account.save(ignore_permissions=True)
