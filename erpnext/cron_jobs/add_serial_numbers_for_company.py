@@ -70,7 +70,7 @@ def execute():
     WHERE 
          parent_account = %s
             )
-            ORDER BY `creation` ASC LIMIT 1;""", (account.company, account.parent_account), as_dict=True)
+            ORDER BY `creation` ASC LIMIT 1;""", (account.parent_account,), as_dict=True)
 
             if len(last_existing_serial) == 0:
                 parent_serial, parent_serial_x = frappe.db.get_value(
