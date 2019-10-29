@@ -83,7 +83,7 @@ def update_children_serials(parent_account):
                 ORDER BY `creation` ASC LIMIT 1;""", (account.parent_account,), as_dict=True)
 
         if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
-            parent_serial, parent_serial_x = frappe.db.get_value(
+            parent_serial_x, parent_serial = frappe.db.get_value(
                 "Account",
                 account.parent_account,
                 [
@@ -91,6 +91,9 @@ def update_children_serials(parent_account):
                     "account_serial"
                 ]
             )
+            print "Child"
+            print parent_serial
+            print parent_serial_x
             last_existing_serial = int(parent_serial) * 100
             next_serial = last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(parent_serial_x, next_serial)
