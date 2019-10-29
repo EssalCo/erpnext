@@ -21,7 +21,7 @@ def execute():
                 FROM
                     tabAccount
                 WHERE 
-                     parent_account IS NULL;""", (account.company,), as_dict=True)
+                     parent_account IS NULL;""", as_dict=True)
         if len(last_existing_serial) == 0:
             # last_existing_serial = 0
             next_serial = 1
