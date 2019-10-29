@@ -72,17 +72,21 @@ WHERE
         ORDER BY `creation` ASC;""", (account.company, account.parent_account), as_dict=True)
 
         if len(last_existing_serial) == 0:
-            parent_serial = frappe.db.get_value(
+            parent_serial, parent_serial_x = frappe.db.get_value(
                 "Account",
                 account.parent_account,
-                "account_serial"
+                [
+                "account_serial_x",
+                    "account_serial"
+                    ]
             )
-            last_existing_serial = parent_serial * 100
+            last_existing_serial = int(parent_serial) * 100
             next_serial = last_existing_serial + 1
-            next_serial_str = "{0}.{1}".format(parent_serial, 1)
+            next_serial_str = "{0}.{1}".format(parent_serial_x, next_serial)
         else:
-            last_existing_serial = last_existing_serial[0].account_serial
-            next_serial = last_existing_serial[0].account_serial + 1
+            print last_existing_serial
+            _last_existing_serial = int(last_existing_serial[0].account_serial)
+            next_serial = _last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(last_existing_serial[0].account_serial_x, next_serial)
 
             # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
