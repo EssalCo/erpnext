@@ -81,9 +81,9 @@ WHERE
             next_serial = last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(parent_serial, 1)
         else:
-            last_existing_serial = last_existing_serial.account_serial
-            next_serial = last_existing_serial + 1
-            next_serial_str = "{0}.{1}".format(last_existing_serial.account_serial_x, next_serial)
+            last_existing_serial = last_existing_serial[0].account_serial
+            next_serial = last_existing_serial[0].account_serial + 1
+            next_serial_str = "{0}.{1}".format(last_existing_serial[0].account_serial_x, next_serial)
 
             # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
             # next_serial_str = "{0}.{1}".format(parent_serial, int(trimmed_serial) + 1)
