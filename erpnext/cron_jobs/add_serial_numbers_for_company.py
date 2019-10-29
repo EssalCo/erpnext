@@ -34,7 +34,7 @@ def execute():
                 next_serial = 1
                 next_serial_str = "#1"
             else:
-                last_existing_serial = last_existing_serial[0].maxi
+                last_existing_serial = last_existing_serial[0].maxi or 0
                 next_serial = last_existing_serial + 1
                 next_serial_str = "#{0}".format(last_existing_serial + 1)
             frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}'
@@ -43,6 +43,7 @@ def execute():
                 next_serial_str,
                 account.name
             ))
+            print "PARENT"
             print str(next_serial)
             print str(next_serial_str)
             update_children_serials(account.name)
