@@ -15,8 +15,8 @@ def execute():
         ignore_permissions=True
     )
 
-    for company in companies:
-
+    for _company in companies:
+        company = company.name
         accounts = frappe.db.sql(
             """SELECT `name`, `company` FROM 
             `tabAccount` WHERE `company` = "شركة ابعاد فنية للمقاولات" AND (`parent_account` IS NULL OR `parent_account` = '') ORDER BY `creation` ASC;""",
