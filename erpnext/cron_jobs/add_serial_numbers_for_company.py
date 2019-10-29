@@ -29,7 +29,7 @@ def execute():
                     FROM
                         tabAccount
                     WHERE parent_account IS NULL;""", as_dict=True)
-            if len(last_existing_serial) == 0:
+            if len(last_existing_serial) == 0 or not last_existing_serial[0].maxi:
                 # last_existing_serial = 0
                 next_serial = 1
                 next_serial_str = "#1"
@@ -43,6 +43,7 @@ def execute():
                 next_serial_str,
                 account.name
             ))
+            frappe.db.commit()
             print "PARENT"
             print str(next_serial)
             print str(next_serial_str)
@@ -81,7 +82,7 @@ def update_children_serials(parent_account):
                 )
                 ORDER BY `creation` ASC LIMIT 1;""", (account.parent_account,), as_dict=True)
 
-        if len(last_existing_serial) == 0:
+        if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
             parent_serial, parent_serial_x = frappe.db.get_value(
                 "Account",
                 account.parent_account,
@@ -109,6 +110,7 @@ def update_children_serials(parent_account):
             next_serial_str,
             account.name
         ))
+        frappe.db.commit()
 
         update_children_serials(account.name)
     # self.account_serial = int(next_serial_str.replace(".", "").replace("#", ""))
