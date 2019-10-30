@@ -249,7 +249,9 @@ class Account(NestedSet):
             self.account_serial = next_serial
             self.account_serial_x = next_serial_str
         except:
-            pass
+            import traceback
+            send_msg_telegram(traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
+
 
 def get_parent_account(doctype, txt, searchfield, start, page_len, filters):
     return frappe.db.sql("""select name from tabAccount
