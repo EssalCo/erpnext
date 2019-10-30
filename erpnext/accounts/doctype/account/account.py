@@ -31,7 +31,11 @@ class Account(NestedSet):
 
     def before_insert(self):
         #send_msg_telegram("before insert " + str( self.account_serial) + str(self.account_serial_x))
-        self.get_account_serial()
+        serial = self.account_name.split(" -")[0]
+        if serial.is_digit()
+            self.account_serial = serial
+        else:
+            self.get_account_serial()
         #send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
 
 
