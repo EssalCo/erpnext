@@ -36,6 +36,8 @@ class Account(NestedSet):
             self.account_serial = serial
         else:
             self.get_account_serial()
+            if self.account_serial and not serial.isdigit():
+                self.account_name = "{0} - {1}".format(self.account_serial, self.account_name)
         #send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
 
 
