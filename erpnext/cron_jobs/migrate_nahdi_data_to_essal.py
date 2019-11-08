@@ -44,11 +44,8 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            print(type(row[1]))
             name = str(row[1])
-            print(type(name))
-            print(name)
-            print (str(serial_no))
+
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
@@ -65,7 +62,7 @@ def execute():
             doc.insert(ignore_permissions=True)
 
     print("Done owners..")
-
+    frappe.db.commit()
     print("Start Payments..")
     current_file = get_file_path(payment)
 
@@ -173,6 +170,7 @@ def execute():
             print journal_entry.name
 
     print("Done payment..")
+    frappe.db.commit()
 
     print("Start Payments details..")
     current_file = get_file_path(payment_details)
@@ -295,3 +293,4 @@ def execute():
 
             print journal_entry.name
     print("Done payment details..")
+    frappe.db.commit()
