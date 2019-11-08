@@ -10,11 +10,10 @@ sys.path.append('../..')
 import csv
 from frappe.utils.file_manager import get_file_path
 from datetime import datetime
-from umalqurra.hijri_date import HijriDate
-
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def execute():
-
     payment_details = "/private/files/payment_details.csv"
     payment = "/private/files/payment.csv"
     owners = "/private/files/owners.csv"
@@ -44,8 +43,6 @@ def execute():
             try:
                 serial_no = int(row[0])
             except:
-                continue
-            if not serial_no:
                 continue
             print(type(row[1]))
             name = str(row[1])
@@ -80,8 +77,7 @@ def execute():
                 serial_no = int(row[0])
             except:
                 continue
-            if not serial_no:
-                continue
+
             post_date = row[1]
             post_date = datetime.strptime(
                 str(post_date), '%Y/%m/%d'
@@ -180,18 +176,22 @@ def execute():
 
     print("Start Payments details..")
     current_file = get_file_path(payment_details)
-
+    counter = 1
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
             # print row
-            try:
-                serial_no = int(row[0])
-            except:
-                continue
+            if row[0]:
+                try:
+                    serial_no = int(row[0])
+                except:
+                    continue
+            else:
+                pass
             if not serial_no:
                 continue
-            serial_no = "{:05d}".format(serial_no)
+            serial_no = "{:05d}".format(counter)
+            counter += 1
             post_date = row[1]
             post_date = datetime.strptime(
                 str(post_date), '%Y/%m/%d'
