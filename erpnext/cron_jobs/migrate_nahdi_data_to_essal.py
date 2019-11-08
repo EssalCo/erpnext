@@ -98,7 +98,7 @@ def execute():
             account_name = frappe.get_value(
                 "Account",
                 dict(
-                    parent=
+                    parent=parent_account
                 )
             )
             journal_entry = frappe.get_doc(
