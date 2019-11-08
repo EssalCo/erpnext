@@ -47,7 +47,10 @@ def execute():
                 continue
             if not serial_no:
                 continue
+            print(type(row[1]))
             name = str(row[1])
+            print(type(name))
+            print(name)
             print (str(serial_no))
             doc = frappe.get_doc(
                 dict(
@@ -57,9 +60,8 @@ def execute():
                     company=company.name,
                     is_group=0,
                     # account_currency="SAR",
-                    parent_account="Debtors - N",
-                    report_type="Balance Sheet",
-                    root_type="Expense"
+                    parent_account=parent_account,
+                    report_type="Balance Sheet"
                 )
             )
             doc.flags.ignore_mandatory = True
