@@ -132,7 +132,8 @@ def execute():
                     third_party_creation=post_date,
                     accounts=[],
                     is_opening="No",
-                    cheque_no=cheq
+                    cheque_no=cheq,
+                    cheque_date=post_date
                 )
             )
 
