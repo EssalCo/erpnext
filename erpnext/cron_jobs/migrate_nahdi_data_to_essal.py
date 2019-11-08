@@ -47,7 +47,7 @@ def execute():
                 continue
             if not serial_no:
                 continue
-            name = row[1]
+            name = unicode(row[1])
             print (str(serial_no))
             doc = frappe.get_doc(
                 dict(
