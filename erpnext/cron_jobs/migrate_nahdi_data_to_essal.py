@@ -35,7 +35,7 @@ def execute():
         "name"
     )
 
-    cash_account = " 3030601 - نقد - N"
+    cash_account = "3030601 - نقد - N"
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
