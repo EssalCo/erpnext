@@ -133,7 +133,7 @@ def execute():
                     accounts=[],
                     is_opening="No",
                     cheque_no=cheq,
-                    cheque_date=post_date
+                    cheque_date=post_date if cheq else None
                 )
             )
 
