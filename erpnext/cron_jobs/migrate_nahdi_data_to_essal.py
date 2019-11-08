@@ -47,7 +47,7 @@ def execute():
                 continue
             if not serial_no:
                 continue
-            name = unicode(row[1])
+            name = str(row[1])
             print (str(serial_no))
             doc = frappe.get_doc(
                 dict(
@@ -84,16 +84,16 @@ def execute():
             post_date = datetime.strptime(
                 str(post_date), '%Y/%m/%d'
             )
-            account_no = row[2]
+            account_no = str(row[2])
             value_1 = float(row[3])
             value_2 = float(row[4])
             value_3 = float(row[5])
             value_4 = float(row[6])
-            cheq = row[7]
-            bank = row[8]
-            remark = row[9]
-            pay_name = row[10]
-            receipt_no = row[11]
+            cheq = str(row[7])
+            bank = str(row[8])
+            remark = str(row[9])
+            pay_name = str(row[10])
+            receipt_no = str(row[11])
             total = value_1 + value_2 + value_3 + value_4
             remark_str = ""
             if cheq:
@@ -196,14 +196,14 @@ def execute():
             )
             total = float(row[2])
 
-            account_no = row[3]
-            pay_no = row[4]
-            serialno = row[5]
-            remark = row[6]
-            moa_no_name = row[7]
-            pay_name = row[8]
-            akar_no = row[9]
-            akar_address = row[10]
+            account_no = str(row[3])
+            pay_no = str(row[4])
+            serialno = str(row[5])
+            remark = str(row[6])
+            moa_no_name = str(row[7])
+            pay_name = str(row[8])
+            akar_no = str(row[9])
+            akar_address = str(row[10])
 
             remark_str = ""
             if pay_no:
