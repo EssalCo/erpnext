@@ -117,7 +117,6 @@ def execute():
                     name=("like", "{0} -%".format(account_no))
                 )
             )
-            print account_name
             journal_entry = frappe.get_doc(
                 dict(
                     doctype="Journal Entry",
