@@ -16,7 +16,7 @@ from umalqurra.hijri_date import HijriDate
 def execute():
 
     frappe.db.sql("""UPDATE
-    tabAccount set name = replace(name, "ت", "")""")
+    tabAccount set name = replace(name, "Nت", "")""")
 
     return
     payment_details = "/private/files/payment_details.csv"
