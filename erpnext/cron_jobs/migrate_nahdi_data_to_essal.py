@@ -36,32 +36,32 @@ def execute():
     )
 
     cash_account = "3030601 - نقد - N"
-    with open(current_file, 'rb') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
-        for row in spamreader:
-            # print row
-            try:
-                serial_no = int(row[0])
-            except:
-                continue
-            name = str(row[1])
-
-            doc = frappe.get_doc(
-                dict(
-                    doctype="Account",
-                    account_name="{0} - {1}".format(serial_no, name),
-                    account_number=None,
-                    company=company.name,
-                    is_group=0,
-                    # account_currency="SAR",
-                    parent_account=parent_account,
-                    report_type="Balance Sheet"
-                )
-            )
-            doc.flags.ignore_mandatory = True
-            doc.insert(ignore_permissions=True)
-
-    print("Done owners..")
+    # with open(current_file, 'rb') as csvfile:
+    #     spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
+    #     for row in spamreader:
+    #         # print row
+    #         try:
+    #             serial_no = int(row[0])
+    #         except:
+    #             continue
+    #         name = str(row[1])
+    #
+    #         doc = frappe.get_doc(
+    #             dict(
+    #                 doctype="Account",
+    #                 account_name="{0} - {1}".format(serial_no, name),
+    #                 account_number=None,
+    #                 company=company.name,
+    #                 is_group=0,
+    #                 # account_currency="SAR",
+    #                 parent_account=parent_account,
+    #                 report_type="Balance Sheet"
+    #             )
+    #         )
+    #         doc.flags.ignore_mandatory = True
+    #         doc.insert(ignore_permissions=True)
+    #
+    # print("Done owners..")
     frappe.db.commit()
     print("Start Payments..")
     current_file = get_file_path(payment)
@@ -114,9 +114,10 @@ def execute():
                 "Account",
                 dict(
                     parent=parent_account,
-                    name=("like", "%- {0} -%".format(account_no))
+                    name=("like", "{0} -%".format(account_no))
                 )
             )
+            print account_name
             journal_entry = frappe.get_doc(
                 dict(
                     doctype="Journal Entry",
@@ -237,7 +238,7 @@ def execute():
                 "Account",
                 dict(
                     parent=parent_account,
-                    name=("like", "%- {0} -%".format(account_no))
+                    name=("like", "{0} -%".format(account_no))
                 )
             )
             journal_entry = frappe.get_doc(
