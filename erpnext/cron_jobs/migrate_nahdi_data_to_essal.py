@@ -114,7 +114,7 @@ def execute():
                 "Account",
                 dict(
                     parent_account=parent_account,
-                    name=("like", "{0}%".format(account_no))
+                    name=("like", "{0} -%".format(account_no))
                 )
             )
             print account_name
@@ -237,7 +237,7 @@ def execute():
             account_name = frappe.get_value(
                 "Account",
                 dict(
-                    parent=parent_account,
+                    parent_account=parent_account,
                     name=("like", "{0} -%".format(account_no))
                 )
             )
