@@ -114,7 +114,7 @@ def execute():
                 "Account",
                 dict(
                     parent=parent_account,
-                    name=("like", "{0} -%".format(account_no))
+                    name=("like", "{0}%".format(account_no))
                 )
             )
             print account_name
