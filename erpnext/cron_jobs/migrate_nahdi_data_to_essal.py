@@ -48,7 +48,7 @@ def execute():
             if not serial_no:
                 continue
             name = row[1]
-            print ("{0} - {1}".format(serial_no, name))
+            print (str(serial_no))
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
