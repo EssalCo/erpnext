@@ -109,7 +109,7 @@ def execute():
                 if remark_str:
                     remark_str += ", "
                 remark_str = remark_str + "RCP_NO: {0}".format(receipt_no)
-
+            print(str(account_no))
             account_name = frappe.get_value(
                 "Account",
                 dict(
