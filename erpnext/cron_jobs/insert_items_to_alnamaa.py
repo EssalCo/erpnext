@@ -39,7 +39,7 @@ def execute():
                     "name"
                 )
             else:
-                parent_item = None
+                parent_item = "مجموعات جميع الاصناف"
             if item_type != "جزئى/تحليلى":
 
                 doc = frappe.get_doc(
