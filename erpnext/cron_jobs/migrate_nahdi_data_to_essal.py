@@ -222,7 +222,7 @@ def execute():
                     continue
             else:
                 pass
-            if not serial_no:
+            if not row[1]:
                 continue
             serial_no = "{:06d}".format(counter)
             if frappe.db.exists(
