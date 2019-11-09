@@ -142,13 +142,14 @@ def execute():
                 ),
                 "name"
             )
-            if prev and int(serial_no) < 1700:
-                frappe.db.set_value(
-                    "Journal Entry",
-                    prev,
-                    "remark",
-                    remark_str
-                )
+            if int(serial_no) < 20021:
+                pass
+                # frappe.db.set_value(
+                #     "Journal Entry",
+                #     prev,
+                #     "remark",
+                #     remark_str
+                # )
             else:
                 journal_entry = frappe.get_doc(
                     dict(
@@ -327,5 +328,7 @@ def execute():
             journal_entry.submit()
 
             print journal_entry.name
+            frappe.db.commit()
+
     print("Done payment details..")
     frappe.db.commit()
