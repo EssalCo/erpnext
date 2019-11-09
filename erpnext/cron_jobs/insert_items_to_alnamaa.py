@@ -32,6 +32,7 @@ def execute():
             item_type = row[3].decode('utf-8')
             # children_units = int(row[4])
             parent_item = int(row[6]) if row[6] else None
+            parent_name = row[7].decode('utf-8')
 
             if serial_no == 1015218 and parent_item == 1015218:
                 parent_item = "10152"
@@ -47,6 +48,18 @@ def execute():
                     ),
                     "name"
                 )
+
+                if not parent_item:
+                    doc = frappe.get_doc(
+                        dict(
+                            doctype="Item Group",
+                            item_group_name="{0} - {1}".format(parent_item, parent_name),
+                            parent_item_group="مجموعات جميع الاصناف",
+                            is_group=1
+                        )
+                    )
+                    doc.flags.ignore_mandatory = True
+                    doc.insert(ignore_permissions=True)
             else:
                 parent_item = "مجموعات جميع الاصناف"
 
