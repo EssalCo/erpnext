@@ -30,6 +30,9 @@ def execute():
             item_type = row[3].decode('utf-8')
             # children_units = int(row[4])
             parent_item = int(row[6]) if row[6] else None
+
+            if item_name == "1015218" and parent_item == "1015218":
+                parent_item = "10152"
             if parent_item:
                 parent_item = frappe.get_value(
                     "Item Group",
