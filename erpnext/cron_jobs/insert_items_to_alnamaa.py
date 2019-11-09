@@ -12,6 +12,31 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
+
+    items_groups = frappe.get_list(
+        "Item Group",
+        filters=dict(
+
+        ),
+        ignore_ifnull=True,
+        ignore_permissions=True
+    )
+
+    for item_group in items_groups:
+        count = frappe.db.count(
+            "Item Group",
+            dict(
+                parent_item_group=item_group.name
+            )
+        )
+        if count == 0:
+            frappe.db.set_value(
+                "Item Group",
+                item_group.name,
+                "is_group",
+                0
+            )
+    return
     items = "/private/files/items.csv"
 
     print("Starting Items..")
