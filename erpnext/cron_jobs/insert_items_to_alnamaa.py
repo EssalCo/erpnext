@@ -35,8 +35,8 @@ def execute():
 
             if serial_no == 1015218 and parent_item == 1015218:
                 parent_item = "10152"
-            if serial_no == 10192 and parent_item == 1019:
-                parent_item = "10152"
+            if serial_no == 10192 and parent_item == 10192:
+                parent_item = "1019"
             print serial_no
             print  parent_item
             if parent_item:
