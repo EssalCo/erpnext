@@ -59,6 +59,7 @@ def execute():
                 )
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
+                print doc.name
             else:
                 doc = frappe.get_doc(
                     dict(
@@ -71,3 +72,5 @@ def execute():
                 )
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
+
+                print doc.name
