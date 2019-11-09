@@ -33,7 +33,7 @@ def execute():
             # children_units = int(row[4])
             parent_item = int(row[6]) if row[6] else None
 
-            if str(serial_no) == "1015218" and parent_item == "1015218":
+            if serial_no == 1015218 and parent_item == 1015218:
                 parent_item = "10152"
             print serial_no
             print  parent_item
