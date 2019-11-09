@@ -142,7 +142,7 @@ def execute():
                 ),
                 "name"
             )
-            if int(serial_no) < prev:
+            if int(serial_no) < 34441 and prev:
                 pass
                 # frappe.db.set_value(
                 #     "Journal Entry",
