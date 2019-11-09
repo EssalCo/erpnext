@@ -60,6 +60,7 @@ def execute():
                     )
                     doc.flags.ignore_mandatory = True
                     doc.insert(ignore_permissions=True)
+                    parent_item = doc.name
             else:
                 parent_item = "مجموعات جميع الاصناف"
 
