@@ -38,8 +38,10 @@ def execute():
                 parent_item = "10152"
             if serial_no == 10192 and parent_item == 10192:
                 parent_item = "1019"
+            if serial_no == 1022306 and not parent_item:
+                parent_item = "10223"
             print serial_no
-            print  parent_item
+            print parent_item
             if parent_item:
                 parent_item = frappe.get_value(
                     "Item Group",
@@ -53,7 +55,7 @@ def execute():
                     doc = frappe.get_doc(
                         dict(
                             doctype="Item Group",
-                            item_group_name="{0} - {1}".format(parent_item, parent_name),
+                            item_group_name="{0} - {1}".format(int(row[6]), parent_name),
                             parent_item_group="مجموعات جميع الاصناف",
                             is_group=1
                         )
