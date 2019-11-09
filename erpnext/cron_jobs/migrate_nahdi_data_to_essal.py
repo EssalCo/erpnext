@@ -186,6 +186,7 @@ def execute():
             journal_entry.submit()
 
             print journal_entry.name
+            frappe.db.commit()
 
     print("Done payment..")
     frappe.db.commit()
