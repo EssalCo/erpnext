@@ -142,7 +142,7 @@ def execute():
                 ),
                 "name"
             )
-            if int(serial_no) < 20021:
+            if int(serial_no) < prev:
                 pass
                 # frappe.db.set_value(
                 #     "Journal Entry",
@@ -224,7 +224,7 @@ def execute():
                 pass
             if not serial_no:
                 continue
-            serial_no = "{:05d}".format(counter)
+            serial_no = "{:06d}".format(counter)
             counter += 1
             post_date = row[1]
             post_date = datetime.strptime(
