@@ -29,18 +29,21 @@ def execute():
             )
         )
         if count == 0:
-            doc = frappe.get_doc(
-                dict(
-                    doctype="Item",
-                    naming_series="ITEM-",
-                    item_code=item_group.name.split(" - ")[0],
-                    item_name=item_group.name.split(" - ")[1],
-                    item_group=item_group.name
+            try:
+                doc = frappe.get_doc(
+                    dict(
+                        doctype="Item",
+                        naming_series="ITEM-",
+                        item_code=item_group.name.split(" - ")[0],
+                        item_name=item_group.name.split(" - ")[1],
+                        item_group=item_group.name
+                    )
                 )
-            )
-            doc.flags.ignore_mandatory = True
-            doc.insert(ignore_permissions=True)
-            print item_group.name.split(" - ")[0]
+                doc.flags.ignore_mandatory = True
+                doc.insert(ignore_permissions=True)
+                print item_group.name.split(" - ")[0]
+            except:
+                pass
     ###############
     return
     items_groups = frappe.get_list(
