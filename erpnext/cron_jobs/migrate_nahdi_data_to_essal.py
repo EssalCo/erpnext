@@ -134,58 +134,74 @@ def execute():
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
                 account_name = doc.name
-            journal_entry = frappe.get_doc(
+            prev = frappe.get_value(
+                "Journal Entry",
                 dict(
-                    doctype="Journal Entry",
-                    title=str(serial_no),
-                    voucher_type="Journal Entry",
-                    naming_series="JV-",
-                    posting_date=post_date,
-                    company=company.name,
-                    user_remark=remark,
-                    multi_currency=0,
-                    remark=remark_str,
-                    bill_date=datetime.now(),
-                    third_party_creation=post_date,
-                    accounts=[],
-                    is_opening="No",
-                    cheque_no=cheq,
-                    cheque_date=post_date if cheq else None
-                )
+
+                    title=str(serial_no)
+                ),
+                "name"
             )
+            if prev and int(serial_no) < 1700:
+                frappe.db.set_value(
+                    "Journal Entry",
+                    prev,
+                    "remark",
+                    remark_str
+                )
+            else:
+                journal_entry = frappe.get_doc(
+                    dict(
+                        doctype="Journal Entry",
+                        title=str(serial_no),
+                        voucher_type="Journal Entry",
+                        naming_series="JV-",
+                        posting_date=post_date,
+                        company=company.name,
+                        user_remark=remark,
+                        multi_currency=0,
+                        remark=remark_str,
+                        bill_date=datetime.now(),
+                        third_party_creation=post_date,
+                        accounts=[],
+                        is_opening="No",
+                        cheque_no=cheq,
+                        cheque_date=post_date if cheq else None
+                    )
+                )
 
-            journal_entry.append("accounts", dict(
-                account=cash_account,
-                against_account=account_name,
-                title=remark,
-                exchange_rate=1,
-                debit_in_account_currency=abs(total),
-                debit=abs(total),
-                journal_note=remark,
-                credit_in_account_currency=abs(0),
-                credit=abs(0),
-                is_advance="No",
-                cost_center=main_cost_center
-            ))
-            journal_entry.append("accounts", dict(
-                party_type="Company",
-                party=company.name,
-                account=account_name,
-                title=remark,
-                exchange_rate=1,
-                debit_in_account_currency=0,
-                debit=0,
-                journal_note=remark,
-                credit_in_account_currency=abs(total),
-                credit=abs(total),
-                is_advance="No",
-                cost_center=main_cost_center
-            ))
-            journal_entry.flags.ignore_permissions = True
+                journal_entry.append("accounts", dict(
+                    account=cash_account,
+                    against_account=account_name,
+                    title=remark,
+                    exchange_rate=1,
+                    debit_in_account_currency=abs(total),
+                    debit=abs(total),
+                    journal_note=remark,
+                    credit_in_account_currency=abs(0),
+                    credit=abs(0),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
+                journal_entry.append("accounts", dict(
+                    party_type="Company",
+                    party=company.name,
+                    account=account_name,
+                    title=remark,
+                    exchange_rate=1,
+                    debit_in_account_currency=0,
+                    debit=0,
+                    journal_note=remark,
+                    credit_in_account_currency=abs(total),
+                    credit=abs(total),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
+                journal_entry.flags.ignore_permissions = True
 
-            journal_entry.submit()
+                journal_entry.submit()
 
-            print journal_entry.name
+                print journal_entry.name
             frappe.db.commit()
 
     print("Done payment..")

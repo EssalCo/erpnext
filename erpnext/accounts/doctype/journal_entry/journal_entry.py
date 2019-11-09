@@ -413,7 +413,7 @@ class JournalEntry(AccountsController):
         if self.user_remark:
             r.append(_("Note: {0}").format(self.user_remark))
 
-        if r:
+        if r and not self.remark:
             self.remark = ("\n").join(r)  # User Remarks is not mandatory
 
     def set_print_format_fields(self):
