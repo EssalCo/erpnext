@@ -52,7 +52,7 @@ def execute():
                 )
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
-                print doc.name
+                print serial_no
             else:
                 doc = frappe.get_doc(
                     dict(
@@ -66,4 +66,4 @@ def execute():
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
 
-                print doc.name
+                print serial_no
