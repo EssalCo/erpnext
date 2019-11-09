@@ -12,7 +12,36 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
+    items_groups = frappe.get_list(
+        "Item Group",
+        filters=dict(
 
+        ),
+        ignore_ifnull=True,
+        ignore_permissions=True
+    )
+
+    for item_group in items_groups:
+        count = frappe.db.count(
+            "Item",
+            dict(
+                item_group=item_group.name
+            )
+        )
+        if count == 0:
+            doc = frappe.get_doc(
+                dict(
+                    doctype="Item",
+                    naming_series="ITEM-",
+                    item_code=item_group.name.split(" - ")[0],
+                    item_name=item_group.name.split(" - ")[1],
+                    item_group=item_group.name
+                )
+            )
+            doc.flags.ignore_mandatory = True
+            doc.insert(ignore_permissions=True)
+    ###############
+    return
     items_groups = frappe.get_list(
         "Item Group",
         filters=dict(
