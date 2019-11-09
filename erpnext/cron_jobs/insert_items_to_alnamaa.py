@@ -40,6 +40,7 @@ def execute():
             )
             doc.flags.ignore_mandatory = True
             doc.insert(ignore_permissions=True)
+            print item_group.name.split(" - ")[0]
     ###############
     return
     items_groups = frappe.get_list(
