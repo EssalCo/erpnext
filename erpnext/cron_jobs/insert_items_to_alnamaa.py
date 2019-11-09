@@ -58,7 +58,7 @@ def execute():
                     dict(
                         doctype="Item",
                         naming_series="ITEM-",
-                        item_code=serial_no,
+                        item_code=str(serial_no),
                         item_name=item_name,
                         item_group=parent_item
                     )
