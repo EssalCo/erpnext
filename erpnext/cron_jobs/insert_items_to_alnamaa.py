@@ -14,13 +14,6 @@ from frappe.utils.file_manager import get_file_path
 def execute():
     items = "/private/files/items.csv"
 
-    company = frappe.get_doc(
-        "Company",
-        dict(
-            company_name="ALNAMAA"
-        )
-    )
-
     print("Starting Items..")
 
     current_file = get_file_path(items)
@@ -29,14 +22,14 @@ def execute():
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
             try:
-                serial_no = int(row[0])
+                serial_no = int(row[1])
             except:
                 continue
             # print row
-            item_name = row[1].decode('utf-8')
-            item_type = row[2].decode('utf-8')
+            item_name = row[2].decode('utf-8')
+            item_type = row[3].decode('utf-8')
             # children_units = int(row[4])
-            parent_item = int(row[5]) if row[5] else None
+            parent_item = int(row[6]) if row[6] else None
             if parent_item:
                 parent_item = frappe.get_value(
                     "Item Group",
