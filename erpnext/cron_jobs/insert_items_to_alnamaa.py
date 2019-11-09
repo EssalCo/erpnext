@@ -35,6 +35,8 @@ def execute():
 
             if item_name == "1015218" and parent_item == "1015218":
                 parent_item = "10152"
+            print item_name
+            print  parent_item
             if parent_item:
                 parent_item = frappe.get_value(
                     "Item Group",
@@ -45,6 +47,7 @@ def execute():
                 )
             else:
                 parent_item = "مجموعات جميع الاصناف"
+
             if item_type != "جزئى/تحليلى":
 
                 doc = frappe.get_doc(
