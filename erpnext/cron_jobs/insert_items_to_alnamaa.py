@@ -12,64 +12,64 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
-    items_groups = frappe.get_list(
-        "Item Group",
-        filters=dict(
-
-        ),
-        ignore_ifnull=True,
-        ignore_permissions=True
-    )
-
-    for item_group in items_groups:
-        count = frappe.db.count(
-            "Item",
-            dict(
-                item_group=item_group.name
-            )
-        )
-        if count == 0:
-            try:
-                doc = frappe.get_doc(
-                    dict(
-                        doctype="Item",
-                        naming_series="ITEM-",
-                        item_code=item_group.name.split(" - ")[0],
-                        item_name=item_group.name.split(" - ")[1],
-                        item_group=item_group.name
-                    )
-                )
-                doc.flags.ignore_mandatory = True
-                doc.insert(ignore_permissions=True)
-                print item_group.name.split(" - ")[0]
-            except:
-                pass
-    ###############
-    return
-    items_groups = frappe.get_list(
-        "Item Group",
-        filters=dict(
-
-        ),
-        ignore_ifnull=True,
-        ignore_permissions=True
-    )
-
-    for item_group in items_groups:
-        count = frappe.db.count(
-            "Item Group",
-            dict(
-                parent_item_group=item_group.name
-            )
-        )
-        if count == 0:
-            frappe.db.set_value(
-                "Item Group",
-                item_group.name,
-                "is_group",
-                0
-            )
-    return
+    # items_groups = frappe.get_list(
+    #     "Item Group",
+    #     filters=dict(
+    #
+    #     ),
+    #     ignore_ifnull=True,
+    #     ignore_permissions=True
+    # )
+    #
+    # for item_group in items_groups:
+    #     count = frappe.db.count(
+    #         "Item",
+    #         dict(
+    #             item_group=item_group.name
+    #         )
+    #     )
+    #     if count == 0:
+    #         try:
+    #             doc = frappe.get_doc(
+    #                 dict(
+    #                     doctype="Item",
+    #                     naming_series="ITEM-",
+    #                     item_code=item_group.name.split(" - ")[0],
+    #                     item_name=item_group.name.split(" - ")[1],
+    #                     item_group=item_group.name
+    #                 )
+    #             )
+    #             doc.flags.ignore_mandatory = True
+    #             doc.insert(ignore_permissions=True)
+    #             print item_group.name.split(" - ")[0]
+    #         except:
+    #             pass
+    # ###############
+    # return
+    # items_groups = frappe.get_list(
+    #     "Item Group",
+    #     filters=dict(
+    #
+    #     ),
+    #     ignore_ifnull=True,
+    #     ignore_permissions=True
+    # )
+    #
+    # for item_group in items_groups:
+    #     count = frappe.db.count(
+    #         "Item Group",
+    #         dict(
+    #             parent_item_group=item_group.name
+    #         )
+    #     )
+    #     if count == 0:
+    #         frappe.db.set_value(
+    #             "Item Group",
+    #             item_group.name,
+    #             "is_group",
+    #             0
+    #         )
+    # return
     items = "/private/files/items.csv"
 
     print("Starting Items..")
@@ -125,18 +125,18 @@ def execute():
                 parent_item = "مجموعات جميع الاصناف"
 
             if item_type != "جزئى/تحليلى":
-
-                doc = frappe.get_doc(
-                    dict(
-                        doctype="Item Group",
-                        item_group_name="{0} - {1}".format(serial_no, item_name),
-                        parent_item_group=parent_item,
-                        is_group=item_type != "جزئى/تحليلى"
-                    )
-                )
-                doc.flags.ignore_mandatory = True
-                doc.insert(ignore_permissions=True)
-                print serial_no
+                pass
+                # doc = frappe.get_doc(
+                #     dict(
+                #         doctype="Item Group",
+                #         item_group_name="{0} - {1}".format(serial_no, item_name),
+                #         parent_item_group=parent_item,
+                #         is_group=item_type != "جزئى/تحليلى"
+                #     )
+                # )
+                # doc.flags.ignore_mandatory = True
+                # doc.insert(ignore_permissions=True)
+                # print serial_no
             else:
                 doc = frappe.get_doc(
                     dict(
