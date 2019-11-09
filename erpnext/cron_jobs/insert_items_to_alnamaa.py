@@ -25,6 +25,8 @@ def execute():
                 serial_no = int(row[1])
             except:
                 continue
+            if not serial_no:
+                continue
             # print row
             item_name = row[2].decode('utf-8')
             item_type = row[3].decode('utf-8')
