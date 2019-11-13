@@ -613,7 +613,6 @@ def add_transaction_v2():
 
 @frappe.whitelist(allow_guest=True)
 def add_transaction_v3():
-    return add_transaction_v2()
     # 'contract_id',
     # 'date',
     # 'transactions_list',
@@ -623,29 +622,190 @@ def add_transaction_v3():
     # 'statement'
     # 'third_party_creation'
 
-    #     x = {
-    #     "contract_id": "10",
-    #     "date": "2019-01-01",
-    #     "transactions_list": [
-    #         {
-    #             "credit_amount": 0,
-    #             "debit_amount": "100000",
-    #             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
-    #             "cost_center": "ادارة املاك - T",
-    #             "account": "مجموعة الاعمال المتعددة المحدودة - T"
-    #         },
-    #         {
-    #             "credit_amount": "100000",
-    #             "debit_amount": 0,
-    #             "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-28م",
-    #             "cost_center": "ادارة املاك - T",
-    #             "account": "صالح بن حسن بن صالح الرويتع - T"
-    #         }
-    #     ],
-    #     "company": "tamouh",
-    #     "branch": "tamouhsa",
-    #     "user_id": "3"
+    # x = {
+    #    "contract_id": "141",
+    #    "date": "2019-11-06",
+    #    "transactions_list": [
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "3000",
+    #            "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "1000",
+    #            "statement": "دفعة عن تأمين مسترد - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "50",
+    #            "statement": "ضريبة قيمة مضافة عن  ضريبة تأمين مسترد - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "1000",
+    #            "statement": "دفعة عن عمولة التأجير - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "100",
+    #            "statement": "ضريبة قيمة مضافة عن  ضريبة عمولة التأجير - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "100",
+    #            "statement": "دفعة عن صيانة و خدمات - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "5",
+    #            "statement": "ضريبة قيمة مضافة عن  ضريبة صيانة و خدمات - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "200",
+    #            "statement": "دفعة عن مصروفات كهرباء - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "300",
+    #            "statement": "دفعة عن مصروفات مياه - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "400",
+    #            "statement": "دفعة عن مصروف عقد جديد - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "100",
+    #            "statement": "مقابل عمولة تأجير عقار",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": 0,
+    #            "debit_amount": "5",
+    #            "statement": "مقابل ضريبة عمولة تأجير عقار",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Cash - AS"
+    #        },
+    #        {
+    #            "credit_amount": "3000",
+    #            "debit_amount": 0,
+    #            "statement": "مقابل دفعة إيجار - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "1000",
+    #            "debit_amount": 0,
+    #            "statement": "دفعة عن تأمين مسترد - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "50",
+    #            "debit_amount": 0,
+    #            "statement": "ضريبة قيمة مضافة عن  ضريبة تأمين مسترد - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "1000",
+    #            "debit_amount": 0,
+    #           "statement": "دفعة عن عمولة التأجير - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "100",
+    #            "debit_amount": 0,
+    #            "statement": "ضريبة قيمة مضافة عن  ضريبة عمولة التأجير - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "100",
+    #            "debit_amount": 0,
+    #            "statement": "دفعة عن صيانة و خدمات - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "5",
+    #            "debit_amount": 0,
+    #            "statement": "ضريبة قيمة مضافة عن  ضريبة صيانة و خدمات - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "200",
+    #            "debit_amount": 0,
+    #            "statement": "دفعة عن مصروفات كهرباء - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "300",
+    #            "debit_amount": 0,
+    #            "statement": "دفعة عن مصروفات مياه - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "400",
+    #            "debit_amount": 0,
+    #            "statement": "دفعة عن مصروف عقد جديد - بتاريخ 2019-06-01م",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "100",
+    #            "debit_amount": 0,
+    #            "statement": "مقابل عمولة تأجير عقار",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        },
+    #        {
+    #            "credit_amount": "5",
+    #            "debit_amount": 0,
+    #            "statement": "مقابل ضريبة عمولة تأجير عقار",
+    #            "cost_center": "رئيسي - za",
+    #            "account": "Direct Expenses - AS"
+    #        }
+    #    ],
+    #    "company": "asaastest",
+    #    "branch": "asaas",
+    #    "user_id": "5",
+    #    "contract_no": "1600019141",
+    #    "voucher_no": "1155555479",
+    #    "renter": "مستأجر 1106",
+    #    "property": "عقار 1106",
+    #    "type": "سند قبض"
     # }
+
+
     try:
         from frappe.utils import get_site_name
         site_name = get_site_name(frappe.local.request.host)
@@ -656,14 +816,43 @@ def add_transaction_v3():
             import json
             data = json.loads(data)
         contract_no = data.get('contract_no')
+        contract_id = data.get('contract_id')
         date = data.get('date')
         transactions_list = data.get('transactions_list', '[]')
         company = data.get('company')
         branch = frappe.form_dict.get('branch')
-        # user_id = data.get('user_id')
-        statement = data.get('statement', '')
+        user_id = data.get('user_id')
+        # if not frappe.db.exists(
+        #         "Customer",
+        #         dict(
+        #             customer_name=user_id
+        #         )
+        # ):
+        #     customer = frappe.get_doc(
+        #         doctype="Customer",
+        #         naming_series="CUST-",
+        #         customer_name=user_id,
+        #         customer_type="Company",
+        #         customer_group="Commercial",
+        #         territory="All Territories",
+        #         disabled=0,
+        #         default_currency="SAR",
+        #         language="ar"
+        #     )
+        #     customer.insert(ignore_permissions=True)
+        # else:
+        #     customer = frappe.get_doc(
+        #         "Customer",
+        #         dict(
+        #             customer_name=user_id
+        #         )
+        #     )
+        renter = data.get('renter', '')
+        _property = data.get('property', '')
+        _type = data.get('type', '')
+        _unit = data.get('unit', '')
         third_party_creation = data.get('third_party_creation', datetime.now())
-        label = "أساس - {0}".format(data.get('label', statement))
+        label = "أساس - {0}".format(data.get('label', _type + ' ' + renter + ' ' + _property))
         frappe.set_user("Administrator")
 
         if branch:
@@ -677,13 +866,18 @@ def add_transaction_v3():
                 naming_series="JV-",
                 posting_date=date,
                 company=company,
-                user_remark=statement,
+                user_remark=label,
                 multi_currency=0,
-                remark=statement,
-                bill_no=contract_no,
+                remark=label,
+                bill_no=contract_id,
                 bill_date=datetime.now(),
                 is_opening="No",
                 third_party_creation=third_party_creation,
+                renter=renter,
+                property=_property,
+                contract_no=contract_no,
+                type=_type,
+                unit=_unit,
                 accounts=[]
             )
         )
