@@ -822,6 +822,7 @@ def add_transaction_v3():
         company = data.get('company')
         branch = frappe.form_dict.get('branch')
         user_id = data.get('user_id')
+
         # if not frappe.db.exists(
         #         "Customer",
         #         dict(
@@ -853,6 +854,7 @@ def add_transaction_v3():
         _unit = data.get('unit', '')
         third_party_creation = data.get('third_party_creation', datetime.now())
         label = "أساس - {0}".format(data.get('label', _type + ' ' + renter + ' ' + _property))
+        voucher_no = data.get('voucher_no', '')
         frappe.set_user("Administrator")
 
         if branch:
@@ -876,6 +878,7 @@ def add_transaction_v3():
                 renter=renter,
                 property=_property,
                 contract_no=contract_no,
+                voucher_no=voucher_no,
                 type=_type,
                 unit=_unit,
                 accounts=[]
