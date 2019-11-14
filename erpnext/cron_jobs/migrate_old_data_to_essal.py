@@ -18,7 +18,7 @@ def execute():
     count =  frappe.db.sql(
         """SELECT COUNT(*) count FROM `tabJournal Entry` j
         INNER JOIN `tabJournal Entry Account` c
-         ON j.name = c.parent AND c.cost_center is not null  where j.company = 'Alnama1439'"""
+         ON j.name = c.parent   where j.company = 'Alnama1439'"""
     )
     print count
     frappe.db.sql(
