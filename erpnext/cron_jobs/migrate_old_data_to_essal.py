@@ -14,6 +14,20 @@ from umalqurra.hijri_date import HijriDate
 
 
 def execute():
+
+    frappe.db.sql(
+        """UPDATE `tabJournal Entry` j
+        INNER JOIN `tabJournal Entry Account` c
+         ON j.name = c.parent AND c.cost_center = 'رئيسي - NAMA' SET cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
+    )
+    frappe.db.sql(
+        """UPDATE `tabJournal Entry` j
+        INNER JOIN `tabJournal Entry Account` c
+         ON j.name = c.parent 
+          INNER JOIN `tabGL Entry` e 
+          ON e.against_voucher = j.name SET e.cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
+    )
+    return
     journal_file = "/private/files/journal_entry2.csv"
     # cost_centers = "/private/files/cost_centers.csv"
     # accounts_tree = "/private/files/accounts_tree2.csv"
