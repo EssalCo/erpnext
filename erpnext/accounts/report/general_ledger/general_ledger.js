@@ -211,16 +211,16 @@ frappe.query_reports["General Ledger"] = {
         // 	"fieldtype": "Select",
         // 	"options": "Currency"
         // },
-        {
-            "fieldname": "cost_center",
-            "label": __("Cost Center"),
-            "fieldtype": "Link",
-            "options": "Cost Center"
-            // "fieldtype": "MultiSelectList",
-            // get_data: function(txt) {
-            // 	return frappe.db.get_link_options('Cost Center', txt);
-            // }
-        },
+        // {
+        //     "fieldname": "cost_center",
+        //     "label": __("Cost Center"),
+        //     "fieldtype": "Link",
+        //     "options": "Cost Center"
+        //     // "fieldtype": "MultiSelectList",
+        //     // get_data: function(txt) {
+        //     // 	return frappe.db.get_link_options('Cost Center', txt);
+        //     // }
+        // },
         {
             "fieldname": "project",
             "label": __("Project"),
@@ -235,6 +235,30 @@ frappe.query_reports["General Ledger"] = {
             "fieldname": "show_opening_entries",
             "label": __("Show Opening Entries"),
             "fieldtype": "Check"
+        },
+        {
+            "fieldname": "cost_center",
+            "label": __("Cost Center"),
+            "fieldtype": "Link",
+            "options": "Cost Center",
+            "get_query": function () {
+                var company = frappe.query_report_filters_by_name.company.get_value();
+                return {
+                    "doctype": "Cost Center",
+                    "filters": {
+                        "company": company,
+                    }
+                }
+            }
+            // "get_query": function() {
+            // 	var company = frappe.query_report.get_filter_value('company');
+            // 	return {
+            // 		"doctype": "Account",
+            // 		"filters": {
+            // 			"company": company,
+            // 		}
+            // 	}
+            // }
         },
     ]
 };

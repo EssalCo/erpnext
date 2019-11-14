@@ -14,6 +14,9 @@ from frappe import _, _dict
 from frappe.utils import getdate, cstr, flt
 
 
+from erpnext.utilities.send_telegram import send_msg_telegram
+
+
 @frappe.whitelist()
 def execute(filters=None):
     if not filters:
@@ -148,7 +151,6 @@ def get_gl_entries(filters):
         select_fields = """, sum(debit) as debit, sum(credit) as credit,
 			round(sum(debit_in_account_currency), 4) as debit_in_account_currency,
 			round(sum(credit_in_account_currency), 4) as  credit_in_account_currency"""
-    # from erpnext.utilities.send_telegram import send_msg_telegram
 
     gl_entries = frappe.db.sql(
         """
@@ -506,10 +508,11 @@ def get_cost_centers_with_children(cost_centers):
     # if not isinstance(cost_centers, list):
     #     cost_centers = [d.strip() for d in cost_centers.strip().split(',') if d]
 
-    all_cost_centers = []
+    all_cost_centers = [cost_centers]
     # for d in cost_centers:
     lft, rgt = frappe.db.get_value("Cost Center", cost_centers, ["lft", "rgt"])
     children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
     all_cost_centers += [c.name for c in children]
 
+    send_msg_telegram(str(list(set(all_cost_centers))))
     return list(set(all_cost_centers))

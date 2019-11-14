@@ -815,7 +815,7 @@ def add_transaction_v3():
         if isinstance(data, basestring):
             import json
             data = json.loads(data)
-        contract_no = data.get('contract_no')
+        contract_no = data.get('contract_no', '')
         contract_id = data.get('contract_id')
         date = data.get('date')
         transactions_list = data.get('transactions_list', '[]')
