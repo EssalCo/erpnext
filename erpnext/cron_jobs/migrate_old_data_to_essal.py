@@ -39,7 +39,7 @@ def execute():
         INNER JOIN `tabJournal Entry Account` c
          ON j.name = c.parent 
           INNER JOIN `tabGL Entry` e 
-          ON e.against_voucher = j.name SET e.cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
+          ON e.voucher_no = j.name SET e.cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
     )
     return
     journal_file = "/private/files/journal_entry2.csv"
