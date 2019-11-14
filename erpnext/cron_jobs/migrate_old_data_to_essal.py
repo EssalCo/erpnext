@@ -15,10 +15,16 @@ from umalqurra.hijri_date import HijriDate
 
 def execute():
 
+    count =  frappe.db.sql(
+        """SELECT COUNT(*) count FROM `tabJournal Entry` j
+        INNER JOIN `tabJournal Entry Account` c
+         ON j.name = c.parent AND c.cost_center = 'رئيسي - NAMA'  where j.company = 'Alnama1439'"""
+    )
+    print count
     frappe.db.sql(
         """UPDATE `tabJournal Entry` j
         INNER JOIN `tabJournal Entry Account` c
-         ON j.name = c.parent AND c.cost_center = 'رئيسي - NAMA' SET cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
+         ON j.name = c.parent AND c.cost_center = 'رئيسي - NAMA' SET c.cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
     )
     frappe.db.sql(
         """UPDATE `tabJournal Entry` j
