@@ -21,11 +21,19 @@ def execute():
          ON j.name = c.parent   where j.company = 'Alnama1439'"""
     )
     print count
-    frappe.db.sql(
-        """UPDATE `tabJournal Entry` j
+    # frappe.db.sql(
+    #     """UPDATE `tabJournal Entry` j
+    #     INNER JOIN `tabJournal Entry Account` c
+    #      ON j.name = c.parent AND c.cost_center = 'رئيسي - NAMA' SET c.cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
+    # )
+    count =  frappe.db.sql(
+        """SELECT COUNT(*) count FROM `tabJournal Entry` j
         INNER JOIN `tabJournal Entry Account` c
-         ON j.name = c.parent AND c.cost_center = 'رئيسي - NAMA' SET c.cost_center = 'شركة اعمال النماء العقارية المحدودة - A39' where j.company = 'Alnama1439'"""
+         ON j.name = c.parent 
+          INNER JOIN `tabGL Entry` e 
+          ON e.against_voucher = j.name  where j.company = 'Alnama1439'"""
     )
+    print count
     frappe.db.sql(
         """UPDATE `tabJournal Entry` j
         INNER JOIN `tabJournal Entry Account` c
