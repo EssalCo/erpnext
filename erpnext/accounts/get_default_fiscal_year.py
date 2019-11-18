@@ -8,7 +8,7 @@ import frappe
 
 
 @frappe.whitelist(allow_guest=True)
-def get_fiscal_years():
+def get_default_fiscal_year():
 
     try:
         global_defaults = frappe.get_doc("Global Defaults")
