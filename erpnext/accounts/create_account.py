@@ -95,7 +95,7 @@ def create_account():
         account.insert(ignore_permissions=True)
         frappe.db.commit()
 
-        return dict(status=True, message="Account is added to erpnext successfully")
+        return dict(status=True, message="Account is added to erpnext successfully", account=account.name)
     except Exception as e:
 
         error_msg = traceback.format_exc()
