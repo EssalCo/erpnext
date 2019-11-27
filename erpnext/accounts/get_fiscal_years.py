@@ -16,8 +16,7 @@ def get_fiscal_years():
 
         data = frappe.local.form_dict
         send_msg_telegram(str(data))
-        send_msg_telegram(str(frappe.request.data))
-        company_name = data.get('company_name') or frappe.request.data.get('company_name')
+        company_name = data.get('company_name')
         if "%" in str(company_name):
             company_name = urllib.unquote(company_name)
 
