@@ -92,7 +92,16 @@ def create_account():
             )
         )
         account.flags.ignore_mandatory = True
-        account.insert(ignore_permissions=True)
+        try:
+            account.insert(ignore_permissions=True)
+        except frappe.UniqueValidationError:
+            return dict(status=True, message="Account is added to erpnext successfully", account=frappe.get_value(
+                "Account",
+                dict(
+                    name=("like", "%- {0}".format(account_name))
+                ),
+                "name"
+            ))
         frappe.db.commit()
 
         return dict(status=True, message="Account is added to erpnext successfully", account=account.name)
@@ -100,5 +109,6 @@ def create_account():
 
         error_msg = traceback.format_exc()
         send_msg_telegram(error_msg)
-        return dict(status=False, message=str(e))
+
+
 
