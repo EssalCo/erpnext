@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-# from erpnext.utilities.send_telegram import send_msg_telegram
+from erpnext.utilities.send_telegram import send_msg_telegram
 from operator import itemgetter
 
 import frappe
@@ -18,6 +18,7 @@ def get_fiscal_years():
         company_name = data.get('company_name')
 
         company_name = urllib.unquote(company_name)
+        send_msg_telegram(company_name)
         fiscal_year_companies = [temp.parent for temp in frappe.get_list(
             "Fiscal Year Company",
             fields=["parent"],
