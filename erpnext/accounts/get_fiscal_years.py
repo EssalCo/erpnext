@@ -28,8 +28,6 @@ def get_fiscal_years():
             ignore_permissions=True,
             ignore_ifnull=True
         )]
-        send_msg_telegram(str(fiscal_year_companies))
-        print fiscal_year_companies
         years = frappe.get_all(
             "Fiscal Year",
             fields=[
@@ -45,12 +43,13 @@ def get_fiscal_years():
             ignore_permissions=True,
             ignore_ifnull=True)
         send_msg_telegram(str(years))
-        print years
         for year in years:
-            year.year = int(year.year)
+            try:
+                year.year = int(year.year)
+            except:
+                pass
 
         years = sorted(years, key=itemgetter('year'), reverse=True)
-        print year
     except Exception as e:
         import traceback
         send_msg_telegram(traceback.format_exc())
