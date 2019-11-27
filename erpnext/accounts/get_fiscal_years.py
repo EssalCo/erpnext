@@ -15,7 +15,7 @@ def get_fiscal_years():
     try:
 
         data = frappe.form_dict
-        company_name = data.get('company_name') or "مجموعة الرضا للاستشارات الهندسية وتنمية وتطوير العقار"
+        company_name = data.get('company_name')
         send_msg_telegram(company_name)
         # company_name = urllib.unquote(company_name)
         # send_msg_telegram(company_name)
