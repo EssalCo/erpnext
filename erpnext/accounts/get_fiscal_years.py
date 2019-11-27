@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from operator import itemgetter
 
 import frappe
+import urllib
 
 
 @frappe.whitelist(allow_guest=True)
@@ -15,6 +16,8 @@ def get_fiscal_years():
 
         data = frappe.form_dict
         company_name = data.get('company_name')
+
+        company_name = urllib.unquote(company_name).decode('utf8')
         fiscal_year_companies = [temp.parent for temp in frappe.get_list(
             "Fiscal Year Company",
             fields=["parent"],
