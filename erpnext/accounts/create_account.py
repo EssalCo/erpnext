@@ -75,7 +75,18 @@ def create_account():
                 balance_must_be = parent_account_data.balance_must_be
             if not parent_account_data.is_group:
                 frappe.db.set_value("Account", parent_account, "is_group", 1)
-                
+        prev_account = frappe.db.sql("""SELECT `name` FROM `tabAccount` WHERE `name` LIKE '%- {0}' AND `name` LIKE '%{1} - %' AND `company` = '{2}';""".format(
+            account_name,
+            frappe.get_value(
+                "Company",
+                company,
+                "abbr"
+            ), company
+        ), as_dict=True
+)
+        if len(prev_account) != 0:
+            return dict(status=True, message="Account is added to erpnext successfully", account=prev_account[0].name)
+
         account = frappe.get_doc(
             dict(
                 doctype="Account",
@@ -92,16 +103,7 @@ def create_account():
             )
         )
         account.flags.ignore_mandatory = True
-        try:
-            account.insert(ignore_permissions=True)
-        except frappe.UniqueValidationError:
-            return dict(status=True, message="Account is added to erpnext successfully", account=frappe.get_value(
-                "Account",
-                dict(
-                    name=("like", "%- {0}".format(account_name))
-                ),
-                "name"
-            ))
+        account.insert(ignore_permissions=True)
         frappe.db.commit()
 
         return dict(status=True, message="Account is added to erpnext successfully", account=account.name)
