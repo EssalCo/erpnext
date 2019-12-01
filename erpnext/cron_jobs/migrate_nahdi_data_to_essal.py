@@ -27,14 +27,7 @@ def execute_again():
             company_name="Nahdi"
         )
     )
-    main_cost_center = frappe.get_value(
-        "Cost Center",
-        dict(
-            company=company.name,
-            parent_cost_center=None
-        ),
-        "name"
-    )
+    main_cost_center = "رئيسي - N"
 
     current_file = get_file_path(payment_details)
 
