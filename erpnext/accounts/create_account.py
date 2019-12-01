@@ -59,20 +59,6 @@ def create_account():
                 )
             ), as_dict=True
         )
-        send_msg_telegram("""SELECT `name` FROM `tabAccount` WHERE (
-            `name` LIKE '%- {0} - {2}' 
-            OR `name` LIKE '% - {2} - {0}' 
-            OR `name` LIKE '{2} - {0}'
-            OR `name` LIKE '{0} - {2}'
-            ) AND `company` = '{1}';""".format(
-                account_name,
-                company,
-                frappe.get_value(
-                    "Company",
-                    company,
-                    "abbr"
-                )
-            ))
 
         if len(prev_account) != 0:
             return dict(status=True, message="Account is added to erpnext successfully", account=prev_account[0].name)
@@ -92,7 +78,6 @@ def create_account():
                                 "balance_must_be",
                                 "is_group"
                             ], as_dict=True)
-            send_msg_telegram(str(parent_account_data))
 
             if not parent_account_data:
                 frappe.throw("The parent account you chose does not existing.")
