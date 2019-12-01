@@ -75,13 +75,9 @@ def create_account():
                 balance_must_be = parent_account_data.balance_must_be
             if not parent_account_data.is_group:
                 frappe.db.set_value("Account", parent_account, "is_group", 1)
-        prev_account = frappe.db.sql("""SELECT `name` FROM `tabAccount` WHERE `name` LIKE '%- {0}' AND `name` LIKE '%{1} - %' AND `company` = '{2}';""".format(
+        prev_account = frappe.db.sql("""SELECT `name` FROM `tabAccount` WHERE `name` LIKE '%- {0}' AND `company` = '{1}';""".format(
             account_name,
-            frappe.get_value(
-                "Company",
-                company,
-                "abbr"
-            ), company
+            company
         ), as_dict=True
 )
         if len(prev_account) != 0:
