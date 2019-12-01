@@ -81,7 +81,7 @@ def create_account():
             root_type and report_type and account_type and tax_rate and freeze_account and balance_must_be):
             frappe.throw("You must send all data since this is a parent account")
         if parent_account:
-            send_msg_telegram(str(parent_account))
+            # send_msg_telegram(str(parent_account))
             parent_account_data = frappe.get_value("Account", parent_account, 
                             [
                                 "root_type", 
