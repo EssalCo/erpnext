@@ -43,7 +43,15 @@ def create_account():
         tax_rate = data.get('tax_rate')
         freeze_account = data.get('freeze_account')
         balance_must_be = data.get('balance_must_be')
-        
+        prev_account = frappe.db.sql(
+            """SELECT `name` FROM `tabAccount` WHERE `name` LIKE '%- {0}' AND `company` = '{1}';""".format(
+                account_name,
+                company
+            ), as_dict=True
+        )
+        if len(prev_account) != 0:
+            return dict(status=True, message="Account is added to erpnext successfully", account=prev_account[0].name)
+
         if not parent_account and not (
             root_type and report_type and account_type and tax_rate and freeze_account and balance_must_be):
             frappe.throw("You must send all data since this is a parent account")
@@ -75,13 +83,6 @@ def create_account():
                 balance_must_be = parent_account_data.balance_must_be
             if not parent_account_data.is_group:
                 frappe.db.set_value("Account", parent_account, "is_group", 1)
-        prev_account = frappe.db.sql("""SELECT `name` FROM `tabAccount` WHERE `name` LIKE '%- {0}' AND `company` = '{1}';""".format(
-            account_name,
-            company
-        ), as_dict=True
-)
-        if len(prev_account) != 0:
-            return dict(status=True, message="Account is added to erpnext successfully", account=prev_account[0].name)
 
         account = frappe.get_doc(
             dict(
