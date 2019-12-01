@@ -44,9 +44,19 @@ def create_account():
         freeze_account = data.get('freeze_account')
         balance_must_be = data.get('balance_must_be')
         prev_account = frappe.db.sql(
-            """SELECT `name` FROM `tabAccount` WHERE `name` LIKE '%- {0}' AND `company` = '{1}';""".format(
+            """SELECT `name` FROM `tabAccount` WHERE (
+            `name` LIKE '%- {0} - {2}' 
+            OR `name` LIKE '% - {2} - {0}' 
+            OR `name` LIKE '{2} - {0}'
+            OR `name` LIKE '{0} - {2}'
+            ) AND `company` = '{1}';""".format(
                 account_name,
-                company
+                company,
+                frappe.get_value(
+                    "Company",
+                    company,
+                    "abbr"
+                )
             ), as_dict=True
         )
         if len(prev_account) != 0:
