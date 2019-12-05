@@ -889,7 +889,7 @@ def add_transaction_v3():
         if isinstance(transactions_list, basestring):
             import json
             transactions_list = json.loads(transactions_list)
-        # send_msg_telegram("transactions" + str(transactions_list))
+        send_msg_telegram("transactions" + str(transactions_list))
 
         for transaction in transactions_list:
             debit = float(transaction.get('debit_amount', 0) or 0)
@@ -903,8 +903,9 @@ def add_transaction_v3():
 
             account_data = frappe.db.get_value("Account", account, [
                 "account_type", "account_name"], as_dict=True)
+            if not account_data:
+                send_msg_telegram(str(account))
 
-            send_msg_telegram(str(account_data))
             if account_data.account_type in ("Payable",
                                              "Receivable"):
                 if len(frappe.get_list("Customer",
