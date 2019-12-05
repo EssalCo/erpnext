@@ -903,6 +903,8 @@ def add_transaction_v3():
 
             account_data = frappe.db.get_value("Account", account, [
                 "account_type", "account_name"], as_dict=True)
+
+            send_msg_telegram(str(account_data))
             if account_data.account_type in ("Payable",
                                              "Receivable"):
                 if len(frappe.get_list("Customer",
