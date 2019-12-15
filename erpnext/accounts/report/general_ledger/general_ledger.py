@@ -514,5 +514,5 @@ def get_cost_centers_with_children(cost_centers):
     children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
     all_cost_centers += [c.name for c in children]
 
-    send_msg_telegram(str(list(set(all_cost_centers))))
+    # send_msg_telegram(str(list(set(all_cost_centers))))
     return list(set(all_cost_centers))
