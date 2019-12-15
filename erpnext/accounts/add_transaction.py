@@ -860,6 +860,14 @@ def add_transaction_v3():
         if branch:
             company = branch
 
+        new_transactions_list = dict()
+        for transaction in transactions_list:
+            if transaction.get('account') not in new_transactions_list:
+                new_transactions_list[transaction.get('account')] = transaction
+            else:
+                new_transactions_list[transaction.get('account')]['debit_amount'] += transaction.get('debit_amount', 0)
+                new_transactions_list[transaction.get('account')]['credit_amount'] += transaction.get('credit_amount', 0)
+        transactions_list = new_transactions_list.values()
         journal_entry = frappe.get_doc(
             dict(
                 doctype="Journal Entry",
