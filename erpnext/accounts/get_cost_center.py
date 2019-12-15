@@ -16,9 +16,9 @@ def get_cost_center():
         account = data.get('account')
         frappe.set_user("Administrator")
         
-        company = frappe.get_value("Account", account, "company")
+        company = frappe.get_value("Account", account, "company") or data.get('company') or data.get('company_name')
         if not company:
-            send_msg_telegram("get_cost_center: aacount: {0}".format(str(account)))
+            send_msg_telegram("get_cost_center: account: {0}".format(str(account)))
 
             return dict(status=False, message="You did not specify correct account")
         cost_centers = frappe.get_list("Cost Center",
