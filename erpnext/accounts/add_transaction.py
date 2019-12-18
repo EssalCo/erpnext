@@ -865,8 +865,8 @@ def add_transaction_v3():
             if transaction.get('account') not in new_transactions_list:
                 new_transactions_list[transaction.get('account')] = transaction
             else:
-                new_transactions_list[transaction.get('account')]['debit_amount'] += transaction.get('debit_amount', 0)
-                new_transactions_list[transaction.get('account')]['credit_amount'] += transaction.get('credit_amount', 0)
+                new_transactions_list[transaction.get('account')]['debit_amount'] = float(new_transactions_list[transaction.get('account')]['debit_amount']) + float(transaction.get('debit_amount', 0))
+                new_transactions_list[transaction.get('account')]['credit_amount'] = float(new_transactions_list[transaction.get('account')]['credit_amount']) + float(transaction.get('credit_amount', 0))
         transactions_list = new_transactions_list.values()
         journal_entry = frappe.get_doc(
             dict(
