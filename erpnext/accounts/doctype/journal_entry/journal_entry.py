@@ -2,17 +2,19 @@
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import unicode_literals
-import frappe, erpnext, json
-from frappe.utils import cstr, flt, fmt_money, formatdate, getdate
-from frappe import msgprint, _, scrub
-from erpnext.controllers.accounts_controller import AccountsController
-from erpnext.accounts.utils import get_balance_on, get_account_currency
+
+import erpnext
+import frappe
+import json
 from erpnext.accounts.party import get_party_account
-from erpnext.hr.doctype.expense_claim.expense_claim import update_reimbursed_amount
+from erpnext.accounts.utils import get_balance_on, get_account_currency
+from erpnext.controllers.accounts_controller import AccountsController
 from erpnext.hr.doctype.employee_loan.employee_loan import update_disbursement_status
+from erpnext.hr.doctype.expense_claim.expense_claim import update_reimbursed_amount
 from erpnext.utilities.hijri_date import convert_to_hijri
 from erpnext.utilities.send_telegram import send_msg_telegram
-
+from frappe import msgprint, _, scrub
+from frappe.utils import cstr, flt, fmt_money, formatdate
 
 
 class JournalEntry(AccountsController):
@@ -21,6 +23,33 @@ class JournalEntry(AccountsController):
 
     def get_feed(self):
         return self.voucher_type
+
+    def autoname(self):
+        if frappe.local.conf.get("enable_journal_entry_series_naming", False):
+            prefix = frappe.get_value("Company", self.company, "series_prefix")
+            if prefix:
+                #                 last_index = frappe.db.sql("""SELECT
+                #     MAX(`number`) AS maxi
+                # FROM
+                #     (SELECT
+                #         TRIM(LEADING '{prefix}' FROM `name`) * 1 AS `number`
+                #     FROM
+                #         `tabJournal Entry`
+                #     WHERE `company` = '{company}');""".format(
+                #                     prefix=prefix,
+                #                     company=self.company
+                #                 ), as_dict=True)
+                #                 if len(last_index) == 0:
+                #                     last_index = 1
+                #
+                #                 else:
+                #                     last_index = last_index[0].maxi + 1
+
+                self.name = _make_autoname(key='{prefix}.#######'.format(prefix=prefix))
+                return
+
+        self.name = super(JournalEntry, self).autoname()
+        return
 
     def before_save(self):
         if not self.owner_name:
@@ -181,7 +210,7 @@ class JournalEntry(AccountsController):
                 if not against_entries:
                     frappe.throw(
                         _("Journal Entry {0} does not have account {1} or already matched against other voucher")
-                        .format(d.reference_name, d.account))
+                            .format(d.reference_name, d.account))
                 else:
                     dr_or_cr = "debit" if d.credit > 0 else "credit"
                     valid = False
@@ -348,7 +377,8 @@ class JournalEntry(AccountsController):
         if alternate_currency:
             if not self.multi_currency:
                 send_msg_telegram(
-                    "{0} - {1} = {3}\n{2}".format(str(alternate_currency), self._company_currency, self.get("accounts"), self.company))
+                    "{0} - {1} = {3}\n{2}".format(str(alternate_currency), self._company_currency, self.get("accounts"),
+                                                  self.company))
                 frappe.throw(_("Please check Multi Currency option to allow accounts with other currency"))
 
         self.set_exchange_rate()
@@ -407,8 +437,9 @@ class JournalEntry(AccountsController):
 
             if d.reference_type == "Purchase Order" and d.debit:
                 r.append(
-                    _("{0} against Purchase Order {1}").format(fmt_money(flt(d.credit), currency=self._company_currency), \
-                                                               d.reference_name))
+                    _("{0} against Purchase Order {1}").format(
+                        fmt_money(flt(d.credit), currency=self._company_currency), \
+                        d.reference_name))
 
         if self.user_remark:
             r.append(_("Note: {0}").format(self.user_remark))
@@ -805,7 +836,7 @@ def get_against_jv(doctype, txt, searchfield, start, page_len, filters):
 		and (jv_detail.reference_type is null or jv_detail.reference_type = '')
 		and jv.docstatus = 1 and jv.`{0}` like %s order by jv.name desc limit %s, %s""".format(
         frappe.db.escape(searchfield)),
-                         (filters.get("account"), cstr(filters.get("party")), "%{0}%".format(txt), start, page_len))
+        (filters.get("account"), cstr(filters.get("party")), "%{0}%".format(txt), start, page_len))
 
 
 @frappe.whitelist()
@@ -951,3 +982,24 @@ def get_average_exchange_rate(account):
         exchange_rate = bank_balance_in_company_currency / bank_balance_in_account_currency
 
     return exchange_rate
+
+
+def _make_autoname(key='Agent.-.#####', year=None):
+    from frappe.model.naming import getseries
+    from frappe.utils import now_datetime
+    parts = key.split('.')
+    n = ''
+    for e in parts:
+        if e.startswith('#'):
+            digits = len(e)
+            part = getseries(n, digits, "")
+        elif e == 'YYYY':
+            if year:
+                part = str(year)
+            else:
+                part = now_datetime().strftime('%Y')
+        else:
+            part = e
+
+        n += part
+    return n
