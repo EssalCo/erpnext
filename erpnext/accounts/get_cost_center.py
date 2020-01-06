@@ -20,7 +20,7 @@ def get_cost_center():
         send_msg_telegram(str(data))
         company = frappe.get_value("Account", account, "company") or data.get('company') or data.get('company_name')
         if company and '%' in company:
-            company = urllib.unquote(company).decode('utf8')
+            company = urllib.unquote(company)
 
         if not company:
             send_msg_telegram("get_cost_center: account: {0}".format(str(account)))
