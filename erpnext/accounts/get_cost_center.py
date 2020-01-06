@@ -13,7 +13,7 @@ def get_cost_center():
     # 'account',
     try:
         data = frappe.form_dict.data
-        send_msg_telegram("data: " + str(data) + " " + str(type(data)))
+        # send_msg_telegram("data: " + str(data) + " " + str(type(data)))
 
         account = data.get('account')
         frappe.set_user("Administrator")
@@ -34,7 +34,7 @@ def get_cost_center():
                                        ),
                                        ignore_permissions=True,
                                        ignore_ifnull=True)
-        send_msg_telegram(str(cost_centers))
+        # send_msg_telegram(str(cost_centers))
         cost_centers_list = [temp.cost_center_name for temp in cost_centers]
     except Exception as e:
         import traceback
