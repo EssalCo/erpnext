@@ -11,7 +11,7 @@ from erpnext.utilities.send_telegram import send_msg_telegram
 def get_cost_center():
     # 'account',
     try:
-        data = frappe.form_dict
+        data = frappe.form_dict.data
         send_msg_telegram("data: " + str(data) + " " + str(type(data)))
 
         account = data.get('account')
