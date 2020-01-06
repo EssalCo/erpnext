@@ -5,6 +5,7 @@ from datetime import datetime
 
 import frappe
 from erpnext.utilities.send_telegram import send_msg_telegram
+import urllib
 
 
 @frappe.whitelist(allow_guest=True)
@@ -18,6 +19,9 @@ def get_cost_center():
         frappe.set_user("Administrator")
         send_msg_telegram(str(data))
         company = frappe.get_value("Account", account, "company") or data.get('company') or data.get('company_name')
+        if company and '%' in company:
+            company = urllib.unquote(company).decode('utf8')
+
         if not company:
             send_msg_telegram("get_cost_center: account: {0}".format(str(account)))
 
