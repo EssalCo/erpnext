@@ -12,7 +12,8 @@ def get_cost_center():
     # 'account',
     try:
         data = frappe.form_dict
-        send_msg_telegram("data: " + str(data))
+        send_msg_telegram("data: " + str(data) + " " + type(data))
+
         account = data.get('account')
         frappe.set_user("Administrator")
         send_msg_telegram(str(data))
