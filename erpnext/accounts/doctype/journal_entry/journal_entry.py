@@ -48,7 +48,7 @@ class JournalEntry(AccountsController):
                 self.name = _make_autoname(key='{prefix}.#######'.format(prefix=prefix))
                 return
 
-        self.name = _make_autoname(key='{prefix}.#######'.format(prefix=self.naming_series))
+        self.name = _make_autoname(key='{prefix}.#####'.format(prefix=self.naming_series))
         return
 
     def before_save(self):
