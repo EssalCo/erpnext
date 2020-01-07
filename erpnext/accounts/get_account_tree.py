@@ -24,7 +24,7 @@ def get_account_tree():
     fiscal_year = str(data['fiscal_year'])
     from_date = data.get('from_date')
     to_date = data.get('to_date')
-    account = data.get('account')
+    account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')
 
     filters = dict(
         company=company_name,
