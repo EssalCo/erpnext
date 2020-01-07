@@ -21,7 +21,7 @@ def get_account_tree():
     data = frappe.form_dict.data
     send_msg_telegram(str(data) + str(type(data)))
     company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
-    fiscal_year = str(data['fiscal_year'])
+    fiscal_year = urllib.unquote(str(data['fiscal_year'])).decode('utf-8', 'replace')
     from_date = data.get('from_date')
     to_date = data.get('to_date')
     account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')

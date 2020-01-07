@@ -15,7 +15,7 @@ def get_cost_center():
         data = frappe.form_dict.data
         # send_msg_telegram("data: " + str(data) + " " + str(type(data)))
 
-        account = data.get('account')
+        account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')
         frappe.set_user("Administrator")
         company = frappe.get_value("Account", account, "company") or data.get('company') or data.get('company_name')
         if company and '%' in company:

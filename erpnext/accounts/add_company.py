@@ -6,6 +6,7 @@ from datetime import datetime
 import frappe
 from erpnext.accounts.general_ledger import make_gl_entries
 from frappe.utils import flt
+import urllib
 
 
 @frappe.whitelist(allow_guest=True)
@@ -22,20 +23,20 @@ def add_company():
     # ‘user_id’
     # ‘customer_id’
     # ‘transaction_id’
-
-    account = frappe.form_dict['account']
-    to_account = frappe.form_dict['to_account']
-    amount_type = frappe.form_dict['amount_type']
-    amount = frappe.form_dict['amount']
+    data = frappe.form_dict.data
+    account = urllib.unquote(str(data['account'])).decode('utf-8', 'replace')
+    to_account = urllib.unquote(str(data['to_account'])).decode('utf-8', 'replace')
+    amount_type = data['amount_type']
+    amount = data['amount']
     # statement = frappe.form_dict['statement']
     # operation = frappe.form_dict['operation']
-    contract_id = frappe.form_dict['contract_id']
+    contract_id = data['contract_id']
     # payment_id = frappe.form_dict['payment_id']
     # property_id = frappe.form_dict['property_id']
     # unit_id = frappe.form_dict['unit_id']
-    user_id = frappe.form_dict['user_id']
-    customer_id = frappe.form_dict['customer_id']
-    transaction_id = frappe.form_dict['transaction_id']
+    user_id = data['user_id']
+    customer_id = data['customer_id']
+    transaction_id = data['transaction_id']
 
     if frappe.db.exists(
             "Customer",

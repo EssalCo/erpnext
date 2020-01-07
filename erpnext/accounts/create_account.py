@@ -7,6 +7,8 @@ import traceback
 
 import frappe
 from erpnext.utilities.send_telegram import send_msg_telegram
+import urllib
+
 
 @frappe.whitelist(allow_guest=True)
 def create_account():
@@ -24,7 +26,7 @@ def create_account():
     try:
         from frappe.utils import get_site_name
         site_name = get_site_name(frappe.local.request.host)
-        data = frappe.form_dict
+        data = frappe.form_dict.data
         send_msg_telegram(str(site_name))
         # send_msg_telegram(str(data))
         # if isinstance(data, basestring):
@@ -33,13 +35,13 @@ def create_account():
         send_msg_telegram(str(data))
         # send_msg_telegram(str(site_name))
         # send_msg_telegram(str(frappe.form_dict))
-        account_name = data['account_name']
+        account_name = urllib.unquote(str(data['account_name'])).decode('utf-8', 'replace')
         # is_group = frappe.form_dict['is_group']
-        company = data['company']
+        company = urllib.unquote(str(data['company'])).decode('utf-8', 'replace')
         root_type = data.get('root_type', 'Expense')
         report_type = data.get('report_type')
-        parent_account = data.get('parent_account')
-        account_type = data.get('account_type')
+        parent_account = urllib.unquote(str(data.get('parent_account'))).decode('utf-8', 'replace')
+        account_type = urllib.unquote(str(data.get('account_type'))).decode('utf-8', 'replace')
         tax_rate = data.get('tax_rate')
         freeze_account = data.get('freeze_account')
         balance_must_be = data.get('balance_must_be')
