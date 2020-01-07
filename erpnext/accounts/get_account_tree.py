@@ -17,7 +17,7 @@ def get_account_tree():
     # 'from_date'
     # 'to_date'
     # 'account'
-    data = frappe.form_dict
+    data = frappe.form_dict.data
     send_msg_telegram(str(data) + str(type(data)))
     company_name = data['company_name']
     fiscal_year = str(data['fiscal_year'])
