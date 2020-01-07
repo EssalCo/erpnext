@@ -35,13 +35,21 @@ def create_account():
         send_msg_telegram(str(data))
         # send_msg_telegram(str(site_name))
         # send_msg_telegram(str(frappe.form_dict))
-        account_name = urllib.unquote(str(data['account_name'])).decode('utf-8', 'replace')
+        account_name = data['account_name']
+        if account_name and '%' in account_name:
+            account_name = urllib.unquote(str(data['account_name'])).decode('utf-8', 'replace')
         # is_group = frappe.form_dict['is_group']
-        company = urllib.unquote(str(data['company'])).decode('utf-8', 'replace')
+        company = data['company']
+        if company and '%' in company:
+            company = urllib.unquote(str(data['company'])).decode('utf-8', 'replace')
         root_type = data.get('root_type', 'Expense')
         report_type = data.get('report_type')
-        parent_account = urllib.unquote(str(data.get('parent_account'))).decode('utf-8', 'replace')
-        account_type = urllib.unquote(str(data.get('account_type'))).decode('utf-8', 'replace')
+        parent_account = data.get('parent_account')
+        if parent_account and '%' in parent_account:
+            parent_account = urllib.unquote(str(data.get('parent_account'))).decode('utf-8', 'replace')
+        account_type = data.get('account_type')
+        if account_type and '%' in account_type:
+            account_type = urllib.unquote(str(data.get('account_type'))).decode('utf-8', 'replace')
         tax_rate = data.get('tax_rate')
         freeze_account = data.get('freeze_account')
         balance_must_be = data.get('balance_must_be')
