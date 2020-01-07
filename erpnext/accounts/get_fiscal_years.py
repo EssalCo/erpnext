@@ -18,7 +18,7 @@ def get_fiscal_years():
         send_msg_telegram(str(data))
         company_name = data.get('company_name')
         if "%" in company_name or '':
-            company_name = urllib.unquote(company_name)
+            company_name = urllib.unquote(str(company_name)).decode('utf-8', 'replace')
 
         send_msg_telegram(company_name)
         # company_name = urllib.unquote(company_name)
