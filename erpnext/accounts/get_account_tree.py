@@ -8,6 +8,7 @@ from erpnext.accounts.report.financial_statements \
 from frappe import _
 from frappe.utils import flt, getdate, formatdate, cstr
 from erpnext.utilities.send_telegram import send_msg_telegram
+import urllib
 
 
 @frappe.whitelist(allow_guest=True)
@@ -19,7 +20,7 @@ def get_account_tree():
     # 'account'
     data = frappe.form_dict.data
     send_msg_telegram(str(data) + str(type(data)))
-    company_name = data['company_name']
+    company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
     fiscal_year = str(data['fiscal_year'])
     from_date = data.get('from_date')
     to_date = data.get('to_date')
