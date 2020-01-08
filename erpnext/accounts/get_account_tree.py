@@ -22,6 +22,8 @@ def get_account_tree():
     try:
         data = frappe.form_dict.data
         send_msg_telegram(str(data) + str(type(data)))
+        _data = frappe.form_dict
+        send_msg_telegram(_data + str(type(_data)))
         company_name = data['company_name']
         if company_name and '%' in company_name:
             company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
