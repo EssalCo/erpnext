@@ -11,7 +11,7 @@ def send_msg_telegram(msg):
         {
             "text": "Site: {0}\nMessage: {1}".format(
             site_name,
-            msg
+            msg.decode('utf-8')
         )}
     )
     return
