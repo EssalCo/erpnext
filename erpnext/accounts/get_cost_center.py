@@ -23,11 +23,13 @@ def get_cost_center():
         if not company:
             try:
                 company = data['company_name']
-            except:
+            except KeyError:
                 data = frappe.form_dict
                 send_msg_telegram("data: " + str(data) + " " + str(type(data)))
-
-            company = data['company_name']
+            try:
+                company = data['company_name']
+            except KeyError:
+                company = data.pop("company_name")
 
         if company and '%' in company:
             company = urllib.unquote(str(company)).decode('utf-8', 'replace')
