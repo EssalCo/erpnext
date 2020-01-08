@@ -29,7 +29,7 @@ def get_cost_center():
             try:
                 company = data['company_name']
             except KeyError:
-                company = data.pop("company_name")
+                pass
 
         if company and '%' in company:
             company = urllib.unquote(str(company)).decode('utf-8', 'replace')
