@@ -9,6 +9,7 @@ from frappe import _
 from frappe.utils import flt, getdate, formatdate, cstr
 from erpnext.utilities.send_telegram import send_msg_telegram
 import urllib
+import traceback
 
 
 @frappe.whitelist(allow_guest=True)
@@ -18,48 +19,53 @@ def get_account_tree():
     # 'from_date'
     # 'to_date'
     # 'account'
-    data = frappe.form_dict.data
-    send_msg_telegram(str(data) + str(type(data)))
-    company_name = data['company_name']
-    if company_name and '%' in company_name:
-        company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
-    fiscal_year = data['fiscal_year']
-    if fiscal_year and '%' in fiscal_year:
-        fiscal_year = urllib.unquote(str(data['fiscal_year'])).decode('utf-8', 'replace')
-    from_date = data.get('from_date')
-    to_date = data.get('to_date')
-    account = data.get('account')
-    if account and '%' in account:
-        account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')
+    try:
+        data = frappe.form_dict.data
+        send_msg_telegram(str(data) + str(type(data)))
+        company_name = data['company_name']
+        if company_name and '%' in company_name:
+            company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
+        fiscal_year = data['fiscal_year']
+        if fiscal_year and '%' in fiscal_year:
+            fiscal_year = urllib.unquote(str(data['fiscal_year'])).decode('utf-8', 'replace')
+        from_date = data.get('from_date')
+        to_date = data.get('to_date')
+        account = data.get('account')
+        if account and '%' in account:
+            account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')
 
-    filters = dict(
-        company=company_name,
-        from_date=from_date,
-        to_date=to_date,
-        fiscal_year=fiscal_year,
-        show_zero_values=1
-    )
-    data = get_data(filters)
+        filters = dict(
+            company=company_name,
+            from_date=from_date,
+            to_date=to_date,
+            fiscal_year=fiscal_year,
+            show_zero_values=1
+        )
+        data = get_data(filters)
 
-    frappe.set_user("Administrator")
-    result = dict()
-    for d in data:
-        if d.get("account"):
-            result[d['account']] = d
+        frappe.set_user("Administrator")
+        result = dict()
+        for d in data:
+            if d.get("account"):
+                result[d['account']] = d
 
-    data = list()
-    account_obj = dict()
-    for key in result:
-        if account and account == result[key]['account']: account_obj = result[key]
-        if not result[key]['parent_account']:
-            data.append(result[key])
-        else:
-            if "children" in result[result[key]['parent_account']]:
-                result[result[key]['parent_account']]["children"].append(result[key])
+        data = list()
+        account_obj = dict()
+        for key in result:
+            if account and account == result[key]['account']: account_obj = result[key]
+            if not result[key]['parent_account']:
+                data.append(result[key])
             else:
-                result[result[key]['parent_account']]["children"] = [result[key]]
+                if "children" in result[result[key]['parent_account']]:
+                    result[result[key]['parent_account']]["children"].append(result[key])
+                else:
+                    result[result[key]['parent_account']]["children"] = [result[key]]
 
-    return dict(status=True, account_tree=data, account=account_obj)
+        return dict(status=True, account_tree=data, account=account_obj)
+    except Exception as e:
+        error_msg = traceback.format_exc()
+        send_msg_telegram(error_msg)
+        return dict(status=False, message=str(e))
 
 
 value_fields = ("opening_debit", "opening_credit", "debit", "credit", "closing_debit", "closing_credit")
