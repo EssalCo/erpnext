@@ -20,11 +20,17 @@ def get_account_tree():
     # 'account'
     data = frappe.form_dict.data
     send_msg_telegram(str(data) + str(type(data)))
-    company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
-    fiscal_year = urllib.unquote(str(data['fiscal_year'])).decode('utf-8', 'replace')
+    company_name = data['company_name']
+    if company_name and '%' in company_name:
+        company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
+    fiscal_year = data['fiscal_year']
+    if fiscal_year and '%' in fiscal_year:
+        fiscal_year = urllib.unquote(str(data['fiscal_year'])).decode('utf-8', 'replace')
     from_date = data.get('from_date')
     to_date = data.get('to_date')
-    account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')
+    account = data.get('account')
+    if account and '%' in account:
+        account = urllib.unquote(str(data.get('account'))).decode('utf-8', 'replace')
 
     filters = dict(
         company=company_name,
