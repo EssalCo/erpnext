@@ -20,11 +20,16 @@ def get_account_tree():
     # 'to_date'
     # 'account'
     try:
-        data = frappe.form_dict.data or frappe.form_dict
+        data = frappe.form_dict.data
         send_msg_telegram(str(data) + str(type(data)))
         # _data = frappe.form_dict
         # send_msg_telegram(str(_data) + str(type(_data)))
+        try:
+            company_name = data['company_name']
+        except:
+            data = frappe.form_dict
         company_name = data['company_name']
+
         if company_name and '%' in company_name:
             company_name = urllib.unquote(str(data['company_name'])).decode('utf-8', 'replace')
         fiscal_year = data['fiscal_year']
