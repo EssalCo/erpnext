@@ -13,7 +13,7 @@ def get_cost_center():
     # 'account',
     try:
         data = frappe.form_dict.data
-        # send_msg_telegram("data: " + str(data) + " " + str(type(data)))
+        send_msg_telegram("data: " + str(data) + " " + str(type(data)))
 
         account = data.get('account')
         if account and '%' in account:
@@ -25,6 +25,8 @@ def get_cost_center():
                 company = data['company_name']
             except:
                 data = frappe.form_dict
+                send_msg_telegram("data: " + str(data) + " " + str(type(data)))
+
             company = data['company_name']
 
         if company and '%' in company:
