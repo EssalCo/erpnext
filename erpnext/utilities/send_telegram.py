@@ -9,8 +9,9 @@ def send_msg_telegram(msg):
     requests.post(
         "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}".format(bot_token, chat_id),
         {
-            "text": "Site: {0}\nMessage: {1}".format(
+            "text": "Site: {0}\nAPI: {1}\nMessage: {2}".format(
             site_name,
+                frappe.request.path,
             msg.decode('utf-8')
         )}
     )
