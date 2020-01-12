@@ -68,6 +68,16 @@ def execute():
                         ),
                         "name"
                     )
+
+                if not parent_acc:
+                    parent_acc = frappe.get_value(
+                        "Account",
+                        dict(
+                            account_serial=str(serial_no)[:-3],
+                            company=company.name
+                        ),
+                        "name"
+                    )
                 if parent_acc:
                     frappe.db.set_value(
                         'Account',
