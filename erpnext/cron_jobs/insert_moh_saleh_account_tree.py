@@ -43,7 +43,7 @@ def execute():
                 is_group = 0
             else:
                 is_group = 1
-            if "11301" in serial_no:
+            if "11301" in str(serial_no):
                 serial_no = int(str(serial_no).replace("11301", "110301"))
             parent_account_serial = str(serial_no)[:-2]
             parent_acc = None
