@@ -12,7 +12,7 @@ import urllib
 def get_cost_center():
     # 'account',
     try:
-        data = frappe.form_dict.data
+        data = frappe.local.form_dict.data
         send_msg_telegram("data: " + str(data) + " " + str(type(data)))
 
         account = data.get('account')
