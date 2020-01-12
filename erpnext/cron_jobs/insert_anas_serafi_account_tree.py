@@ -14,6 +14,9 @@ from frappe.utils.file_manager import get_file_path
 def execute():
     accounts_tree = "/private/files/anas_account_tree.csv"
 
+    frappe.db.sql(
+        """DELETE FROM tabAccount WHERE company = 'مؤسسة أنس صيرفي';"""
+    )
     company = frappe.get_doc(
         "Company",
         dict(
@@ -43,7 +46,7 @@ def execute():
 
             parent_account_serial = str(serial_no)[:-2]
             parent_acc = None
-
+            print parent_account_serial, '-', serial_no
             if parent_account_serial:
                 parent_acc = frappe.get_value(
                     "Account",
