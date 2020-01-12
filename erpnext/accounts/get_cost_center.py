@@ -24,7 +24,7 @@ def get_cost_center():
             try:
                 company = data['company_name']
             except KeyError:
-                data = frappe.form_dict
+                data = frappe.local.form_dict
                 send_msg_telegram("data: " + str(data) + " " + str(type(data)))
             try:
                 company = data['company_name']
