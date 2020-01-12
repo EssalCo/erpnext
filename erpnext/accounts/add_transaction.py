@@ -948,23 +948,30 @@ def add_transaction_v3():
 
             if credit:
                 total_credit += credit
-                journal_entry.append("accounts", dict(
-                    account=account,
-                    party_type="Customer" if account_data.account_type in ("Payable",
-                                                                           "Receivable") else None,
-                    party=to_customer.name if account_data.account_type in ("Payable",
-                                                                            "Receivable") else None,
-                    title=_label,
-                    exchange_rate=1,
-                    debit_in_account_currency=0,
-                    debit=0,
-                    journal_note=_statement,
-                    credit_in_account_currency=abs(credit) - abs(vat_amount),
-                    credit=abs(credit) - abs(vat_amount),
-                    project=project,
-                    is_advance="No",
-                    cost_center=cost_center
-                ))
+                found = False
+                for temp_account in getattr(journal_entry, "accounts", list()):
+                    if account == temp_account.account and temp_account.credit and temp_account.cost_center == cost_center:
+                        temp_account.credit_in_account_currency += abs(credit) - abs(vat_amount)
+                        temp_account.credit = temp_account.credit_in_account_currency
+                        found = True
+                if not found:
+                    journal_entry.append("accounts", dict(
+                        account=account,
+                        party_type="Customer" if account_data.account_type in ("Payable",
+                                                                               "Receivable") else None,
+                        party=to_customer.name if account_data.account_type in ("Payable",
+                                                                                "Receivable") else None,
+                        title=_label,
+                        exchange_rate=1,
+                        debit_in_account_currency=0,
+                        debit=0,
+                        journal_note=_statement,
+                        credit_in_account_currency=abs(credit) - abs(vat_amount),
+                        credit=abs(credit) - abs(vat_amount),
+                        project=project,
+                        is_advance="No",
+                        cost_center=cost_center
+                    ))
                 # journal_entry.append("accounts", dict(
                 #     account=account,
                 #     party_type="Company",
@@ -996,23 +1003,30 @@ def add_transaction_v3():
                     ))
             else:
                 total_debit += debit
-                journal_entry.append("accounts", dict(
-                    party_type="Customer" if account_data.account_type in ("Payable",
-                                                                           "Receivable") else None,
-                    party=to_customer.name if account_data.account_type in ("Payable",
-                                                                            "Receivable") else None,
-                    account=account,
-                    exchange_rate=1,
-                    title=_label,
-                    debit_in_account_currency=abs(debit) - abs(vat_amount),
-                    debit=abs(debit) - abs(vat_amount),
-                    credit_in_account_currency=0,
-                    credit=0,
-                    project=project,
-                    journal_note=_statement,
-                    is_advance="No",
-                    cost_center=cost_center
-                ))
+                found = False
+                for temp_account in getattr(journal_entry, "accounts", list()):
+                    if account == temp_account.account and temp_account.debit and temp_account.cost_center == cost_center:
+                        temp_account.debit_in_account_currency += abs(debit) - abs(vat_amount)
+                        temp_account.credit = temp_account.debit_in_account_currency
+                        found = True
+                if not found:
+                    journal_entry.append("accounts", dict(
+                        party_type="Customer" if account_data.account_type in ("Payable",
+                                                                               "Receivable") else None,
+                        party=to_customer.name if account_data.account_type in ("Payable",
+                                                                                "Receivable") else None,
+                        account=account,
+                        exchange_rate=1,
+                        title=_label,
+                        debit_in_account_currency=abs(debit) - abs(vat_amount),
+                        debit=abs(debit) - abs(vat_amount),
+                        credit_in_account_currency=0,
+                        credit=0,
+                        project=project,
+                        journal_note=_statement,
+                        is_advance="No",
+                        cost_center=cost_center
+                    ))
                 # journal_entry.append("accounts", dict(
                 #     account=account,
                 #     party_type="Company",
