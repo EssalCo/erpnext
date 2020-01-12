@@ -194,6 +194,9 @@ class Account(NestedSet):
 
     def get_account_serial(self):
         try:
+            if getattr(self, "account_serial", None) and not getattr(self, "account_serial_x", None):
+                self.account_serial_x = str(self.account_serial)
+                return
             # if not getattr(self, "account_serial_x", None):
             #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
             #     return
