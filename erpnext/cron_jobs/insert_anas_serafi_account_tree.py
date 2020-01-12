@@ -66,6 +66,16 @@ def execute():
                         ),
                         "name"
                     )
+                if parent_acc:
+                    frappe.db.set_value(
+                    'Account',
+                    dict(
+                        name=parent_acc,
+                        company=company.name
+                    ),
+                    "is_group",
+                    1
+                )
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
@@ -83,6 +93,8 @@ def execute():
             doc.flags.ignore_mandatory = True
             try:
                 doc.insert(ignore_permissions=True)
+
+                print doc.account_serial
             except frappe.exceptions.DuplicateEntryError:
                 if frappe.db.exists(
                         "Account",
