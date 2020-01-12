@@ -12,15 +12,15 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
-    accounts_tree = "/private/files/anas_account_tree.csv"
+    accounts_tree = "/private/files/saleh_account_tree.csv"
 
     frappe.db.sql(
-        """DELETE FROM tabAccount WHERE company = 'مؤسسة أنس صيرفي';"""
+        """DELETE FROM tabAccount WHERE company = 'مجموعة محمد صالح بن حمزه صيرفي';"""
     )
     company = frappe.get_doc(
         "Company",
         dict(
-            company_name="مؤسسة أنس صيرفي"
+            company_name="مجموعة محمد صالح بن حمزه صيرفي"
         )
     )
 
@@ -32,12 +32,12 @@ def execute():
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
             try:
-                serial_no = int(row[5])
+                serial_no = int(row[1])
             except:
                 continue
             # print row
-            account_name = row[4].decode('utf-8')
-            account_type = row[6].decode('utf-8')
+            account_name = row[2].decode('utf-8')
+            account_type = row[0].decode('utf-8')
 
             if account_type == "فرعي":
                 is_group = 0
