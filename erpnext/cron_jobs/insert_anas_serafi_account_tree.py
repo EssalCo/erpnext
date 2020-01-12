@@ -47,6 +47,7 @@ def execute():
             parent_account_serial = str(serial_no)[:-2]
             parent_acc = None
             print parent_account_serial, '-', serial_no
+            print str(is_group)
             if parent_account_serial:
                 parent_acc = frappe.get_value(
                     "Account",
@@ -56,7 +57,15 @@ def execute():
                     ),
                     "name"
                 )
-
+                if not parent_account:
+                    parent_acc = frappe.get_value(
+                        "Account",
+                        dict(
+                            account_serial=serial_no[:-1],
+                            company=company.name
+                        ),
+                        "name"
+                    )
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
