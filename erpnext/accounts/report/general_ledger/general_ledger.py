@@ -139,7 +139,7 @@ def get_gl_entries(filters):
     select_fields = """, debit, credit, debit_in_account_currency,
 		credit_in_account_currency """
 
-    group_by_statement = ''
+    group_by_statement = 'group by name'
     order_by_statement = "order by posting_date, account"
 
     if filters.get("group_by") == _("Group by Voucher"):
