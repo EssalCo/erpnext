@@ -42,9 +42,10 @@
 				<td>
 					{% if(!(filters.party || filters.account)) { %}
 						{%= data[i].party || data[i].account %}
-						<br>
+
 					{% } %}
 					{% if(!(filters.customize_party_text)) { %}
+						<br>
 						{{ __("Against") }}: {%= data[i].against %}
 					{% } %}
 					<br>{%= __("Remarks") %}: {%= data[i].remarks %}
