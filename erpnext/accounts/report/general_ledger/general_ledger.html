@@ -44,8 +44,9 @@
 						{%= data[i].party || data[i].account %}
 						<br>
 					{% } %}
-
-					{{ __("Against") }}: {%= data[i].against %}
+					{% if(!(filters.customize_party_text)) { %}
+						{{ __("Against") }}: {%= data[i].against %}
+					{% } %}
 					<br>{%= __("Remarks") %}: {%= data[i].remarks %}
 					{% if(data[i].bill_no) { %}
 						<br>{%= __("Supplier Invoice No") %}: {%= data[i].bill_no %}

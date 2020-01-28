@@ -260,6 +260,11 @@ frappe.query_reports["General Ledger"] = {
             // 	}
             // }
         },
+        {
+            "fieldname": "customize_party_text",
+            "label": __("Customize Party Text"),
+            "fieldtype": "Check"
+        },
     ]
 };
 
