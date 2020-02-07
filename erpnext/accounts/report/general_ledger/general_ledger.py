@@ -208,7 +208,7 @@ def get_conditions(filters):
         conditions.append("party_type=%(party_type)s")
 
     if filters.get("party_name"):
-        filters['party'] = filters['party_name']
+        filters['party'] = u''.join((filters['party_name'],)).encode('utf-8')
         conditions.append("party = %(party)s")
         send_msg_telegram(filters['party_name'])
     if not (filters.get("account") or filters.get("party") or
