@@ -15,6 +15,7 @@ from frappe.utils import getdate, cstr, flt
 
 
 from erpnext.utilities.send_telegram import send_msg_telegram
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 @frappe.whitelist()
@@ -168,21 +169,21 @@ def get_gl_entries(filters):
             order_by_statement=order_by_statement
         ),
         filters, as_dict=1)
-    # send_msg_telegram("""
-    #     select
-    #         posting_date, account, party_type, party,
-    #         voucher_type, voucher_no, cost_center, project,
-    #         against_voucher_type, against_voucher, account_currency,
-    #         remarks, against, is_opening {select_fields}
-    #     from `tabGL Entry`
-    #     where company=%(company)s {conditions} {group_by_statement}
-    #     {order_by_statement}
-    #     """.format(
-    #         select_fields=select_fields, conditions=get_conditions(filters),
-    #         group_by_statement=group_by_statement,
-    #         order_by_statement=order_by_statement
-    #     ))
-    # send_msg_telegram(str(filters))
+    send_msg_telegram("""
+        select
+            posting_date, account, party_type, party,
+            voucher_type, voucher_no, cost_center, project,
+            against_voucher_type, against_voucher, account_currency,
+            remarks, against, is_opening {select_fields}
+        from `tabGL Entry`
+        where company=%(company)s {conditions} {group_by_statement}
+        {order_by_statement}
+        """.format(
+            select_fields=select_fields, conditions=get_conditions(filters),
+            group_by_statement=group_by_statement,
+            order_by_statement=order_by_statement
+        ))
+    send_msg_telegram(str(filters))
     return gl_entries
 
 
