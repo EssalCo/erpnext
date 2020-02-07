@@ -158,7 +158,7 @@ def get_gl_entries(filters):
         import re
         party_name = u''.join((filters['party_name'],)).encode('utf-8')
         party_name = "".join(re.split("[^a-zA-Z ]*", party_name))
-        party_filter = ' and party like "%%{0}" '.format(party_name)
+        party_filter = ' and party like "%%{0}%%" '.format(party_name.strip())
     gl_entries = frappe.db.sql(
         """
         select
@@ -167,7 +167,7 @@ def get_gl_entries(filters):
             against_voucher_type, against_voucher, account_currency,
             remarks, against, is_opening {select_fields}
         from `tabGL Entry`
-        where company=%(company)s {conditions} {group_by_statement} {party_filter}
+        where company=%(company)s {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
             select_fields=select_fields, conditions=get_conditions(filters),
@@ -183,7 +183,7 @@ def get_gl_entries(filters):
             against_voucher_type, against_voucher, account_currency,
             remarks, against, is_opening {select_fields}
         from `tabGL Entry`
-        where company=%(company)s {conditions} {group_by_statement} {party_filter}
+        where company=%(company)s {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
         select_fields=select_fields, conditions=get_conditions(filters),
