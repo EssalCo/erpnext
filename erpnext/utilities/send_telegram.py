@@ -10,7 +10,10 @@ def send_msg_telegram(msg):
         try:
             msg = msg.decode('utf-8')
         except:
-            msg = str(msg).decode('utf-8')
+            try:
+                msg = str(msg).decode('utf-8')
+            except:
+                msg = u' '.join((msg,)).encode('utf-8').strip()
         site_name = get_site_name(frappe.local.request.host)
         bot_token = "610849820:AAGNJDomC3j7gF-XNxWEW9D23qYd8EiRzlg"
         chat_id = "-285634604"
