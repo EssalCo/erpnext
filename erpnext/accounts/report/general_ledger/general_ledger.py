@@ -176,7 +176,21 @@ def get_gl_entries(filters):
             party_filter=party_filter
         ),
         filters, as_dict=1)
-    send_msg_telegram(str(len(gl_entries)))
+    send_msg_telegram("""
+        select
+            posting_date, account, party_type, party,
+            voucher_type, voucher_no, cost_center, project,
+            against_voucher_type, against_voucher, account_currency,
+            remarks, against, is_opening {select_fields}
+        from `tabGL Entry`
+        where company=%(company)s {conditions} {group_by_statement} {party_filter}
+        {order_by_statement}
+        """.format(
+        select_fields=select_fields, conditions=get_conditions(filters),
+        group_by_statement=group_by_statement,
+        order_by_statement=order_by_statement,
+        party_filter=party_filter
+    ))
     return gl_entries
 
 
