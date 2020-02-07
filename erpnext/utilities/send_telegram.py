@@ -1,5 +1,7 @@
 import requests
 import frappe
+import traceback
+
 
 def send_msg_telegram(msg):
 
@@ -22,5 +24,5 @@ def send_msg_telegram(msg):
             )}
         )
     except:
-        pass
+        send_msg_telegram(traceback.format_exc())
     return

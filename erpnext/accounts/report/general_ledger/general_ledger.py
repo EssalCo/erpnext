@@ -210,7 +210,7 @@ def get_conditions(filters):
     if filters.get("party_name"):
         filters['party'] = filters['party_name']
         conditions.append("party = %(party)s")
-        send_msg_telegram(filters['party_name'])
+        send_msg_telegram(str(filters['party_name']))
     if not (filters.get("account") or filters.get("party") or
             filters.get("group_by") in ["Group by Account", "Group by Party"]):
         conditions.append("posting_date >=%(from_date)s")
