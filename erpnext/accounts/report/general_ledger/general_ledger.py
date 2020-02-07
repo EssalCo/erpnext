@@ -152,7 +152,13 @@ def get_gl_entries(filters):
         select_fields = """, sum(debit) as debit, sum(credit) as credit,
 			round(sum(debit_in_account_currency), 4) as debit_in_account_currency,
 			round(sum(credit_in_account_currency), 4) as  credit_in_account_currency"""
+    party_filter = ""
 
+    if filters.get("party_name"):
+        import re
+        party_name = u''.join((filters['party_name'],)).encode('utf-8')
+        party_name = "".join(re.split("[^a-zA-Z]*", party_name))
+        party_filter = ' and party like "%{0}" '.format(party_name)
     gl_entries = frappe.db.sql(
         """
         select
@@ -161,28 +167,15 @@ def get_gl_entries(filters):
             against_voucher_type, against_voucher, account_currency,
             remarks, against, is_opening {select_fields}
         from `tabGL Entry`
-        where company=%(company)s {conditions} {group_by_statement}
+        where company=%(company)s {conditions} {group_by_statement} {party_filter}
         {order_by_statement}
         """.format(
             select_fields=select_fields, conditions=get_conditions(filters),
             group_by_statement=group_by_statement,
-            order_by_statement=order_by_statement
+            order_by_statement=order_by_statement,
+            party_filter=party_filter
         ),
         filters, as_dict=1)
-    send_msg_telegram("""
-        select
-            posting_date, account, party_type, party,
-            voucher_type, voucher_no, cost_center, project,
-            against_voucher_type, against_voucher, account_currency,
-            remarks, against, is_opening {select_fields}
-        from `tabGL Entry`
-        where company=%(company)s {conditions} {group_by_statement}
-        {order_by_statement}
-        """.format(
-            select_fields=select_fields, conditions=get_conditions(filters),
-            group_by_statement=group_by_statement,
-            order_by_statement=order_by_statement
-        ))
     send_msg_telegram(str(len(gl_entries)))
     return gl_entries
 
@@ -207,10 +200,6 @@ def get_conditions(filters):
     if filters.get("party_type"):
         conditions.append("party_type=%(party_type)s")
 
-    if filters.get("party_name"):
-        filters['party'] = u''.join((filters['party_name'],)).encode('utf-8')
-        conditions.append("party = %(party)s")
-        send_msg_telegram(filters['party_name'])
     if not (filters.get("account") or filters.get("party") or
             filters.get("group_by") in ["Group by Account", "Group by Party"]):
         conditions.append("posting_date >=%(from_date)s")
