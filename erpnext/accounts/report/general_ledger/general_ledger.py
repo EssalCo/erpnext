@@ -183,7 +183,7 @@ def get_gl_entries(filters):
             group_by_statement=group_by_statement,
             order_by_statement=order_by_statement
         ))
-    send_msg_telegram(str(filters))
+    send_msg_telegram(str(len(gl_entries)))
     return gl_entries
 
 
