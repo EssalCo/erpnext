@@ -158,7 +158,7 @@ def get_gl_entries(filters):
         import re
         party_name = u''.join((filters['party_name'],)).encode('utf-8')
         party_name = "".join(re.split("[^a-zA-Z]*", party_name))
-        party_filter = ' and party like "%{0}" '.format(party_name)
+        party_filter = ' and party like "%%{0}" '.format(party_name)
     gl_entries = frappe.db.sql(
         """
         select
