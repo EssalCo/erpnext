@@ -299,7 +299,7 @@ def execute_again():
 
 def execute():
     payment_details = "/private/files/payment_details_2.csv"
-    payment = "/private/files/payment_2.csv"
+    payment = "/private/files/payments_2.csv"
     # owners = "/private/files/owners.csv"
     parent_account = "50101 - حسابات الدائنون - N"
     # print("Starting owners..")
