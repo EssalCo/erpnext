@@ -569,8 +569,22 @@ def execute():
                 )
             )
 
-
-            print(str(row))
+            if not account_name:
+                doc = frappe.get_doc(
+                                dict(
+                                    doctype="Account",
+                                    account_name="{0} - مالك رقم {0}".format(account_no),
+                                    account_number=None,
+                                    company=company.name,
+                                    is_group=0,
+                                    # account_currency="SAR",
+                                    parent_account=parent_account,
+                                    report_type="Balance Sheet"
+                                )
+                            )
+                doc.flags.ignore_mandatory = True
+                doc.insert(ignore_permissions=True)
+                account_name = doc.name
             journal_entry = frappe.get_doc(
                 dict(
                     doctype="Journal Entry",
