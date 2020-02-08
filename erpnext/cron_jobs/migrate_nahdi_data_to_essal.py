@@ -298,12 +298,12 @@ def execute_again():
 
 
 def execute():
-    payment_details = "/private/files/payment_details.csv"
-    payment = "/private/files/payment.csv"
-    owners = "/private/files/owners.csv"
+    payment_details = "/private/files/payment_details_2.csv"
+    payment = "/private/files/payment_2.csv"
+    # owners = "/private/files/owners.csv"
     parent_account = "50101 - حسابات الدائنون - N"
-    print("Starting owners..")
-    current_file = get_file_path(owners)
+    # print("Starting owners..")
+    # current_file = get_file_path(owners)
     company = frappe.get_doc(
         "Company",
         dict(
@@ -346,151 +346,151 @@ def execute():
     #         doc.insert(ignore_permissions=True)
     #
     # print("Done owners..")
-    # frappe.db.commit()
-    # print("Start Payments..")
-    # current_file = get_file_path(payment)
-    #
-    # with open(current_file, 'rb') as csvfile:
-    #     spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
-    #     for row in spamreader:
-    #         # print row
-    #         try:
-    #             serial_no = int(row[0])
-    #         except:
-    #             continue
-    #
-    #         post_date = row[1]
-    #         post_date = datetime.strptime(
-    #             str(post_date), '%Y/%m/%d'
-    #         )
-    #         account_no = str(row[2])
-    #         value_1 = float(row[3])
-    #         value_2 = float(row[4])
-    #         value_3 = float(row[5])
-    #         value_4 = float(row[6])
-    #         cheq = str(row[7])
-    #         bank = str(row[8])
-    #         remark = str(row[9])
-    #         pay_name = str(row[10])
-    #         receipt_no = str(row[11])
-    #         total = value_1 + value_2 + value_3 + value_4
-    #         remark_str = ""
-    #         if cheq:
-    #             remark_str = remark_str + "CHEQNO: {0}".format(cheq)
-    #         if bank:
-    #             if remark_str:
-    #                 remark_str += ", "
-    #             remark_str = remark_str + "BANK: {0}".format(bank)
-    #         if remark:
-    #             if remark_str:
-    #                 remark_str += ", "
-    #             remark_str = remark_str + "REMARK: {0}".format(remark)
-    #         if pay_name:
-    #             if remark_str:
-    #                 remark_str += ", "
-    #             remark_str = remark_str + "PAY_NAME: {0}".format(pay_name)
-    #         if receipt_no:
-    #             if remark_str:
-    #                 remark_str += ", "
-    #             remark_str = remark_str + "RCP_NO: {0}".format(receipt_no)
-    #         # print(str(account_no))
-    #         account_name = frappe.get_value(
-    #             "Account",
-    #             dict(
-    #                 parent_account=parent_account,
-    #                 name=("like", "{0} -%".format(account_no))
-    #             )
-    #         )
-    #
-    #         if not account_name:
-    #             doc = frappe.get_doc(
-    #                             dict(
-    #                                 doctype="Account",
-    #                                 account_name="{0} - مالك رقم {0}".format(account_no),
-    #                                 account_number=None,
-    #                                 company=company.name,
-    #                                 is_group=0,
-    #                                 # account_currency="SAR",
-    #                                 parent_account=parent_account,
-    #                                 report_type="Balance Sheet"
-    #                             )
-    #                         )
-    #             doc.flags.ignore_mandatory = True
-    #             doc.insert(ignore_permissions=True)
-    #             account_name = doc.name
-    #         prev = frappe.get_value(
-    #             "Journal Entry",
-    #             dict(
-    #
-    #                 title=str(serial_no)
-    #             ),
-    #             "name"
-    #         )
-    #         if int(serial_no) < 34441 and prev:
-    #             pass
-    #             # frappe.db.set_value(
-    #             #     "Journal Entry",
-    #             #     prev,
-    #             #     "remark",
-    #             #     remark_str
-    #             # )
-    #         else:
-    #             journal_entry = frappe.get_doc(
-    #                 dict(
-    #                     doctype="Journal Entry",
-    #                     title=str(serial_no),
-    #                     voucher_type="Journal Entry",
-    #                     naming_series="JV-",
-    #                     posting_date=post_date,
-    #                     company=company.name,
-    #                     user_remark=remark,
-    #                     multi_currency=0,
-    #                     remark=remark_str,
-    #                     bill_date=datetime.now(),
-    #                     third_party_creation=post_date,
-    #                     accounts=[],
-    #                     is_opening="No",
-    #                     cheque_no=cheq,
-    #                     cheque_date=post_date if cheq else None
-    #                 )
-    #             )
-    #
-    #             journal_entry.append("accounts", dict(
-    #                 account=cash_account,
-    #                 against_account=account_name,
-    #                 title=remark,
-    #                 exchange_rate=1,
-    #                 debit_in_account_currency=abs(total),
-    #                 debit=abs(total),
-    #                 journal_note=remark,
-    #                 credit_in_account_currency=abs(0),
-    #                 credit=abs(0),
-    #                 is_advance="No",
-    #                 cost_center=main_cost_center
-    #             ))
-    #             journal_entry.append("accounts", dict(
-    #                 party_type="Company",
-    #                 party=company.name,
-    #                 account=account_name,
-    #                 title=remark,
-    #                 exchange_rate=1,
-    #                 debit_in_account_currency=0,
-    #                 debit=0,
-    #                 journal_note=remark,
-    #                 credit_in_account_currency=abs(total),
-    #                 credit=abs(total),
-    #                 is_advance="No",
-    #                 cost_center=main_cost_center
-    #             ))
-    #             journal_entry.flags.ignore_permissions = True
-    #
-    #             journal_entry.submit()
-    #
-    #             print journal_entry.name
-    #         frappe.db.commit()
-    #
-    # print("Done payment..")
-    # frappe.db.commit()
+    frappe.db.commit()
+    print("Start Payments..")
+    current_file = get_file_path(payment)
+
+    with open(current_file, 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
+        for row in spamreader:
+            # print row
+            try:
+                serial_no = int(row[0])
+            except:
+                continue
+
+            post_date = row[1]
+            post_date = datetime.strptime(
+                str(post_date), '%Y/%m/%d'
+            )
+            account_no = str(row[2])
+            value_1 = float(row[3])
+            value_2 = float(row[4])
+            value_3 = float(row[5])
+            value_4 = float(row[6])
+            cheq = str(row[7])
+            bank = str(row[8])
+            remark = str(row[9])
+            pay_name = str(row[10])
+            receipt_no = str(row[11])
+            total = value_1 + value_2 + value_3 + value_4
+            remark_str = ""
+            if cheq:
+                remark_str = remark_str + "CHEQNO: {0}".format(cheq)
+            if bank:
+                if remark_str:
+                    remark_str += ", "
+                remark_str = remark_str + "BANK: {0}".format(bank)
+            if remark:
+                if remark_str:
+                    remark_str += ", "
+                remark_str = remark_str + "REMARK: {0}".format(remark)
+            if pay_name:
+                if remark_str:
+                    remark_str += ", "
+                remark_str = remark_str + "PAY_NAME: {0}".format(pay_name)
+            if receipt_no:
+                if remark_str:
+                    remark_str += ", "
+                remark_str = remark_str + "RCP_NO: {0}".format(receipt_no)
+            # print(str(account_no))
+            account_name = frappe.get_value(
+                "Account",
+                dict(
+                    parent_account=parent_account,
+                    name=("like", "{0} -%".format(account_no))
+                )
+            )
+
+            if not account_name:
+                doc = frappe.get_doc(
+                                dict(
+                                    doctype="Account",
+                                    account_name="{0} - مالك رقم {0}".format(account_no),
+                                    account_number=None,
+                                    company=company.name,
+                                    is_group=0,
+                                    # account_currency="SAR",
+                                    parent_account=parent_account,
+                                    report_type="Balance Sheet"
+                                )
+                            )
+                doc.flags.ignore_mandatory = True
+                doc.insert(ignore_permissions=True)
+                account_name = doc.name
+            prev = frappe.get_value(
+                "Journal Entry",
+                dict(
+
+                    title=str(serial_no)
+                ),
+                "name"
+            )
+            if int(serial_no) < 34441 and prev:
+                pass
+                # frappe.db.set_value(
+                #     "Journal Entry",
+                #     prev,
+                #     "remark",
+                #     remark_str
+                # )
+            else:
+                journal_entry = frappe.get_doc(
+                    dict(
+                        doctype="Journal Entry",
+                        title=str(serial_no),
+                        voucher_type="Journal Entry",
+                        naming_series="JV-",
+                        posting_date=post_date,
+                        company=company.name,
+                        user_remark=remark,
+                        multi_currency=0,
+                        remark=remark_str,
+                        bill_date=datetime.now(),
+                        third_party_creation=post_date,
+                        accounts=[],
+                        is_opening="No",
+                        cheque_no=cheq,
+                        cheque_date=post_date if cheq else None
+                    )
+                )
+
+                journal_entry.append("accounts", dict(
+                    account=cash_account,
+                    against_account=account_name,
+                    title=remark,
+                    exchange_rate=1,
+                    debit_in_account_currency=abs(total),
+                    debit=abs(total),
+                    journal_note=remark,
+                    credit_in_account_currency=abs(0),
+                    credit=abs(0),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
+                journal_entry.append("accounts", dict(
+                    party_type="Company",
+                    party=company.name,
+                    account=account_name,
+                    title=remark,
+                    exchange_rate=1,
+                    debit_in_account_currency=0,
+                    debit=0,
+                    journal_note=remark,
+                    credit_in_account_currency=abs(total),
+                    credit=abs(total),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
+                journal_entry.flags.ignore_permissions = True
+
+                journal_entry.submit()
+
+                print journal_entry.name
+            frappe.db.commit()
+
+    print("Done payment..")
+    frappe.db.commit()
 
     print("Start Payments details..")
     current_file = get_file_path(payment_details)
