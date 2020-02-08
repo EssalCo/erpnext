@@ -160,8 +160,9 @@ def get_gl_entries(filters):
             if not party_name:
                 party_name = frappe.get_value(filters['party_type'], dict(
                     customer_name=filters['party_name']), "name")
+        else: party_name = filters['party_type']
         import re
-        party_name = u''.join((filters['party_name'],)).encode('utf-8')
+        party_name = u''.join((party_name,)).encode('utf-8')
         party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*'\-]*", party_name))
         if party_name != filters['party_name']:
             party_filter = ' and party like "%%{0}%%" '.format(party_name.strip())
