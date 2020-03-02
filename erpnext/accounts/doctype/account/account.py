@@ -252,7 +252,7 @@ class Account(NestedSet):
 
                     # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
                     next_serial_str = "{0}.{1}".format(account_serial_x, next_serial)
-            send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
+            send_msg_telegram("finish " + str(next_serial) + str(next_serial_str))
 
             self.account_serial = next_serial
             self.account_serial_x = next_serial_str
