@@ -47,3 +47,9 @@ def execute():
         "account_serial",
         "102010201"
     )
+    frappe.db.set_value(
+        "Account",
+        "10201020101 - مصرف الراجحي الاداره - 44466/6 - أع ن",
+        "account_serial",
+        "10201020101"
+    )
