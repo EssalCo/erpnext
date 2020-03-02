@@ -32,7 +32,7 @@ def execute():
     print(last_existing_serial)
     last_existing_serial = frappe.db.sql("""
     SELECT 
-        account_serial, account_serial * 1 AS maxi
+        account_serial, account_serial * 1 AS maxi, account_serial_x, name
     FROM
         tabAccount
     WHERE 
