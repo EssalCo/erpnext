@@ -30,7 +30,7 @@ class Account(NestedSet):
         self.get_account_serial()
 
     def before_insert(self):
-        #send_msg_telegram("before insert " + str( self.account_serial) + str(self.account_serial_x))
+        # send_msg_telegram("before insert " + str( self.account_serial) + str(self.account_serial_x))
         serial = self.account_name.split(" -")[0]
         if serial.isdigit():
             self.account_serial = serial
@@ -38,8 +38,7 @@ class Account(NestedSet):
             self.get_account_serial()
             if self.account_serial and not serial.isdigit():
                 self.account_name = "{0} - {1}".format(self.account_serial, self.account_name)
-        #send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
-
+        # send_msg_telegram("after insert " + str( self.account_serial) + str(self.account_serial_x))
 
     def before_save(self):
         if not self.account_serial or self.parent_account != frappe.get_value("Account", self.name, "parent_account"):
@@ -58,7 +57,6 @@ class Account(NestedSet):
         self.validate_frozen_accounts_modifier()
         self.validate_balance_must_be_debit_or_credit()
         self.validate_account_currency()
-
 
     def validate_parent(self):
         """Fetch Parent Details and validate parent account"""
@@ -127,7 +125,7 @@ class Account(NestedSet):
         if old_value and old_value != self.freeze_account:
             frozen_accounts_modifier = frappe.db.get_value('Accounts Settings', None, 'frozen_accounts_modifier')
             if not frozen_accounts_modifier or \
-                            frozen_accounts_modifier not in frappe.get_roles():
+                    frozen_accounts_modifier not in frappe.get_roles():
                 throw(_("You are not authorized to set Frozen value"))
 
     def validate_balance_must_be_debit_or_credit(self):
@@ -202,7 +200,7 @@ class Account(NestedSet):
             #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
             #     return
             if not self.parent_account:
-                #send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
+                # send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
 
                 last_existing_serial = frappe.db.sql("""SELECT 
         MAX(account_serial) AS maxi
@@ -220,7 +218,7 @@ class Account(NestedSet):
                     next_serial = last_existing_serial + 1
                     next_serial_str = "#{0}".format(last_existing_serial + 1)
             else:
-                #send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
+                send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
 
                 last_existing_serial = frappe.db.sql("""SELECT account_serial, account_serial_x, name FROM
       `tabAccount` WHERE
@@ -236,9 +234,9 @@ class Account(NestedSet):
                     "Account",
                     self.parent_account,
                     [
-                    "account_serial",
+                        "account_serial",
                         "account_serial_x"
-                        ]
+                    ]
                 )
                 if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
                     last_existing_serial = parent_serial * 100
@@ -250,13 +248,14 @@ class Account(NestedSet):
 
                     # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
                     next_serial_str = "{0}.{1}".format(account_serial_x, next_serial)
-            #send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
+            send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
 
             self.account_serial = next_serial
             self.account_serial_x = next_serial_str
         except:
             import traceback
-            send_msg_telegram(traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
+            send_msg_telegram(
+                traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
 
 
 def get_parent_account(doctype, txt, searchfield, start, page_len, filters):
