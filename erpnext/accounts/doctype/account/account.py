@@ -243,11 +243,11 @@ class Account(NestedSet):
                     ]
                 )
                 if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
-                    last_existing_serial = parent_serial * 100
+                    last_existing_serial = long(parent_serial) * 100
                     next_serial = last_existing_serial + 1
                     next_serial_str = "{0}.{1}".format(parent_serial, 1)
                 else:
-                    last_existing_serial = last_existing_serial[0].account_serial
+                    last_existing_serial = long(last_existing_serial[0].account_serial)
                     next_serial = last_existing_serial + 1
 
                     # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
