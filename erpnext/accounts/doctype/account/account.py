@@ -191,6 +191,10 @@ class Account(NestedSet):
         super(Account, self).on_trash(True)
 
     def get_account_serial(self):
+        if not self.account_serial:
+            self.account_serial = 0
+        else:
+            self.account_serial = long(self.account_serial)
         try:
             if getattr(self, "account_serial", None):
                 if not getattr(self, "account_serial_x", None):
