@@ -40,3 +40,10 @@ def execute():
             AND parent_account = %s;""", (company, parent_account), as_dict=True)
     for i in last_existing_serial:
         print(i)
+
+    frappe.db.set_value(
+        "Account",
+        "102010201 - مصرف الراجحي - أع ن",
+        "account_serial",
+        "102010201"
+    )
