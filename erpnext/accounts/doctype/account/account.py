@@ -242,17 +242,25 @@ class Account(NestedSet):
                         "account_serial_x"
                     ]
                 )
+                send_msg_telegram("parent acc " + str(parent_serial) + " " + str(account_serial_x))
+                send_msg_telegram("parent account " + str(last_existing_serial))
+
                 if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
+
                     last_existing_serial = long(parent_serial) * 100
+                    send_msg_telegram("sum " + str(last_existing_serial))
                     next_serial = last_existing_serial + 1
                     next_serial_str = "{0}.{1}".format(parent_serial, 1)
                 else:
+
                     last_existing_serial = long(last_existing_serial[0].account_serial)
+                    send_msg_telegram("query " + str(last_existing_serial))
+
                     next_serial = last_existing_serial + 1
 
                     # trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
                     next_serial_str = "{0}.{1}".format(account_serial_x, next_serial)
-            send_msg_telegram("finish " + str(next_serial) + str(next_serial_str))
+            send_msg_telegram("finish " + str(next_serial) + " " +str(next_serial_str))
 
             self.account_serial = next_serial
             self.account_serial_x = next_serial_str
