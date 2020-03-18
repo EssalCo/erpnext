@@ -13,7 +13,6 @@ from erpnext.accounts.utils import get_account_currency
 from frappe import _, _dict
 from frappe.utils import getdate, cstr, flt
 
-
 from erpnext.utilities.send_telegram import send_msg_telegram
 from erpnext.utilities.send_telegram import send_msg_telegram
 
@@ -160,12 +159,13 @@ def get_gl_entries(filters):
             if not party_name:
                 party_name = frappe.get_value(filters['party_type'], dict(
                     customer_name=filters['party_name']), "name")
-        else: party_name = filters['party_type']
+        else:
+            party_name = filters['party_type']
         import re
         party_name = u''.join((party_name,)).encode('utf-8')
         party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*'\-]*", party_name))
         if party_name != filters['party_name']:
-            party_filter = ' and party like "%%{0}%%" '.format(party_name.strip())
+            party_filter = ' and party like %(party_name)s '.format(party_name=party_name.strip())
         else:
             party_filter = ' and party="{0}" '.format(filters['party_name'])
     gl_entries = frappe.db.sql(
@@ -517,15 +517,29 @@ def get_columns(filters):
     return columns
 
 
+# def get_cost_centers_with_children(cost_centers):
+#     # if not isinstance(cost_centers, list):
+#     #     cost_centers = [d.strip() for d in cost_centers.strip().split(',') if d]
+#
+#     all_cost_centers = [cost_centers]
+#     # for d in cost_centers:
+#     lft, rgt = frappe.db.get_value("Cost Center", cost_centers, ["lft", "rgt"])
+#     children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
+#     all_cost_centers += [c.name for c in children]
+#
+#     # send_msg_telegram(str(list(set(all_cost_centers))))
+#     return list(set(all_cost_centers))
+
 def get_cost_centers_with_children(cost_centers):
-    # if not isinstance(cost_centers, list):
-    #     cost_centers = [d.strip() for d in cost_centers.strip().split(',') if d]
+    if not isinstance(cost_centers, list):
+        cost_centers = [d.strip() for d in cost_centers.strip().split(',') if d]
+    all_cost_centers = []
+    for d in cost_centers:
+        if frappe.db.exists("Cost Center", d):
+            lft, rgt = frappe.db.get_value("Cost Center", d, ["lft", "rgt"])
+            children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
+            all_cost_centers += [c.name for c in children]
+        else:
+            frappe.throw(_("Cost Center: {0} does not exist").format(d))
 
-    all_cost_centers = [cost_centers]
-    # for d in cost_centers:
-    lft, rgt = frappe.db.get_value("Cost Center", cost_centers, ["lft", "rgt"])
-    children = frappe.get_all("Cost Center", filters={"lft": [">=", lft], "rgt": ["<=", rgt]})
-    all_cost_centers += [c.name for c in children]
-
-    # send_msg_telegram(str(list(set(all_cost_centers))))
     return list(set(all_cost_centers))
