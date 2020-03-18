@@ -22,8 +22,8 @@ def get_cost_centers_accounts_by_months():
 
         cost_center = data.get('cost_center')
         company_name = data.get('company_name')
-        # from_date = data.get('from_date')
-        # to_date = data.get('to_date')
+        from_date = data.get('from_date')
+        to_date = data.get('to_date')
         fiscal_year = data.get('fiscal_year')
         months = data.get('months', [])
         if isinstance(months, basestring):
@@ -37,29 +37,27 @@ def get_cost_centers_accounts_by_months():
             return dict(status=False, message="{0} is not an existing company".format(company_name))
 
         cost_center_company = frappe.get_value("Cost Center", cost_center, "company")
-
+        cost_center_accounts = [temp.account for temp in frappe.db.sql(
+            """SELECT DISTINCT 
+    jia.`account` 
+FROM 
+    `tabJournal Entry` ji
+INNER JOIN
+    `tabJournal Entry Account` jia
+ON (jia.`parent` = ji.`name` AND jia.`cost_center` = '{cost_center}')
+WHERE 
+    ji.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
+        AND `company` = '{company}';""".format(
+                cost_center=cost_center,
+                from_date=from_date,
+                to_date=to_date,
+                company=company_name
+            ),
+            as_dict=True)]
         if cost_center_company != company_name:
             return dict(status=False, message="This cost center does not belong to {0}".format(company_name))
         final_result = dict()
         for month in months:
-
-            cost_center_accounts = [temp.account for temp in frappe.db.sql(
-                """SELECT DISTINCT 
-        jia.`account` 
-    FROM 
-        `tabJournal Entry` ji
-    INNER JOIN
-        `tabJournal Entry Account` jia
-    ON (jia.`parent` = ji.`name` AND jia.`cost_center` = '{cost_center}')
-    WHERE 
-        ji.`posting_date` BETWEEN '{from_date}' AND '{to_date}'
-            AND `company` = '{company}';""".format(
-                    cost_center=cost_center,
-                    from_date=month['from'],
-                    to_date=month['to'],
-                    company=company_name
-                ),
-                as_dict=True)]
 
             filters = dict(
                 company=company_name,
