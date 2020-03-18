@@ -260,7 +260,7 @@ def get_data_with_opening_closing(filters, account_details, gl_entries):
     # Opening for filtered account
     data.append(totals.opening)
 
-    if filters.get("group_by") not in (_('Group by Voucher (Consolidated)'), _("No Grouping (Consolidated)")):
+    if filters.get("group_by") != _('Group by Voucher (Consolidated)'):
         for acc, acc_dict in iteritems(gle_map):
             # acc
             if acc_dict.entries:
@@ -270,12 +270,12 @@ def get_data_with_opening_closing(filters, account_details, gl_entries):
                     data.append(acc_dict.totals.opening)
 
                 data += acc_dict.entries
-
-                # totals
-                data.append(acc_dict.totals.total)
+                if filters.get("group_by") != _("No Grouping (Consolidated)"):
+                    # totals
+                    data.append(acc_dict.totals.total)
 
                 # closing
-                if filters.get("group_by") != _("Group by Voucher"):
+                if filters.get("group_by") not in (_("Group by Voucher"), _("No Grouping (Consolidated)")):
                     data.append(acc_dict.totals.closing)
         data.append({})
     else:
