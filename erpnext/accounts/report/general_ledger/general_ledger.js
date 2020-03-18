@@ -196,7 +196,7 @@ frappe.query_reports["General Ledger"] = {
             "label": __("Group by"),
             "fieldtype": "Select",
             "options": ["", __("Group by Voucher"), __("Group by Voucher (Consolidated)"),
-                __("Group by Account"), __("Group by Party")],
+                __("Group by Account"), __("Group by Party"), __("No Grouping (Consolidated)")],
             "default": __("Group by Voucher (Consolidated)")
         },
         {
