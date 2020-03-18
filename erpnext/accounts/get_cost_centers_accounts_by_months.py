@@ -75,7 +75,7 @@ def get_cost_centers_accounts_by_months():
                 if d.get("account"):
                     if d['account'] in cost_center_accounts:
                         accounts.append(d)
-            final_result["{0}-{1}".format(month['from'], month['to'])] = accounts
+            final_result["{0}~{1}".format(month['from'], month['to'])] = accounts
     except Exception as e:
         return dict(status=False, message=str(e))
     return dict(status=True, message="Success", accounts=final_result)
