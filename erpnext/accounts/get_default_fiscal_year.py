@@ -13,7 +13,9 @@ def get_default_fiscal_year():
     try:
         global_defaults = frappe.get_doc("Global Defaults")
         current_fiscal_year = global_defaults.current_fiscal_year
-
+        if not current_fiscal_year:
+            current_fiscal_year = frappe.db.sql(
+                """SELECT defValue AS current_fiscal_year from tabDefaultValue WHERE defKey = 'fiscal_year'""", as_dict=True)[0].current_fiscal_year
         # data = frappe.form_dict
         # company_name = data.get('company')
         # fiscal_year_companies = [temp.parent for temp in frappe.get_list(
