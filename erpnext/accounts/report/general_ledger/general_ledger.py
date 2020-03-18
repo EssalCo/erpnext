@@ -266,7 +266,7 @@ def get_data_with_opening_closing(filters, account_details, gl_entries):
             if acc_dict.entries:
                 # opening
                 data.append({})
-                if filters.get("group_by") != _("Group by Voucher"):
+                if filters.get("group_by") not in (_("Group by Voucher"), _("No Grouping (Consolidated)")):
                     data.append(acc_dict.totals.opening)
 
                 data += acc_dict.entries
