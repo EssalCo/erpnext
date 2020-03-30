@@ -510,7 +510,7 @@ def prepare_data(accounts, filters, total_row, parent_children_map, company_curr
 			name = '<span style="color:#121AB7;">{0}</span>'.format(('{} - {}'.format(d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		elif d.indent == 2:
-			name = '<span style="color:#EFCD0C;">{0}</span>'.format(('{} - {}'.format(
+			name = '<span style="color:#3D4009;">{0}</span>'.format(('{} - {}'.format(
 				d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		elif d.indent == 3:
