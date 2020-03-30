@@ -373,6 +373,7 @@ def validate_filters(filters):
 			.format(formatdate(filters.year_end_date)))
 		filters.to_date = filters.year_end_date
 
+
 def get_data(filters):
 	accounts = frappe.db.sql("""select name, account_number, parent_account, account_name, root_type, report_type, lft, rgt
 		from `tabAccount` where company=%s order by lft""", filters.company, as_dict=True)
@@ -494,6 +495,7 @@ def accumulate_values_into_parents(accounts, accounts_by_name):
 			for key in value_fields:
 				accounts_by_name[d.parent_account][key] += d[key]
 
+
 def prepare_data(accounts, filters, total_row, parent_children_map, company_currency):
 	data = []
 
@@ -501,8 +503,21 @@ def prepare_data(accounts, filters, total_row, parent_children_map, company_curr
 
 	for d in accounts:
 		has_value = False
+		if d.indent == 0:
+			name = '<div style="color:#A40401; color:#FFFFFF;">{0}</div>'.format(d.name)
+		elif d.indent == 1:
+			name = '<div style="color:#EEBAB2; color:#FFFFFF;">{0}</div>'.format(d.name)
+		elif d.indent == 2:
+			name = '<div style="color:#EFCD0C; color:#FFFFFF;">{0}</div>'.format(d.name)
+		elif d.indent == 3:
+			name = '<div style="color:#A4FF01; color:#FFFFFF;">{0}</div>'.format(d.name)
+		elif d.indent == 4:
+			name = '<div style="color:#AAA401; color:#FFFFFF;">{0}</div>'.format(d.name)
+		else:
+			name = '<div style="color:#A4FF01; color:#FFFFFF;">{0}</div>'.format(d.name)
+
 		row = {
-			"account": d.name,
+			"account": name,
 			"parent_account": d.parent_account,
 			"indent": d.indent,
 			"from_date": filters.from_date,
