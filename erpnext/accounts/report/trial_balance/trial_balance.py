@@ -504,22 +504,24 @@ def prepare_data(accounts, filters, total_row, parent_children_map, company_curr
 	for d in accounts:
 		has_value = False
 		if d.indent == 0:
-			name = '<div style="color:#A40401;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+			name = '<span style="color:#A40401;">{0}</span>'.format(('{} - {}'.format(d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		elif d.indent == 1:
-			name = '<div style="color:#EEBAB2;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+			name = '<span style="color:#EEBAB2;">{0}</span>'.format(('{} - {}'.format(d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		elif d.indent == 2:
-			name = '<div style="color:#EFCD0C;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+			name = '<span style="color:#EFCD0C;">{0}</span>'.format(('{} - {}'.format(
+				d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		elif d.indent == 3:
-			name = '<div style="color:#A4FF01;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+			name = '<span style="color:#A4FF01;">{0}</span>'.format(('{} - {}'.format(
+				d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		elif d.indent == 4:
-			name = '<div style="color:#AAA401;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+			name = '<span style="color:#AAA401;">{0}</span>'.format(('{} - {}'.format(d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 		else:
-			name = '<div style="color:#A4FF01;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+			name = '<span style="color:#A4FF01;">{0}</span>'.format(('{} - {}'.format(d.account_number, d.account_name)
 																				  if d.account_number else d.account_name))
 
 		row = {
