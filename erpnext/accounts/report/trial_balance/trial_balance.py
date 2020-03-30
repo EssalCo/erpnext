@@ -504,27 +504,32 @@ def prepare_data(accounts, filters, total_row, parent_children_map, company_curr
 	for d in accounts:
 		has_value = False
 		if d.indent == 0:
-			name = '<div style="color:#A40401; color:#FFFFFF;">{0}</div>'.format(d.name)
+			name = '<div style="color:#A40401; color:#FFFFFF;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+																				  if d.account_number else d.account_name))
 		elif d.indent == 1:
-			name = '<div style="color:#EEBAB2; color:#FFFFFF;">{0}</div>'.format(d.name)
+			name = '<div style="color:#EEBAB2; color:#FFFFFF;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+																				  if d.account_number else d.account_name))
 		elif d.indent == 2:
-			name = '<div style="color:#EFCD0C; color:#FFFFFF;">{0}</div>'.format(d.name)
+			name = '<div style="color:#EFCD0C; color:#FFFFFF;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+																				  if d.account_number else d.account_name))
 		elif d.indent == 3:
-			name = '<div style="color:#A4FF01; color:#FFFFFF;">{0}</div>'.format(d.name)
+			name = '<div style="color:#A4FF01; color:#FFFFFF;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+																				  if d.account_number else d.account_name))
 		elif d.indent == 4:
-			name = '<div style="color:#AAA401; color:#FFFFFF;">{0}</div>'.format(d.name)
+			name = '<div style="color:#AAA401; color:#FFFFFF;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+																				  if d.account_number else d.account_name))
 		else:
-			name = '<div style="color:#A4FF01; color:#FFFFFF;">{0}</div>'.format(d.name)
+			name = '<div style="color:#A4FF01; color:#FFFFFF;">{0}</div>'.format(('{} - {}'.format(d.account_number, d.account_name)
+																				  if d.account_number else d.account_name))
 
 		row = {
-			"account": name,
+			"account": d.name,
 			"parent_account": d.parent_account,
 			"indent": d.indent,
 			"from_date": filters.from_date,
 			"to_date": filters.to_date,
 			"currency": company_currency,
-			"account_name": ('{} - {}'.format(d.account_number, d.account_name)
-				if d.account_number else d.account_name)
+			"account_name": name
 		}
 
 		prepare_opening_and_closing(d)
