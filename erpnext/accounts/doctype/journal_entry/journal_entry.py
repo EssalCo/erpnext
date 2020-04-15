@@ -15,6 +15,7 @@ from erpnext.utilities.hijri_date import convert_to_hijri
 from erpnext.utilities.send_telegram import send_msg_telegram
 from frappe import msgprint, _, scrub
 from frappe.utils import cstr, flt, fmt_money, formatdate
+from frappe.utils import get_site_name
 
 
 class JournalEntry(AccountsController):
@@ -508,7 +509,11 @@ class JournalEntry(AccountsController):
                 )
 
         if gl_map:
-            make_gl_entries(gl_map, cancel=cancel, adv_adj=adv_adj, merge_entries=not bool(getattr(self, "do_not_merge_similar_entries", False)))
+            site_name = get_site_name(frappe.local.request.host)
+            do_not_merge_similar_entries = not bool(getattr(self, "do_not_merge_similar_entries", False))
+            if site_name in ("osaan.s1.essal.co", "alnamaa.s1.essal.co"):
+                do_not_merge_similar_entries = True
+            make_gl_entries(gl_map, cancel=cancel, adv_adj=adv_adj, merge_entries=do_not_merge_similar_entries)
 
     def get_balance(self):
         if not self.get('accounts'):
