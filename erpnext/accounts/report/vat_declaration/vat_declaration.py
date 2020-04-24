@@ -76,7 +76,7 @@ WHERE
 			)
 		]
 	result.append([
-		"<b>" + "VAT" + "</b>",
+		"<b>" + _("VAT", "ar") + "</b>",
 		sales_amounts[0]['amount'],
 		"-0.0",
 		sales_amounts[1]['amount']
