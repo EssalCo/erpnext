@@ -12,8 +12,8 @@ frappe.query_reports["VAT Declaration"] = {
 			"width": "80",
 			"on_change": function (query_report) {
 				console.log(frappe.query_report_filters_by_name.from_date);
-				query_report.report_name = 'الإقرار الضريبي من ' + frappe.query_report_filters_by_name.from_date
-					+ " إلى " + frappe.query_report_filters_by_name.to_date;
+				query_report.report_name = 'الإقرار الضريبي من ' + frappe.query_report_filters_by_name.from_date.value
+					+ " إلى " + frappe.query_report_filters_by_name.to_date.value;
 			}
 		},
 		{
@@ -23,8 +23,8 @@ frappe.query_reports["VAT Declaration"] = {
 			"default": frappe.datetime.get_today(),
 			"on_change": function (query_report) {
 				console.log(frappe.query_report_filters_by_name.to_date);
-				query_report.report_name = 'الإقرار الضريبي من ' + frappe.query_report_filters_by_name.from_date
-					+ " إلى " + frappe.query_report_filters_by_name.to_date;
+				query_report.report_name = 'الإقرار الضريبي من ' + frappe.query_report_filters_by_name.from_date.value
+					+ " إلى " + frappe.query_report_filters_by_name.to_date.value;
 			}
 		},
 		{
