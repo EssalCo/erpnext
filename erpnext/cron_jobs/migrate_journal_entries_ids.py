@@ -1,9 +1,9 @@
 import frappe
 
 
-def execute():
+def execute(company_name="asaas"):
 
-    company_name = "asaas"
+    # company_name = "asaas"
     prefix = frappe.get_value("Company", company_name, "series_prefix")
     if not prefix: return
     journals = frappe.db.sql(
