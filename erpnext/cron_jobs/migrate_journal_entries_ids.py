@@ -164,15 +164,15 @@ def execute():
             update_modified=False
         )
 
-        frappe.db.set_value(
-            "Payment Reconciliation",
-            dict(
-                reference_name=old_name
-            ),
-            "reference_name",
-            new_name,
-            update_modified=False
-        )
+        # frappe.db.set_value(
+        #     "Payment Reconciliation",
+        #     dict(
+        #         reference_name=old_name
+        #     ),
+        #     "reference_name",
+        #     new_name,
+        #     update_modified=False
+        # )
 
 
         frappe.db.set_value(
