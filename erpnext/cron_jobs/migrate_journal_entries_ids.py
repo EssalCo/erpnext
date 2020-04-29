@@ -218,9 +218,9 @@ def execute():
         frappe.db.set_value(
             "Authorization Rule",
             dict(
-                reference_name=old_name
+                master_name=old_name
             ),
-            "reference_name",
+            "master_name",
             new_name,
             update_modified=False
         )
