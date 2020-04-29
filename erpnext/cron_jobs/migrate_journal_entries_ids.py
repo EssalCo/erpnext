@@ -10,7 +10,7 @@ def execute():
         """SELECT name
         FROM `tabJournal Entry`
         WHERE company = %(company)s
-        ORDER by creation ASC;""", as_dict=True
+        ORDER by creation ASC;""", dict(company=company_name), as_dict=True
     )
 
     for journal in journals:
