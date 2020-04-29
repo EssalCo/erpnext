@@ -10,7 +10,7 @@ def execute():
         print company
         company_name = company.name
         prefix = frappe.get_value("Company", company_name, "series_prefix")
-        if not prefix: return
+        if not prefix: continue
         journals = frappe.db.sql(
             """SELECT name
             FROM `tabJournal Entry`
