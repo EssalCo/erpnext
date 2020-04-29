@@ -1,14 +1,17 @@
 import frappe
 
 
-def execute():
-    companies = frappe.get_list(
-        "Company",
-        dict()
-    )
+def execute(company_name=None):
+    if not company_name:
+        companies = frappe.get_list(
+            "Company",
+            dict()
+        )
+    else:
+        companies = [dict(name=company_name)]
     for company in companies:
         print company
-        company_name = company.name
+        company_name = company['name']
         prefix = frappe.get_value("Company", company_name, "series_prefix")
         if not prefix: continue
         journals = frappe.db.sql(
