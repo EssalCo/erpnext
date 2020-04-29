@@ -284,6 +284,7 @@ def execute():
             new_name,
             update_modified=False
         )
+    frappe.db.commit()
 
 
 def _make_autoname(key='Agent.-.#####', year=None):
