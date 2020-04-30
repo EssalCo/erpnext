@@ -156,7 +156,7 @@ def execute(company_name=None, prefix=None):
     if company_name:
         companies = [dict(name=company_name)]
     elif prefix:
-         companies = [dict(name=frappe.get_value("Company", dict(prefix=prefix), "name"))]
+         companies = [dict(name=frappe.get_value("Company", dict(series_prefix=prefix), "name"))]
 
     else:
         companies = frappe.get_list(
