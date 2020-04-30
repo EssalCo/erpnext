@@ -2,6 +2,148 @@ import frappe
 
 
 def execute(company_name=None):
+
+    related_journals = [
+        ['NA0000002', 'NA0000001-1'],
+        ['NA0000003', 'NA0000001-2']
+    ]
+
+    for journal in related_journals:
+        old_name = journal[0]
+        new_name = journal[1]
+        print old_name,",",new_name
+        frappe.db.sql("""UPDATE `tabJournal Entry` SET name = %(new_name)s WHERE name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabJournal Entry Account` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabJournal Entry Account` SET parent = %(new_name)s WHERE parent = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabPayment Reconciliation Invoice` SET invoice_number = %(new_name)s WHERE invoice_number = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabDepreciation Schedule` SET journal_entry = %(new_name)s WHERE journal_entry = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabSalary Slip` SET journal_entry = %(new_name)s WHERE journal_entry = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabJournal Entry` SET amended_from = %(new_name)s WHERE amended_from = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabStock Entry` SET credit_note = %(new_name)s WHERE credit_note = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabGL Entry` SET against_voucher = %(new_name)s WHERE against_voucher = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabGL Entry` SET voucher_no = %(new_name)s WHERE voucher_no = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabBank Reconciliation Detail` SET payment_entry = %(new_name)s WHERE payment_entry = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabStock Ledger Entry` SET voucher_no = %(new_name)s WHERE voucher_no = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabPurchase Invoice Advance` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabSales Invoice Advance` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabPayment Entry Reference` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabPayment Request` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabSubscription` SET reference_document = %(new_name)s WHERE reference_document = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabPatient Medical Record` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabMaintenance Visit Purpose` SET prevdoc_docname = %(new_name)s WHERE prevdoc_docname = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabAuthorization Rule` SET master_name = %(new_name)s WHERE master_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabLanded Cost Item` SET receipt_document = %(new_name)s WHERE receipt_document = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabLanded Cost Purchase Receipt` SET receipt_document = %(new_name)s WHERE receipt_document = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabQuality Inspection` SET reference_name = %(new_name)s WHERE reference_name = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabSerial No` SET purchase_document_no = %(new_name)s WHERE purchase_document_no = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabSerial No` SET delivery_document_no = %(new_name)s WHERE delivery_document_no = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+
+        frappe.db.sql("""UPDATE `tabStock Ledger Entry` SET voucher_no = %(new_name)s WHERE voucher_no = %(old_name)s;""", dict(
+            old_name=old_name,
+            new_name=new_name
+        ))
+    frappe.db.commit()
+
+    return
     if not company_name:
         companies = frappe.get_list(
             "Company",
