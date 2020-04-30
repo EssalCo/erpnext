@@ -1,7 +1,7 @@
 import frappe
 
 
-def execute(company_name=None):
+def execute(company_name=None, prefix=None):
 
     # related_journals = [
     #     ['NA0000002', 'NA0000001-1'],
@@ -153,13 +153,17 @@ def execute(company_name=None):
     # frappe.db.commit()
     #
     # return
-    if not company_name:
+    if company_name:
+        companies = [dict(name=company_name)]
+    elif prefix:
+         companies = [dict(name=frappe.get_value("Company", dict(prefix=prefix), "name"))]
+
+    else:
         companies = frappe.get_list(
             "Company",
             dict()
         )
-    else:
-        companies = [dict(name=company_name)]
+
     for company in companies:
         print company
         company_name = company['name']
