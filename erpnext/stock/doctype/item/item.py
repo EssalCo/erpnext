@@ -52,10 +52,8 @@ class Item(WebsiteGenerator):
 
 			self.item_code = strip(self.item_code)
 		else:
-			self.item_code = item_code
-			self.name = self.item_code
-			if frappe.local.conf.get("enable_items_series_naming", False):
-				self.item_name = "{0} - {1}".format(self.item_code, self.item_name)
+			self.item_code = str(item_code)
+			self.name = "{0} - {1}".format(self.item_code, self.item_name)
 
 	def get_item_serial(self, item_group):
 		if not frappe.local.conf.get("enable_items_series_naming", False):
