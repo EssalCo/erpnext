@@ -78,7 +78,7 @@ class Item(WebsiteGenerator):
 		# send_msg_telegram("parent acc " + str(parent_serial) + " " + str(account_serial_x))
 		# send_msg_telegram("parent account " + str(last_existing_serial))
 
-		if len(last_existing_serial) == 0 or not last_existing_serial[0].serial:
+		if len(last_existing_serial) == 0 or not last_existing_serial[0].item_code:
 
 			last_existing_serial = long(item_group_serial) * 100
 			# send_msg_telegram("sum " + str(last_existing_serial))
