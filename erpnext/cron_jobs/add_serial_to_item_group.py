@@ -41,7 +41,7 @@ def execute():
 def update_children_serials(parent_item_group):
     accounts = frappe.db.sql(
         """SELECT `name` FROM 
-        `tabItem Group` WHERE  `parent_item_group` = %(parent)s ORDER BY `creation` ASC;""",
+        `tabItem Group` WHERE  `parent_item_group` = '%(parent)s' ORDER BY `creation` ASC;""",
         dict(parent=parent_item_group), as_dict=True
     )
 
@@ -74,7 +74,7 @@ def update_children_serials(parent_item_group):
                 "serial"
             ]
         )
-        if len(last_existing_serial) == 0 or not last_existing_serial[0].erial:
+        if len(last_existing_serial) == 0 or not last_existing_serial[0].serial:
             print "Child"
             print parent_serial
             last_existing_serial = int(parent_serial) * 100
