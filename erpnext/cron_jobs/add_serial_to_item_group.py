@@ -62,7 +62,7 @@ def update_children_serials(parent_item_group):
         SELECT 
             MAX(serial * 1) AS maxi
         FROM
-            tabItem Group
+            `tabItem Group`
         WHERE 
              parent_item_group = %s
                 )
