@@ -37,8 +37,8 @@ def execute():
                 last_existing_serial = last_existing_serial[0].maxi or 0
                 next_serial = last_existing_serial + 1
                 next_serial_str = "#{0}".format(last_existing_serial + 1)
-            frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}'
-                        AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
+            frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}',
+                         `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
                 next_serial,
                 next_serial_str,
                 account.name

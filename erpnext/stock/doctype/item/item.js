@@ -3,6 +3,8 @@
 
 frappe.provide("erpnext.item");
 
+cur_frm.add_fetch("item_group");
+
 frappe.ui.form.on("Item", {
 	setup: function(frm) {
 		frm.add_fetch('attribute', 'numeric_values', 'numeric_values');
@@ -129,11 +131,29 @@ frappe.ui.form.on("Item", {
 
 	page_name: frappe.utils.warn_page_name_change,
 
+	item_group: function(frm) {
+
+		if (frm.doc.item_group) {
+
+			frappe.call({
+				"method": "get_item_serial",
+				doc: frm.doc,
+				args: {"item_group": frm.doc.item_group},
+				callback: function (data) {
+					if (data) {
+						cur_frm.set_value('item_code', data.message);
+					}
+				}
+			});
+		}
+	},
 	item_code: function(frm) {
+
 		if(!frm.doc.item_name)
 			frm.set_value("item_name", frm.doc.item_code);
 		if(!frm.doc.description)
 			frm.set_value("description", frm.doc.item_code);
+
 	},
 
 	is_stock_item: function(frm) {

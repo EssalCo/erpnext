@@ -50,6 +50,46 @@ class Item(WebsiteGenerator):
 
 		self.item_code = strip(self.item_code)
 		self.name = self.item_code
+		if frappe.local.conf.get("enable_items_series_naming", False):
+			self.item_name = "{0} - {1}".format(self.item_code, self.item_name)
+
+	def get_item_serial(self, item_group):
+		if not frappe.local.conf.get("enable_items_series_naming", False):
+			return None
+
+		item_group_serial = frappe.get_value(
+			"Item Group",
+			item_group,
+			"serial"
+		)
+
+		last_existing_serial = frappe.db.sql("""SELECT item_code, name FROM
+		  `tabItem` WHERE
+		   item_code = (
+		SELECT 
+			MAX(item_code * 1) AS maxi
+		FROM
+			`tabItem`
+		WHERE 
+			item_group = %s);""", (item_group,), as_dict=True)
+
+		# send_msg_telegram("parent acc " + str(parent_serial) + " " + str(account_serial_x))
+		# send_msg_telegram("parent account " + str(last_existing_serial))
+
+		if len(last_existing_serial) == 0 or not last_existing_serial[0].serial:
+
+			last_existing_serial = long(item_group_serial) * 100
+			# send_msg_telegram("sum " + str(last_existing_serial))
+			next_serial = last_existing_serial + 1
+		else:
+
+			last_existing_serial = long(last_existing_serial[0].item_code)
+			# send_msg_telegram("query " + str(last_existing_serial))
+
+			next_serial = last_existing_serial + 1
+
+		self.item_code = next_serial
+		return next_serial
 
 	def before_insert(self):
 		if not self.description:

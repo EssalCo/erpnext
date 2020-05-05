@@ -10,6 +10,7 @@ from frappe.website.website_generator import WebsiteGenerator
 from frappe.website.render import clear_cache
 from frappe.website.doctype.website_slideshow.website_slideshow import get_slideshow
 from erpnext.utilities.product import get_qty_in_stock
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 class ItemGroup(NestedSet, WebsiteGenerator):
@@ -22,6 +23,74 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 
 	def autoname(self):
 		self.name = self.item_group_name
+		self.get_item_group_serial()
+
+	def get_item_group_serial(self):
+		if not frappe.local.conf.get("enable_items_series_naming", False):
+			return
+		if not getattr(self, "serial", None):
+			return
+		if not self.serial:
+			self.serial = 0
+		else:
+			self.serial = long(self.serial)
+
+		try:
+			if not self.parent_item_group:
+
+				last_existing_serial = frappe.db.sql("""SELECT 
+			MAX(serial) AS maxi
+		FROM
+			`tabItem Group`
+		WHERE 
+			parent_item_group IS NULL;""", as_dict=True)
+				if len(last_existing_serial) == 0 or not last_existing_serial[0].maxi:
+					next_serial = 1
+				else:
+					last_existing_serial = last_existing_serial[0].maxi
+					next_serial = last_existing_serial + 1
+			else:
+				# send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
+
+				last_existing_serial = frappe.db.sql("""SELECT serial, name FROM
+		  `tabItem Group` WHERE
+		   serial = (
+		SELECT 
+			MAX(serial * 1) AS maxi
+		FROM
+			`tabItem Group`
+		WHERE 
+			parent_item_group = %s);""", (self.parent_item_group,), as_dict=True)
+				parent_serial = frappe.db.get_value(
+					"Item Group",
+					self.parent_item_group,
+					[
+						"serial"
+					]
+				)
+				# send_msg_telegram("parent acc " + str(parent_serial) + " " + str(account_serial_x))
+				# send_msg_telegram("parent account " + str(last_existing_serial))
+
+				if len(last_existing_serial) == 0 or not last_existing_serial[0].serial:
+
+					last_existing_serial = long(parent_serial) * 100
+					# send_msg_telegram("sum " + str(last_existing_serial))
+					next_serial = last_existing_serial + 1
+				else:
+
+					last_existing_serial = long(last_existing_serial[0].serial)
+					# send_msg_telegram("query " + str(last_existing_serial))
+
+					next_serial = last_existing_serial + 1
+
+					# trimmed_serial = str(last_existing_serial[0].account_serial_x).split(".")[-1]
+			# send_msg_telegram("finish " + str(next_serial) + " " +str(next_serial_str))
+
+			self.serial = next_serial
+		except:
+			import traceback
+			send_msg_telegram(
+			traceback.format_exc() + "\n" + str(self.serial) + "\n" + str(self.parent_item_group))
 
 	def validate(self):
 		super(ItemGroup, self).validate()
@@ -32,6 +101,16 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 		invalidate_cache_for(self)
 		self.validate_name_with_item()
 		self.validate_one_root()
+
+	def before_insert(self):
+		if getattr(self, "serial", None):
+			self.get_item_group_serial()
+			self.item_group_name = "{0} - {1}".format(self.serial, self.item_group_name)
+
+	def before_save(self):
+		if getattr(self, "serial", None):
+			if not self.serial or self.parent_item_group != frappe.get_value("Item Group", self.name, "parent_item_group"):
+				self.get_item_group_serial()
 
 	def make_route(self):
 		'''Make website route'''
