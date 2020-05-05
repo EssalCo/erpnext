@@ -37,21 +37,25 @@ class Item(WebsiteGenerator):
 			self.set_onload("asset_exists", True if asset else False)
 
 	def autoname(self):
-		if frappe.db.get_default("item_naming_by")=="Naming Series":
-			if self.variant_of:
-				if not self.item_code:
-					template_item_name = frappe.db.get_value("Item", self.variant_of, "item_name")
-					self.item_code = make_variant_item_code(self.variant_of, template_item_name, self)
-			else:
-				from frappe.model.naming import make_autoname
-				self.item_code = make_autoname(self.naming_series+'.#####', doc=self)
-		elif not self.item_code:
-			msgprint(_("Item Code is mandatory because Item is not automatically numbered"), raise_exception=1)
+		item_code = self.get_item_serial(self.item_group)
+		if not item_code:
+			if frappe.db.get_default("item_naming_by")=="Naming Series":
+				if self.variant_of:
+					if not self.item_code:
+						template_item_name = frappe.db.get_value("Item", self.variant_of, "item_name")
+						self.item_code = make_variant_item_code(self.variant_of, template_item_name, self)
+				else:
+					from frappe.model.naming import make_autoname
+					self.item_code = make_autoname(self.naming_series+'.#####', doc=self)
+			elif not self.item_code:
+				msgprint(_("Item Code is mandatory because Item is not automatically numbered"), raise_exception=1)
 
-		self.item_code = strip(self.item_code)
-		self.name = self.item_code
-		if frappe.local.conf.get("enable_items_series_naming", False):
-			self.item_name = "{0} - {1}".format(self.item_code, self.item_name)
+			self.item_code = strip(self.item_code)
+		else:
+			self.item_code = item_code
+			self.name = self.item_code
+			if frappe.local.conf.get("enable_items_series_naming", False):
+				self.item_name = "{0} - {1}".format(self.item_code, self.item_name)
 
 	def get_item_serial(self, item_group):
 		if not frappe.local.conf.get("enable_items_series_naming", False):
