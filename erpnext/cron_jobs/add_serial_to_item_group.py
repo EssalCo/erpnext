@@ -41,7 +41,7 @@ def execute():
 def update_children_serials(parent_item_group):
     accounts = frappe.db.sql(
         """SELECT `name` FROM 
-        `tabItem Group` WHERE  `parent_item_group` = '%(parent)s' ORDER BY `creation` ASC;""",
+        `tabItem Group` WHERE  `parent_item_group` = %(parent)s ORDER BY `creation` ASC;""",
         dict(parent=parent_item_group), as_dict=True
     )
 
