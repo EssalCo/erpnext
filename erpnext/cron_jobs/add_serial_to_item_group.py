@@ -68,7 +68,7 @@ def update_children_serials(parent_item_group):
                 )
                 ORDER BY `creation` ASC LIMIT 1;""", (account.parent_item_group,), as_dict=True)
         parent_serial = frappe.db.get_value(
-            "Account",
+            "Item Group",
             account.parent_item_group,
             [
                 "serial"
