@@ -70,9 +70,7 @@ def update_children_serials(parent_item_group):
         parent_serial = frappe.db.get_value(
             "Item Group",
             account.parent_item_group,
-            [
                 "serial"
-            ]
         )
         if len(last_existing_serial) == 0 or not last_existing_serial[0].serial:
             print "Child"
