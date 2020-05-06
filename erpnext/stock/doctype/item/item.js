@@ -659,7 +659,7 @@ function getSitename(frm) {
 		args: {},
 		callback: function (data) {
 			console.log(data);
-			if (frm.docname === "alnamaa.s1.essal.co") {
+			if (frm.docname == 'alnamaa.s1.essal.co') {
 				frm.set_df_property("item_code", "hidden", true);
 				frm.set_value('item_code', 0);
 			}
