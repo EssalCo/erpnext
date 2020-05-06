@@ -25,6 +25,7 @@ frappe.ui.form.on("Item", {
 	},
 
 	refresh: function(frm) {
+		getSitename(frm);
 		if(frm.doc.is_stock_item) {
 			frm.add_custom_button(__("Balance"), function() {
 				frappe.route_options = {
@@ -132,20 +133,16 @@ frappe.ui.form.on("Item", {
 	page_name: frappe.utils.warn_page_name_change,
 
 	item_group: function(frm) {
-
-		if (frm.doc.item_group) {
-
 			frappe.call({
 				"method": "get_item_serial",
 				doc: frm.doc,
 				args: {"item_group": frm.doc.item_group},
 				callback: function (data) {
 					if (data) {
-						cur_frm.set_value('item_code', data.message);
+						frm.set_value('item_code', data.message);
 					}
 				}
 			});
-		}
 	},
 	item_code: function(frm) {
 
@@ -653,3 +650,20 @@ $.extend(erpnext.item, {
 		frm.layout.refresh_sections();
 	}
 });
+
+
+function getSitename(frm) {
+
+	frappe.call({
+		method: 'erpnext.accounts.get_site_name.get_site_name',
+		args: {},
+		callback: function (data) {
+			console.log(data);
+			if (frm.docname === "alnamaa.s1.essal.co") {
+				frm.set_df_property("item_code", "hidden", true);
+				frm.set_value('item_code', 0);
+			}
+		}
+	});
+
+}

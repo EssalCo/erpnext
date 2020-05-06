@@ -3592,7 +3592,7 @@
  "issingle": 0,
  "istable": 0,
  "max_attachments": 1,
- "modified": "2019-04-08 15:21:48.715529",
+ "modified": "2019-04-09 15:21:48.715529",
  "modified_by": "Administrator",
  "module": "Stock",
  "name": "Item",
@@ -3759,7 +3759,7 @@
    "write": 0
   }
  ],
- "quick_entry": 1,
+ "quick_entry": 0,
  "read_only": 0,
  "read_only_onload": 0,
  "search_fields": "item_name,description,item_group,customer_code",
