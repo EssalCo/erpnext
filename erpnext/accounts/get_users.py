@@ -8,7 +8,7 @@ import frappe
 def get_users():
     try:
         users = [temp.name for temp in frappe.db.sql("""SELECT
-	u.`NAME` 
+	u.`name` 
 FROM
 	`tabUser` u 
 WHERE
