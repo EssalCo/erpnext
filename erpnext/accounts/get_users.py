@@ -7,13 +7,13 @@ import frappe
 @frappe.whitelist(allow_guest=True)
 def get_users():
     try:
-        users = [temp.name for temp in frappe.db.sql("""SELECT
-	u.`name` 
+        users = frappe.db.sql("""SELECT
+	u.`name`, u.full_name, u.email 
 FROM
 	`tabUser` u 
 WHERE
 	u.`enabled` = 1 
-	AND u.`user_type` = 'System User';""", as_dict=True)]
+	AND u.`user_type` = 'System User';""", as_dict=True)
     except Exception as e:
         return dict(status=False, message=str(e))
     return dict(status=True, message="Success", users=users)
