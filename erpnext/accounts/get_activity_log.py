@@ -18,13 +18,13 @@ def get_activity_log():
         to_date = data.get('to_date')
         frappe.set_user("Administrator")
 
-        logs = frappe.db.sql("""SELECT `NAME`,
+        logs = frappe.db.sql("""SELECT `NAME` AS id,
 	`creation`,
 	`full_name`,
 	`operation`,
-	`SUBJECT`,
-	`STATUS`,
-    `USER` 
+	`subject` ,
+	`status`,
+    `user`
 FROM
 	`tabActivity Log`
 	WHERE 
