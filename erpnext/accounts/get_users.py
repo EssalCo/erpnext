@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 import frappe
 
 
+@frappe.whitelist(allow_guest=True)
 def get_users():
     try:
         users = frappe.db.sql("""SELECT

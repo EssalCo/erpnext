@@ -7,6 +7,7 @@ from frappe import _
 import frappe
 
 
+@frappe.whitelist(allow_guest=True)
 def get_activity_log():
     # 'account',
     try:
