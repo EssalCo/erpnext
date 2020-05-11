@@ -92,17 +92,17 @@ def execute():
         )
         print jouranl_entry_id
 
-        # frappe.db.set_value(
-        #     "Journal Entry",
-        #     jouranl_entry_id[0].name,
-        #     {"do_not_merge_similar_entries": 1,
-        #     "docstatus": 0}, None
-        # )
-        # frappe.db.sql("""delete from `tabGL Entry` where voucher_type=%s and voucher_no=%s""",
-        #               ("Journal Entry", jouranl_entry_id[0].name))
-        # journal_entry = frappe.get_doc(
-        #     "Journal Entry",
-        #     jouranl_entry_id[0].name
-        # )
-        # journal_entry.submit()
+        frappe.db.set_value(
+            "Journal Entry",
+            jouranl_entry_id[0].name,
+            {"do_not_merge_similar_entries": 1,
+            "docstatus": 0}, None
+        )
+        frappe.db.sql("""delete from `tabGL Entry` where voucher_type=%s and voucher_no=%s""",
+                      ("Journal Entry", jouranl_entry_id[0].name))
+        journal_entry = frappe.get_doc(
+            "Journal Entry",
+            jouranl_entry_id[0].name
+        )
+        journal_entry.submit()
 
