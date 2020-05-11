@@ -28,7 +28,7 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 	def get_item_group_serial(self):
 		if not frappe.local.conf.get("enable_items_series_naming", False):
 			return
-		if not getattr(self, "serial", None):
+		if not hasattr(self, "serial"):
 			return
 		if not self.serial:
 			self.serial = 0
