@@ -88,7 +88,7 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 			# send_msg_telegram("finish " + str(next_serial) + " " +str(next_serial_str))
 
 			self.serial = next_serial
-			# self.name = str(self.serial) + " - " + self.name
+			self.name = str(self.serial) + " - " + self.name
 		except:
 			import traceback
 			send_msg_telegram(
@@ -104,10 +104,10 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 		self.validate_name_with_item()
 		self.validate_one_root()
 
-	def before_insert(self):
-		if getattr(self, "serial", None):
-			self.get_item_group_serial()
-			self.item_group_name = "{0} - {1}".format(self.serial, self.item_group_name)
+	# def before_insert(self):
+	# 	if getattr(self, "serial", None):
+	# 		self.get_item_group_serial()
+	# 		self.item_group_name = "{0} - {1}".format(self.serial, self.item_group_name)
 
 	def before_save(self):
 		if getattr(self, "serial", None):
