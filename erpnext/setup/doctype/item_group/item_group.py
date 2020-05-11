@@ -88,7 +88,7 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 			# send_msg_telegram("finish " + str(next_serial) + " " +str(next_serial_str))
 
 			self.serial = next_serial
-			self.name = str(self.serial) + " - " + self.name
+			# self.name = str(self.serial) + " - " + self.name
 		except:
 			import traceback
 			send_msg_telegram(
