@@ -513,7 +513,7 @@ class JournalEntry(AccountsController):
                 )
 
         if gl_map:
-            do_not_merge_similar_entries = not bool(getattr(self, "do_not_merge_similar_entries", False))
+            do_not_merge_similar_entries = bool(getattr(self, "do_not_merge_similar_entries", False))
 
             try:
                 site_name = get_site_name(frappe.local.request.host)
