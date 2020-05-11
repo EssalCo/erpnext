@@ -517,7 +517,7 @@ class JournalEntry(AccountsController):
             # do_not_merge_similar_entries = not bool(getattr(self, "do_not_merge_similar_entries", False))
             # if site_name in ("osaan.s1.essal.co", "alnamaa.s1.essal.co"):
             #     do_not_merge_similar_entries = True
-            make_gl_entries(gl_map, cancel=cancel, adv_adj=adv_adj, merge_entries=False)
+            make_gl_entries(gl_map, cancel=cancel, adv_adj=adv_adj, merge_entries=True)
 
     def get_balance(self):
         if not self.get('accounts'):
