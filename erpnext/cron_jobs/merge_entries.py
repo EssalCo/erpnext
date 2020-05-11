@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import frappe
 
 def execute():
@@ -82,7 +84,9 @@ def execute():
             "Journal Entry",
             fields=["name"],
             filters=dict(
-                name=("like", "%{0}".format(entry))
+                name=("like", "%{0}".format(entry)),
+
+                company="أعمال النماء"
             )
         )
         print jouranl_entry_id
