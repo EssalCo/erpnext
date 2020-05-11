@@ -100,3 +100,9 @@ def update_children_serials(parent_item_group):
     #     print str(e)
     # account.get_account_serial()
     # account.save(ignore_permissions=True)
+    # update   `tabItem Group` z  inner join `tabItem Group` x on
+    #  x.item_group_name = z.parent_item_group set z.parent_item_group =  x.name;
+    #
+    # select serial, name from `tabItem Group` where name not like "% - %";
+    #
+    # update `tabItem Group` set name = concat(serial, " - ", name)  where name not like "% - %";

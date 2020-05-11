@@ -25,6 +25,7 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 		self.name = self.item_group_name
 		self.get_item_group_serial()
 
+
 	def get_item_group_serial(self):
 		if not frappe.local.conf.get("enable_items_series_naming", False):
 			return
@@ -87,6 +88,7 @@ class ItemGroup(NestedSet, WebsiteGenerator):
 			# send_msg_telegram("finish " + str(next_serial) + " " +str(next_serial_str))
 
 			self.serial = next_serial
+			self.name = str(self.serial) + " - " + self.name
 		except:
 			import traceback
 			send_msg_telegram(
