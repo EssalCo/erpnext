@@ -161,14 +161,14 @@ def get_gl_entries(filters):
         else:
             party_name = filters['party_name']
         import re
-        party_name = u''.join((party_name,)).encode('utf-8')
+        # party_name = u''.join((party_name,)).encode('utf-8')
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
-        if party_name != filters['party_name']:
-            party_filter = ' and party like "%{party_name}%" '.format(party_name=party_name)
-            send_msg_telegram(party_filter)
-
-        else:
-            party_filter = ' and party="{0}" '.format(filters['party_name'])
+        # if party_name != filters['party_name']:
+        #     party_filter = ' and party like "%{party_name}%" '.format(party_name=party_name)
+        #     send_msg_telegram(party_filter)
+        #
+        # else:
+        party_filter = ' and party="{0}" '.format(filters['party_name'])
     gl_entries = frappe.db.sql(
         """
         select
