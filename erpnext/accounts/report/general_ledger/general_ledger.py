@@ -164,7 +164,7 @@ def get_gl_entries(filters):
         party_name = u''.join((party_name,)).encode('utf-8')
         party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*'\-]*", party_name))
         if party_name != filters['party_name']:
-            party_filter = ' and party like %(party_name)s '.format(party_name=party_name.strip())
+            party_filter = ' and party like "{party_name}" '.format(party_name=party_name.strip())
             send_msg_telegram(party_filter)
 
     else:
