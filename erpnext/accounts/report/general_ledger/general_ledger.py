@@ -200,7 +200,7 @@ def get_gl_entries(filters):
         group_by_statement=group_by_statement,
         order_by_statement=order_by_statement,
         party_filter=party_filter
-    ))
+    ) % filters)
     return gl_entries
 
 
