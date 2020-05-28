@@ -14,7 +14,6 @@ from frappe import _, _dict
 from frappe.utils import getdate, cstr, flt
 
 from erpnext.utilities.send_telegram import send_msg_telegram
-from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 @frappe.whitelist()
@@ -166,7 +165,9 @@ def get_gl_entries(filters):
         party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*'\-]*", party_name))
         if party_name != filters['party_name']:
             party_filter = ' and party like %(party_name)s '.format(party_name=party_name.strip())
-        else:
+            send_msg_telegram(party_filter)
+
+    else:
             party_filter = ' and party="{0}" '.format(filters['party_name'])
     gl_entries = frappe.db.sql(
         """
