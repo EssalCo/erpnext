@@ -168,7 +168,7 @@ def get_gl_entries(filters):
         #     send_msg_telegram(party_filter)
         #
         # else:
-        party_filter = ' and party="{0}" '.format(filters['party_name'])
+        party_filter = ' and party="{0}" '.format(party_name)
     gl_entries = frappe.db.sql(
         """
         select
