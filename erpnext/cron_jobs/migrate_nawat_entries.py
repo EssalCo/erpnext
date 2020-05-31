@@ -37,7 +37,7 @@ def execute_again():
     # doc.flags.ignore_mandatory = True
     # doc.insert(ignore_permissions=True)
 
-    main_cost_center = doc.name
+    # main_cost_center = doc.name
 
     current_file = get_file_path(payment_details)
 
