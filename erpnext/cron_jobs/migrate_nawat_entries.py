@@ -42,7 +42,7 @@ def execute_again():
     current_file = get_file_path(payment_details)
 
     with open(current_file, 'rb') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
+        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str('"'))
         current_entry_index, total_credit, total_debit = 0, 0, 0
         journal_entry = None
         for row in spamreader:
