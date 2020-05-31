@@ -59,7 +59,7 @@ def execute_again():
             except:
                 continue
             serial_no = int(row[2])
-            if serial_no < 494:
+            if serial_no < 511:
                 continue
             pay_date = row[5]
             post_date = datetime.strptime(
@@ -72,15 +72,19 @@ def execute_again():
 
             if serial_no != current_entry_index:
                 if journal_entry:
-                    journal_entry.total_debit = abs(total_debit)
-                    journal_entry.total_credit = abs(total_credit)
-                    journal_entry.difference = abs(total_debit - total_credit)
-                    journal_entry.insert(ignore_permissions=True)
-                    journal_entry.flags.ignore_permissions = True
+                    try:
+                        journal_entry.total_debit = abs(total_debit)
+                        journal_entry.total_credit = abs(total_credit)
+                        journal_entry.difference = abs(total_debit - total_credit)
+                        journal_entry.insert(ignore_permissions=True)
+                        journal_entry.flags.ignore_permissions = True
 
-                    journal_entry.submit()
-                    total_credit, total_debit = 0, 0
-                    print "submitted: ", journal_entry.name
+                        journal_entry.submit()
+                        total_credit, total_debit = 0, 0
+                        print "submitted: ", journal_entry.name
+                    except Exception as e:
+                        print "*" * 40
+                        print str(serial_no), str(e)
 
                 journal_entry = frappe.get_doc(
                     dict(
