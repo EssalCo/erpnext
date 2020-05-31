@@ -116,7 +116,7 @@ def execute():
         if frappe.db.count(
             "Account",
             dict(
-                parent=account.name
+                parent_account=account.name
             )
         ) == 0:
             frappe.db.set_value(
