@@ -88,7 +88,7 @@ def execute():
                     "name"
                 )
 
-                doc = frappe.get_doc(
+            doc = frappe.get_doc(
                 dict(
                     doctype="Account",
                     account_name="{0} - {1}".format(serial_no, account_name),
