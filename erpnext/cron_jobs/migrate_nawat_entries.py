@@ -25,17 +25,17 @@ def execute_again():
             company_name="نواة للاستثمار العقاري"
         )
     )
-    doc = frappe.get_doc(
-        dict(
-            doctype="Cost Center",
-            cost_center_name="رئيسي",
-            parent_cost_center=None,
-            company=company.name,
-            is_group=1
-        )
-    )
-    doc.flags.ignore_mandatory = True
-    doc.insert(ignore_permissions=True)
+    # doc = frappe.get_doc(
+    #     dict(
+    #         doctype="Cost Center",
+    #         cost_center_name="رئيسي",
+    #         parent_cost_center=None,
+    #         company=company.name,
+    #         is_group=1
+    #     )
+    # )
+    # doc.flags.ignore_mandatory = True
+    # doc.insert(ignore_permissions=True)
 
     main_cost_center = doc.name
 
