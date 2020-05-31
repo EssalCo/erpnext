@@ -37,7 +37,14 @@ def execute_again():
     # doc.flags.ignore_mandatory = True
     # doc.insert(ignore_permissions=True)
 
-    # main_cost_center = doc.name
+    main_cost_center = frappe.get_value(
+        "Cost Center",
+        dict(
+            company=company.name,
+            cost_center_name=("like", "%رئيسي%")
+        ),
+        "name"
+    )
 
     current_file = get_file_path(payment_details)
 
