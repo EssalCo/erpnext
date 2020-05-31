@@ -59,6 +59,8 @@ def execute_again():
             except:
                 continue
             serial_no = int(row[2])
+            if serial_no < 494:
+                continue
             pay_date = row[5]
             post_date = datetime.strptime(
                 str(pay_date), '%Y/%m/%d'
