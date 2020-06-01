@@ -238,7 +238,7 @@ def execute():
                         bill_date=datetime.now(),
                         third_party_creation=post_date,
                         accounts=[],
-                        is_opening=is_opening
+                        is_opening="No"
                     )
                 )
                 current_entry_index = serial_no
