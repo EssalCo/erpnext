@@ -36,10 +36,21 @@ FROM
         for log in logs:
             log.full_name = _(log.full_name, "ar")
             log.operation = _(log.operation, "ar")
-
             log.subject = _(log.subject, "ar")
             log.status = _(log.status, "ar")
             log.user = _(log.user, "ar")
+            if "Incorrect password" in log.subject:
+                log.subject = log.subject.replace("Incorrect password", "كلمة سر غير صحيحة")
+
+            if "logged in" in log.subject:
+                log.subject = log.subject.replace("logged in", "قام بتسجيل الدخول")
+
+            if "logged out" in log.subject:
+                log.subject = log.subject.replace("logged out", "قام بتسجيل الخروج")
+            if "Administrator" in log.subject:
+                log.subject = log.subject.replace("Administrator", "المدير")
+            if "<b>Session Expired</b>" in log.subject:
+                log.subject = log.subject.replace("<b>Session Expired</b>", "انتهت صلاحية الجلسة")
 
     except Exception as e:
         return dict(status=False, message=str(e))
