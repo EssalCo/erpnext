@@ -199,13 +199,13 @@ def execute():
             except:
                 continue
             serial_no = int(row[2])
-
+            if serial_no < 691:
+                continue
             pay_date = row[5]
             post_date = datetime.strptime(
                 str(pay_date), '%Y/%m/%d'
             )
-            if serial_no < 691:
-                continue
+
 
             if serial_no != current_entry_index:
                 if journal_entry:
