@@ -204,7 +204,7 @@ def execute():
             post_date = datetime.strptime(
                 str(pay_date), '%Y/%m/%d'
             )
-            if serial_no == 1:
+            if serial_no < 691:
                 continue
 
             if serial_no != current_entry_index:
@@ -227,14 +227,14 @@ def execute():
                 journal_entry = frappe.get_doc(
                     dict(
                         doctype="Journal Entry",
-                        title="{1} القيد رقم ({0}) سنة".format(serial_no, 2019),
+                        title="{1} القيد رقم ({0}) سنة".format(serial_no, 2020),
                         voucher_type="Journal Entry",
                         naming_series="JV-",
                         posting_date=post_date,
                         company=company.name,
-                        user_remark="{1} القيد رقم ({0}) سنة".format(serial_no, 2019),
+                        user_remark="{1} القيد رقم ({0}) سنة".format(serial_no, 2020),
                         multi_currency=0,
-                        remark="{1} القيد رقم ({0}) سنة".format(serial_no, 2019),
+                        remark="{1} القيد رقم ({0}) سنة".format(serial_no, 2020),
                         bill_date=datetime.now(),
                         third_party_creation=post_date,
                         accounts=[],
