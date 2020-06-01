@@ -41,10 +41,8 @@ FROM
             log.user = _(log.user, "ar")
             if "Incorrect password" in log.subject:
                 log.subject = log.subject.replace("Incorrect password", "كلمة سر غير صحيحة")
-
             if "logged in" in log.subject:
                 log.subject = log.subject.replace("logged in", "قام بتسجيل الدخول")
-
             if "logged out" in log.subject:
                 log.subject = log.subject.replace("logged out", "قام بتسجيل الخروج")
             if "Administrator" in log.subject:
