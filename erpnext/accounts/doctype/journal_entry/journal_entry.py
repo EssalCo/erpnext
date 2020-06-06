@@ -128,6 +128,9 @@ class JournalEntry(AccountsController):
         self.update_employee_loan()
         self.unlink_advance_entry_reference()
         self.unlink_asset_reference()
+        from frappe.core.doctype.activity_log.feed import update_feed
+        update_feed(self)
+
 
     def unlink_advance_entry_reference(self):
         for d in self.get("accounts"):
