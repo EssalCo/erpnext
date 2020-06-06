@@ -16,6 +16,7 @@ def get_material_request():
         company = data.get('company')
         from_date = data.get('from_date')
         to_date = data.get('to_date')
+        state = data.get('state')
         frappe.set_user("Administrator")
         conditions = ""
 
@@ -31,6 +32,15 @@ def get_material_request():
             conditions += """ `creation` BETWEEN '{from_date}' AND '{to_date}' """.format(
                 from_date=from_date,
                 to_date=to_date
+            )
+
+        if state:
+            if conditions:
+                conditions += " AND "
+            else:
+                conditions += " WHERE"
+            conditions += """ `workflow_state` = '{state}' """.format(
+                state=state
             )
 
         requests = dict((temp.id, temp) for temp in frappe.db.sql("""SELECT `NAME` AS id,
