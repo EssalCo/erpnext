@@ -79,7 +79,7 @@ def get_material_request():
         `ordered_qty` AS completed_quantity
     FROM
         `tabMaterial Request Item`
-        WHERE `parent` IN %(requests_ids)s;""",dict(
+        WHERE `parent` IN %(requests_ids)s;""", dict(
                 requests_ids=requests_ids
             ), as_dict=True)
 
