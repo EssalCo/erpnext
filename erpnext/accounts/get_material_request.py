@@ -45,7 +45,8 @@ def get_material_request():
     `transaction_date`,
     `status`,
     `per_ordered`,
-    `terms`
+    `terms`,
+    `workflow_state`
     FROM
 	`tabMaterial Request`
 	{conditions};""".format(
