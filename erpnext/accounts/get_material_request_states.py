@@ -14,7 +14,7 @@ def get_material_request_states():
             """SELECT 
 fs.state
 FROM tabWorkflow f 
-INNER JOIN `Workflow Document State` fs ON fs.`parent` = f.`name`
+INNER JOIN `tabWorkflow Document State` fs ON fs.`parent` = f.`name`
 WHERE f.document_type = "Material Request" AND is_active = 1;""", as_dict=True
         )]
 
