@@ -133,9 +133,9 @@ def get_result(filters, account_details):
     result = get_result_as_list(data, filters)
     if filters.get("group_by") == _("No Grouping (Consolidated)"):
         try:
-            from operator import itemgetter
-            result = sorted(result, key=itemgetter('posting_date'), reverse=False)
-            # result = sorted(result, key=lambda o: (o['posting_date']), reverse=True)
+            # from operator import itemgetter
+            # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+            result = sorted(result, key=lambda o: (o['posting_date']), reverse=True)
         except:
             send_msg_telegram(traceback.format_exc())
     return result
