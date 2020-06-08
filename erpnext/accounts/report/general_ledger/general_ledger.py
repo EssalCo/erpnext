@@ -14,6 +14,7 @@ from frappe import _, _dict
 from frappe.utils import getdate, cstr, flt
 
 from erpnext.utilities.send_telegram import send_msg_telegram
+import traceback
 
 
 @frappe.whitelist()
@@ -131,10 +132,12 @@ def get_result(filters, account_details):
 
     result = get_result_as_list(data, filters)
     if filters.get("group_by") == _("No Grouping (Consolidated)"):
-        from operator import itemgetter
-        result = sorted(result, key=itemgetter('posting_date'), reverse=False)
-        # result = sorted(result, key=lambda o: (o['posting_date']), reverse=True)
-
+        try:
+            from operator import itemgetter
+            result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+            # result = sorted(result, key=lambda o: (o['posting_date']), reverse=True)
+        except:
+            send_msg_telegram(traceback.format_exc())
     return result
 
 
