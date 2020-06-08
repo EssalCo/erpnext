@@ -135,7 +135,7 @@ def get_result(filters, account_details):
         try:
             # from operator import itemgetter
             # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
-            result = sorted(result, key=lambda o: (o['posting_date']), reverse=True)
+            result = sorted(result, key=lambda o: (o['posting_date']), reverse=False)
         except:
             send_msg_telegram(traceback.format_exc())
     return result
