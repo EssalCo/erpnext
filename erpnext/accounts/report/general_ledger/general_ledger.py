@@ -130,6 +130,10 @@ def get_result(filters, account_details):
     data = get_data_with_opening_closing(filters, account_details, gl_entries)
 
     result = get_result_as_list(data, filters)
+    if filters.get("group_by") == _("No Grouping (Consolidated)"):
+        from operator import itemgetter
+        result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+        # result = sorted(result, key=lambda o: (o['posting_date']), reverse=True)
 
     return result
 
