@@ -5,7 +5,7 @@ import  frappe
 
 
 def execute():
-
+    return
     company = "أعمال النماء"
     frappe.db.sql("""delete from `tabGL Entry` where voucher_type='Journal Entry' and company = '{0}';""".format(
         company
