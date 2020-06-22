@@ -68,8 +68,8 @@ def execute_again():
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str('"'))
         for row in spamreader:
-            credit = row[1].replace(" ", "")
-            debit = row[2].replace(" ",  "")
+            credit = row[1].replace(" ", "").replace("\\t", "")
+            debit = row[2].replace(" ",  "").replace("\\t", "")
             print debit
             print credit
             if credit == "Closing(Cr)":
