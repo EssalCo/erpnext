@@ -68,12 +68,14 @@ def execute_again():
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str('"'))
         for row in spamreader:
+            if row[0] == "Account":
+                continue
             credit = float(row[1].replace(" ", "").replace("\\t", "") or 0)
             debit = float(row[2].replace(" ",  "").replace("\\t", "") or 0)
             print debit
             print credit
-            if credit == "Closing(Cr)":
-                continue
+            # if credit == "Closing(Cr)":
+            #     continue
             # if not credit.isdigit():
             #     credit = 0
             # if not debit.isdigit():
