@@ -70,8 +70,8 @@ def execute_again():
         for row in spamreader:
             if row[0] == "Account":
                 continue
-            credit = row[1].replace(" ", "").replace("\\t", "")
-            debit = row[2].replace(" ",  "").replace("\\t", "")
+            credit = row[1].replace(" ", "").replace("\\t", "").rstrip()
+            debit = row[2].replace(" ",  "").replace("\\t", "").rstrip()
             print debit
             print credit
             # if credit == "Closing(Cr)":
