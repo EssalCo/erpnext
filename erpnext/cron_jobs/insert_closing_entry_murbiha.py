@@ -79,7 +79,7 @@ def execute_again():
             if not credit.isdigit():
                 credit = 0
             if not debit.isdigit():
-                debit = float(debit)
+                debit = 0
             journal_entry.append("accounts", dict(
                 account=row[1],
                 party_type=None,
