@@ -15,7 +15,7 @@ sys.setdefaultencoding('utf8')
 
 
 def execute_again():
-    payment_details = "/private/files/nawat2019.csv"
+    payment_details = "/private/files/nawat19.csv"
 
     print("Starting journals..")
 
@@ -59,8 +59,8 @@ def execute_again():
             except:
                 continue
             serial_no = int(row[2])
-            if serial_no < 511:
-                continue
+            # if serial_no < 511:
+            #     continue
             pay_date = row[5]
             post_date = datetime.strptime(
                 str(pay_date), '%Y/%m/%d'
