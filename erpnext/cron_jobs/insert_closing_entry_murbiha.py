@@ -81,7 +81,7 @@ def execute_again():
             if not debit.isdigit():
                 debit = 0
             journal_entry.append("accounts", dict(
-                account=row[1],
+                account=row[0],
                 party_type=None,
                 party=None,
                 title="",
