@@ -69,17 +69,24 @@ def execute_again():
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str('"'))
         for row in spamreader:
             print row
+            credit = row[2]
+            debit = row[1]
+
+            if not credit.isdigit():
+                credit = 0
+            if not debit.isdigit():
+                debit  = float(debit)
             journal_entry.append("accounts", dict(
                 account=row[1],
                 party_type=None,
                 party=None,
                 title="",
                 exchange_rate=1,
-                debit_in_account_currency=abs(row[2] or 0),
-                debit=abs(row[2] or 0),
+                debit_in_account_currency=abs(credit),
+                debit=abs(credit),
                 journal_note="القيد  الختامي",
-                credit_in_account_currency=abs(row[1] or 0),
-                credit=abs(row[1] or  0),
+                credit_in_account_currency=abs(credit),
+                credit=abs(credit),
                 is_advance="No",
                 cost_center=main_cost_center
             ))
