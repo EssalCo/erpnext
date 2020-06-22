@@ -75,11 +75,11 @@ def execute_again():
                 party=None,
                 title="",
                 exchange_rate=1,
-                debit_in_account_currency=abs(row[2]),
-                debit=abs(row[2]),
+                debit_in_account_currency=abs(row[2] or 0),
+                debit=abs(row[2] or 0),
                 journal_note="القيد  الختامي",
-                credit_in_account_currency=abs(row[1]),
-                credit=abs(row[1]),
+                credit_in_account_currency=abs(row[1] or 0),
+                credit=abs(row[1] or  0),
                 is_advance="No",
                 cost_center=main_cost_center
             ))
