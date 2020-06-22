@@ -70,16 +70,16 @@ def execute_again():
         for row in spamreader:
             if row[0] == "Account":
                 continue
-            credit = float(row[1].replace(" ", "").replace("\\t", "") or 0)
-            debit = float(row[2].replace(" ",  "").replace("\\t", "") or 0)
+            credit = row[1].replace(" ", "")
+            debit = row[2].replace(" ",  "")
             print debit
             print credit
             # if credit == "Closing(Cr)":
             #     continue
-            # if not credit.isdigit():
-            #     credit = 0
-            # if not debit.isdigit():
-            #     debit = float(debit)
+            if not credit.isdigit():
+                credit = 0
+            if not debit.isdigit():
+                debit = float(debit)
             journal_entry.append("accounts", dict(
                 account=row[1],
                 party_type=None,
