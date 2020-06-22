@@ -69,9 +69,9 @@ def execute_again():
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str('"'))
         for row in spamreader:
             print row
-            credit = row[1]
-            debit = row[2]
-            if credit == "Closing (Cr)":
+            credit = row[1].replace(" ", "")
+            debit = row[2].replace(" ",  "")
+            if credit == "Closing(Cr)":
                 continue
             if not credit.isdigit():
                 credit = 0
