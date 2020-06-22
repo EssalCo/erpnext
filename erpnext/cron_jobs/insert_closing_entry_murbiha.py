@@ -77,10 +77,10 @@ def execute_again():
             print credit
             # if credit == "Closing(Cr)":
             #     continue
-            if not credit.isdigit():
-                credit = 0
-            if not debit.isdigit():
-                debit = 0
+            # if not credit.isdigit():
+            #     credit = 0
+            # if not debit.isdigit():
+            #     debit = 0
             journal_entry.append("accounts", dict(
                 account=row[0],
                 party_type=None,
