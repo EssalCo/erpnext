@@ -113,8 +113,8 @@ def execute_again_mod():
                 current_entry_index = serial_no
 
             # remark = str(row[6])
-            debit = float(row[5].replace(",", ""))
-            credit = float(row[6].replace(",", ""))
+            debit = float(row[5].replace(",", "") or 0)
+            credit = float(row[6].replace(",", "") or 0)
 
             if credit:
                 total_credit += credit
