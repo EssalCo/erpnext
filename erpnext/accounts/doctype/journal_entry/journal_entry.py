@@ -46,11 +46,11 @@ class JournalEntry(AccountsController):
                 #                 else:
                 #                     last_index = last_index[0].maxi + 1
 
-                self.name = _make_autoname(key='{prefix}.#######'.format(prefix=prefix))
-                return
+                self.name = _make_autoname(key='{prefix}.#######'.format(prefix=prefix), prefix=prefix, company=self.company)
+                return self.name
 
-        self.name = _make_autoname(key='{prefix}.#####'.format(prefix=self.naming_series))
-        return
+        self.name = _make_autoname(key='{prefix}.#####'.format(prefix=self.naming_series), prefix=self.naming_series, company=self.company)
+        return self.name
 
     def before_save(self):
         if not self.owner_name:
@@ -1003,15 +1003,22 @@ def get_average_exchange_rate(account):
     return exchange_rate
 
 
-def _make_autoname(key='Agent.-.#####', year=None):
-    from frappe.model.naming import getseries
+def _make_autoname(key='JV.-.#####', year=None, prefix="JV", company=None):
     from frappe.utils import now_datetime
     parts = key.split('.')
     n = ''
     for e in parts:
         if e.startswith('#'):
             digits = len(e)
-            part = getseries(n, digits, "")
+            current = frappe.db.sql("""SELECT 
+    COALESCE(MAX(TRIM(LEADING %(prefix)s FROM `name`) * 1 ), 0)AS number
+FROM
+`tabJournal Entry` WHERE company = %(company)s;""", dict(
+                prefix=prefix,
+                company=company
+            ), as_dict=True)
+            current = (current[0].number or 0) + 1
+            part = ('%0'+str(digits)+'d') % current
         elif e == 'YYYY':
             if year:
                 part = str(year)
