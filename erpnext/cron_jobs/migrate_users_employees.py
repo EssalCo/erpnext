@@ -27,16 +27,18 @@ def execute():
 
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
-        departments = list(set([row[5].decode('utf-8') for row in spamreader if row[5]]))
-
-        for department in departments:
-            frappe.get_doc(dict(
-                doctype="Department",
-                department_name=department)).insert(ignore_permissions=True)
+        # departments = list(set([row[5].decode('utf-8') for row in spamreader if row[5]]))
+        #
+        # for department in departments:
+        #     frappe.get_doc(dict(
+        #         doctype="Department",
+        #         department_name=department)).insert(ignore_permissions=True)
 
         for row in spamreader:
+
+            print row
             try:
-                id_no = int(row[0])
+                id_no = int(row[0].decode('utf-8'))
             except:
                 continue
             birth_date = row[1].decode('utf-8')
