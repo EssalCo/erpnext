@@ -130,8 +130,11 @@ def execute():
 
             )
             )
-            user.insert(ignore_permissions=True)
-
+            try:
+                user.insert(ignore_permissions=True)
+            except frappe.exceptions.UniqueValidationError:
+                user.mobile_no = None
+                user.insert(ignore_permissions=True)
             employee = frappe.get_doc(
                 dict(
                     doctype='Employee',
