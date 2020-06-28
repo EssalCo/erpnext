@@ -36,19 +36,12 @@ def execute():
 
         for row in spamreader:
 
-            print row
             try:
                 id_no = int(row[0].decode('utf-8'))
             except:
                 continue
 
-            if frappe.db.exists(
-                "User",
-                dict(
-                    username=str(id_no)
-                )
-            ):
-                continue
+
             print row
             birth_date = row[1].decode('utf-8')
             if birth_date:
@@ -75,17 +68,32 @@ def execute():
                     date_of_joining = str(datetime.strptime(
                         str(date_of_joining.replace(" م", "")), '%d/%m/%Y'
                     ))
-            else:
-                date_of_joining = str(date_of_joining.decode('utf-8')).split("/")
-                day = int(date_of_joining[0].replace(" ", ""))
-                month = int(date_of_joining[1].replace(" ", ""))
-                year = int(date_of_joining[2].replace(" ", ""))
-                date_of_joining = HijriDate(year, month, day, gr=False)
-                date_of_joining = "{:04d}-{:02d}-{:02d}".format(int(date_of_joining.year_gr), int(date_of_joining.month_gr),
-                                                           int(date_of_joining.day_gr))
+                else:
+                    date_of_joining = str(date_of_joining.decode('utf-8')).split("/")
+                    day = int(date_of_joining[0].replace(" ", ""))
+                    month = int(date_of_joining[1].replace(" ", ""))
+                    year = int(date_of_joining[2].replace(" ", ""))
+                    date_of_joining = HijriDate(year, month, day, gr=False)
+                    date_of_joining = "{:04d}-{:02d}-{:02d}".format(int(date_of_joining.year_gr), int(date_of_joining.month_gr),
+                                                               int(date_of_joining.day_gr))
             position_for = row[13].decode('utf-8')
             print birth_date
             print date_of_joining
+            prev_user = frappe.get_value(
+                "User",
+                dict(
+                    username=str(id_no)
+                ),  "name"
+            )
+            if prev_user:
+                frappe.db.set_value(
+                    "Employee",
+                    dict(
+                        user_id=prev_user
+                    ),
+                    date_of_joining=date_of_joining
+                )
+                continue
             residence_valid_to = row[15].decode('utf-8')
             if residence_valid_to:
                 if " م" in residence_valid_to:
