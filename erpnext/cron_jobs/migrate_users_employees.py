@@ -69,7 +69,6 @@ def execute():
             else:
                 date_of_joining = str(date_of_joining.decode('utf-8')).split("/")
                 day = int(date_of_joining[0].replace(" ", ""))
-                day = int(date_of_joining[0].replace(" ", ""))
                 month = int(date_of_joining[1].replace(" ", ""))
                 year = int(date_of_joining[2].replace(" ", ""))
                 date_of_joining = HijriDate(year, month, day, gr=False)
@@ -97,7 +96,7 @@ def execute():
                 full_name=full_name,
                 send_welcome_email=0,
                 unsubscribed=0,
-                username=id_no,
+                username=str(id_no),
                 language="ar",
                 roles=[
 
