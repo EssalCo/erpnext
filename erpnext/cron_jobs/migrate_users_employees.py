@@ -27,7 +27,7 @@ def execute():
 
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
-        departments = list(set([row[5] for row in spamreader if row[5]]))
+        departments = list(set([row[5].decode('utf-8') for row in spamreader if row[5]]))
 
         for department in departments:
             frappe.get_doc(dict(
@@ -39,7 +39,7 @@ def execute():
                 id_no = int(row[0])
             except:
                 continue
-            birth_date = row[1]
+            birth_date = row[1].decode('utf-8')
             if birth_date:
                 if " م" in birth_date:
                     birth_date = str(datetime.strptime(
@@ -54,11 +54,11 @@ def execute():
                     birth_date = "{:04d}-{:02d}-{:02d}".format(int(birth_date.year_gr), int(birth_date.month_gr),
                                                            int(birth_date.day_gr))
 
-            full_name = row[2]
-            nationality = row[3]
-            position = row[4]
-            department = row[5]
-            date_of_joining = row[6]
+            full_name = row[2].decode('utf-8')
+            nationality = row[3].decode('utf-8')
+            position = row[4].decode('utf-8')
+            department = row[5].decode('utf-8')
+            date_of_joining = row[6].decode('utf-8')
             if date_of_joining:
                 if " م" in date_of_joining:
                     date_of_joining = str(datetime.strptime(
@@ -72,17 +72,17 @@ def execute():
                 date_of_joining = HijriDate(year, month, day, gr=False)
                 date_of_joining = "{:04d}-{:02d}-{:02d}".format(int(date_of_joining.year_gr), int(date_of_joining.month_gr),
                                                            int(date_of_joining.day_gr))
-            position_for = row[13]
+            position_for = row[13].decode('utf-8')
 
-            residence_valid_to = row[15]
+            residence_valid_to = row[15].decode('utf-8')
             if residence_valid_to:
                 if " م" in residence_valid_to:
                     residence_valid_to = str(datetime.strptime(
                         str(residence_valid_to.replace(" م", "")), '%d/%m/%Y'
                     ))
-            address = location = row[16]
-            mobile = row[18]
-            email = row[17] or "{0}@tahlia.s1.essal.co".format(id_no)
+            address = location = row[16].decode('utf-8')
+            mobile = row[18].decode('utf-8')
+            email = row[17].decode('utf-8') or "{0}@tahlia.s1.essal.co".format(id_no)
             names = full_name.split[" "]
             user = frappe.get_doc(dict(
                 doctype="User",
