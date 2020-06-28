@@ -69,6 +69,7 @@ def execute():
             else:
                 date_of_joining = str(date_of_joining.decode('utf-8')).split("/")
                 day = int(date_of_joining[0].replace(" ", ""))
+                day = int(date_of_joining[0].replace(" ", ""))
                 month = int(date_of_joining[1].replace(" ", ""))
                 year = int(date_of_joining[2].replace(" ", ""))
                 date_of_joining = HijriDate(year, month, day, gr=False)
@@ -85,7 +86,7 @@ def execute():
             address = location = row[16].decode('utf-8')
             mobile = row[18].decode('utf-8')
             email = row[17].decode('utf-8') or "{0}@tahlia.s1.essal.co".format(id_no)
-            names = full_name.split[" "]
+            names = full_name.split(" ")
             user = frappe.get_doc(dict(
                 doctype="User",
                 enabled=1,
