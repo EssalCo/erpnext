@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf8')
 
 
 def execute_again_mod():
-    payment_details = "/private/files/nawat_mod.csv"
+    payment_details = "nawat2020 2020-06-28 14:00:05.csv"
 
     print("Starting journals..")
 
