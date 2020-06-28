@@ -57,7 +57,8 @@ def execute():
                     birth_date = HijriDate(year, month, day, gr=False)
                     birth_date = "{:04d}-{:02d}-{:02d}".format(int(birth_date.year_gr), int(birth_date.month_gr),
                                                            int(birth_date.day_gr))
-
+            if not birth_date:
+                birth_date = "1990-01-01"
             full_name = row[2].decode('utf-8')
             nationality = row[3].decode('utf-8')
             position = row[4].decode('utf-8')
@@ -86,13 +87,13 @@ def execute():
                 ),  "name"
             )
             if prev_user:
-                frappe.db.set_value(
-                    "Employee",
-                    dict(
-                        user_id=prev_user
-                    ),
-                    "date_of_joining", date_of_joining
-                )
+                # frappe.db.set_value(
+                #     "Employee",
+                #     dict(
+                #         user_id=prev_user
+                #     ),
+                #     "date_of_joining", date_of_joining
+                # )
                 continue
             residence_valid_to = row[15].decode('utf-8')
             if residence_valid_to:
