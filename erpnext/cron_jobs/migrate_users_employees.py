@@ -77,6 +77,8 @@ def execute():
                     date_of_joining = HijriDate(year, month, day, gr=False)
                     date_of_joining = "{:04d}-{:02d}-{:02d}".format(int(date_of_joining.year_gr), int(date_of_joining.month_gr),
                                                                int(date_of_joining.day_gr))
+            if not date_of_joining:
+                date_of_joining = "2020-01-01"
             position_for = row[13].decode('utf-8')
             print birth_date
             print date_of_joining
