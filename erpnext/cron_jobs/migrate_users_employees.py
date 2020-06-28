@@ -41,6 +41,15 @@ def execute():
                 id_no = int(row[0].decode('utf-8'))
             except:
                 continue
+
+            if frappe.db.exists(
+                "User",
+                dict(
+                    username=str(id_no)
+                )
+            ):
+                continue
+            print row
             birth_date = row[1].decode('utf-8')
             if birth_date:
                 if " م" in birth_date:
@@ -75,7 +84,8 @@ def execute():
                 date_of_joining = "{:04d}-{:02d}-{:02d}".format(int(date_of_joining.year_gr), int(date_of_joining.month_gr),
                                                            int(date_of_joining.day_gr))
             position_for = row[13].decode('utf-8')
-
+            print birth_date
+            print date_of_joining
             residence_valid_to = row[15].decode('utf-8')
             if residence_valid_to:
                 if " م" in residence_valid_to:
