@@ -137,6 +137,6 @@ def execute():
 
             )
             employee.insert(ignore_permissions=True)
-            user.append_roles("Employee", )
-            user.save(ignore_permissions=True)
+            user.reload()
+            user.add_roles("Employee", )
             frappe.db.commit()
