@@ -91,7 +91,7 @@ def execute():
                     dict(
                         user_id=prev_user
                     ),
-                    date_of_joining=date_of_joining
+                    "date_of_joining", date_of_joining
                 )
                 continue
             residence_valid_to = row[15].decode('utf-8')
