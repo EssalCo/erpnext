@@ -657,7 +657,7 @@ function filterCustomer(frm) {
 	cur_frm.fields_dict['accounts'].grid.get_field('party').get_query = function (doc) {
 
 		/* Get parties of this customer group only if filled */
-		console.log(cur_frm.selected_doc);
+		// console.log(cur_frm.selected_doc);
 		// console.log(cur_dialog.fields_dict);
 
 		return {

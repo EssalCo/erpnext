@@ -168,7 +168,7 @@ def get_gl_entries(filters):
                     customer_name=filters['party_name']), "name")
         else:
             party_name = filters['party_name']
-        import re
+        # import re
         # party_name = u''.join((party_name,)).encode('utf-8')
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
         # if party_name != filters['party_name']:
@@ -177,6 +177,21 @@ def get_gl_entries(filters):
         #
         # else:
         party_filter = ' and party="{0}" '.format(party_name)
+    if filters.get("customer_group"):
+        customers = frappe.get_all(
+            "Customer",
+            fields=[
+                "name"
+            ],
+            filters=dict(
+                customer_group=filters['customer_group']
+            ),
+            ignore_ifnull=1,
+            ignore_permissions=1
+        )
+        if len(customers) != 0:
+            party_filter = " and party IN ('{0}') ".format("','".format(temp.name for temp in customers))
+
     gl_entries = frappe.db.sql(
         """
         select
