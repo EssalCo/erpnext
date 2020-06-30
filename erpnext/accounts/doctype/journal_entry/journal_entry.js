@@ -661,7 +661,7 @@ function filterCustomer(frm) {
 		// console.log(cur_dialog.fields_dict);
 
 		return {
-			query: 'erpnext.account.doctype.filter_customer_group.filter_customer_group',
+			query: 'erpnext.accounts.filter_customer_group.filter_customer_group',
 			filters: {
 				'customer_group': cur_frm.selected_doc.customer_group,
 				'party_typ': cur_frm.selected_doc.party_type
