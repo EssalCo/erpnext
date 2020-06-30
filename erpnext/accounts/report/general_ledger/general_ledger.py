@@ -191,7 +191,8 @@ def get_gl_entries(filters):
         )
         if len(customers) != 0:
             party_filter = " and party IN ('{0}') ".format("','".format(temp.name for temp in customers))
-
+        else:
+            party_filter = " and party = 'xyzmnb' "
     gl_entries = frappe.db.sql(
         """
         select
