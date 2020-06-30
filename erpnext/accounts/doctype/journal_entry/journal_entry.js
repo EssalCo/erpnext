@@ -664,7 +664,7 @@ function filterCustomer(frm) {
 			query: 'erpnext.accounts.filter_customer_group.filter_customer_group',
 			filters: {
 				'customer_group': cur_frm.selected_doc.customer_group,
-				'party_typ': cur_frm.selected_doc.party_type
+				'party_type': cur_frm.selected_doc.party_type
 			}
 		}
 	};
