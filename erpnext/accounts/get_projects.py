@@ -21,6 +21,7 @@ def get_projects():
 
         projects = frappe.get_all("Project",
                                   fields=[
+                                      "name",
                                       "project_name",
                                       "status",
                                       "project_type",
@@ -56,4 +57,4 @@ def get_projects():
 
     except Exception as e:
         return dict(status=False, message=str(e))
-    return dict(status=True, message="Success", projects=projects)
+    return dict(status=True, message="Success", projects=projects, project_ids=[temp.name for temp in projects])
