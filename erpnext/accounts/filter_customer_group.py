@@ -17,7 +17,8 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
         fields=[
             "name",
             "customer_name",
-            "gender"
+            "customer_group",
+            "territory"
         ],
         filters=filters,
         ignore_ifnull=1,
@@ -26,7 +27,7 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
     result = []
     for customer in customers:
         result.append(
-            (customer.name, "{0} - {1}".format(customer.customer_name, customer.gender))
+            (customer.name, "{0} - {1} - {2}".format(customer.customer_name, customer.customer_group, customer.territory))
         )
     if not result:
         return ()
