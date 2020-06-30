@@ -49,7 +49,7 @@ class JournalEntry(AccountsController):
                 self.name = _make_autoname(key='{prefix}.#######'.format(prefix=prefix), prefix=prefix, company=self.company)
                 return self.name
 
-        self.name = _make_autoname(key='{prefix}.#####'.format(prefix=self.naming_series), prefix=self.naming_series, company=self.company)
+        self.name = _make_autoname(key='{prefix}.#####'.format(prefix=self.naming_series), prefix=self.naming_series, company=None)
         return self.name
 
     def before_save(self):
@@ -1010,10 +1010,16 @@ def _make_autoname(key='JV.-.#####', year=None, prefix="JV", company=None):
     for e in parts:
         if e.startswith('#'):
             digits = len(e)
+            if company:
+                company_condition = " WHERE company = %(company)s"
+            else:
+                company_condition = ""
             current = frappe.db.sql("""SELECT 
     COALESCE(MAX(TRIM(LEADING %(prefix)s FROM `name`) * 1 ), 0)AS number
 FROM
-`tabJournal Entry` WHERE company = %(company)s;""", dict(
+`tabJournal Entry` {company_condition};""".format(
+                company_condition=company_condition
+            ), dict(
                 prefix=prefix,
                 company=company
             ), as_dict=True)
