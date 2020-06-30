@@ -14,6 +14,7 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
         )
     else:
         filters = dict()
+    send_msg_telegram(str(filters))
     customers = frappe.get_all(
         "Customer",
         fields=[
@@ -26,6 +27,7 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
         ignore_ifnull=1,
         ignore_permissions=1
     )
+    send_msg_telegram(str(customers))
     result = []
     for customer in customers:
         result.append(
