@@ -654,18 +654,20 @@ cur_frm.cscript.custom_due_date = function() {
 
 
 function filterCustomer(frm) {
-	cur_frm.fields_dict['accounts'].grid.get_field('party').get_query = function (doc) {
+	if (cur_frm.selected_doc.party_type == "Customer") {
+		cur_frm.fields_dict['accounts'].grid.get_field('party').get_query = function (doc) {
 
-		/* Get parties of this customer group only if filled */
-		// console.log(cur_frm.selected_doc);
-		// console.log(cur_dialog.fields_dict);
+			/* Get parties of this customer group only if filled */
+			// console.log(cur_frm.selected_doc);
+			// console.log(cur_dialog.fields_dict);
 
-		return {
-			query: 'erpnext.accounts.filter_customer_group.filter_customer_group',
-			filters: {
-				'customer_group': cur_frm.selected_doc.customer_group,
-				'party_type': cur_frm.selected_doc.party_type
+			return {
+				query: 'erpnext.accounts.filter_customer_group.filter_customer_group',
+				filters: {
+					'customer_group': cur_frm.selected_doc.customer_group,
+					'party_type': cur_frm.selected_doc.party_type
+				}
 			}
-		}
-	};
+		};
+	}
 }
