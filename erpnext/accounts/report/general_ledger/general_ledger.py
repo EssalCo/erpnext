@@ -143,21 +143,21 @@ def get_result(filters, account_details):
 
 
 def get_gl_entries(filters):
-    select_fields = """, debit, credit, debit_in_account_currency,
-		credit_in_account_currency """
+    select_fields = """, l.debit, l.credit, l.debit_in_account_currency,
+		l.credit_in_account_currency """
 
-    group_by_statement = 'group by name'
-    order_by_statement = "order by posting_date, account"
+    group_by_statement = 'group by l.name'
+    order_by_statement = "order by l.posting_date, l.account"
 
     if filters.get("group_by") == _("Group by Voucher"):
-        order_by_statement = "order by posting_date, voucher_type, voucher_no"
+        order_by_statement = "order by l.posting_date, l.voucher_type, l.voucher_no"
 
     if filters.get("group_by") == _("Group by Voucher (Consolidated)"):
-        group_by_statement = "group by voucher_type, voucher_no, account, cost_center"
+        group_by_statement = "group by l.voucher_type, l.voucher_no, l.account, l.cost_center"
 
-        select_fields = """, sum(debit) as debit, sum(credit) as credit,
-			round(sum(debit_in_account_currency), 4) as debit_in_account_currency,
-			round(sum(credit_in_account_currency), 4) as  credit_in_account_currency"""
+        select_fields = """, sum(l.debit) as debit, sum(l.credit) as credit,
+			round(sum(l.debit_in_account_currency), 4) as debit_in_account_currency,
+			round(sum(l.credit_in_account_currency), 4) as  credit_in_account_currency"""
     party_filter = ""
 
     if filters.get("party_name"):
@@ -196,12 +196,13 @@ def get_gl_entries(filters):
     gl_entries = frappe.db.sql(
         """
         select
-            posting_date, account, party_type, party,
-            voucher_type, voucher_no, cost_center, project,
-            against_voucher_type, against_voucher, account_currency,
-            remarks, against, is_opening {select_fields}
-        from `tabGL Entry`
-        where company=%(company)s {conditions} {party_filter} {group_by_statement} 
+            l.posting_date, l.account, l.party_type, l.party,
+            l.voucher_type, l.voucher_no, l.cost_center, l.project,
+            l.against_voucher_type, l.against_voucher, l.account_currency,
+            l.remarks, l.against, l.is_opening {select_fields}
+        from `tabGL Entry` l 
+        left join `tabJournal Entry Account` j on j.parent = l.voucher_no and l.remarks = j.journal_note and l.account = j.account and l.party = j.party
+        where l.company=%(company)s {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
             select_fields=select_fields, conditions=get_conditions(filters),
@@ -210,21 +211,21 @@ def get_gl_entries(filters):
             party_filter=party_filter
         ),
         filters, as_dict=1)
-    send_msg_telegram("""
-        select
-            posting_date, account, party_type, party,
-            voucher_type, voucher_no, cost_center, project,
-            against_voucher_type, against_voucher, account_currency,
-            remarks, against, is_opening {select_fields}
-        from `tabGL Entry`
-        where company=%(company)s {conditions} {party_filter} {group_by_statement} 
-        {order_by_statement}
-        """.format(
-        select_fields=select_fields, conditions=get_conditions(filters),
-        group_by_statement=group_by_statement,
-        order_by_statement=order_by_statement,
-        party_filter=party_filter
-    ) % filters)
+    # send_msg_telegram("""
+    #     select
+    #         l.posting_date, l.account, l.party_type, l.party,
+    #         l.voucher_type, l.voucher_no, COALESCE(l.cost_center, j.cost_center, l.project,
+    #         l.against_voucher_type, l.against_voucher, l.account_currency,
+    #         l.remarks, l.against, l.is_opening {select_fields}
+    #     from `tabGL Entry` l
+    #     where l.company=%(company)s {conditions} {party_filter} {group_by_statement}
+    #     {order_by_statement}
+    #     """.format(
+    #     select_fields=select_fields, conditions=get_conditions(filters),
+    #     group_by_statement=group_by_statement,
+    #     order_by_statement=order_by_statement,
+    #     party_filter=party_filter
+    # ) % filters)
     return gl_entries
 
 
@@ -232,32 +233,32 @@ def get_conditions(filters):
     conditions = []
     if filters.get("account"):
         lft, rgt = frappe.db.get_value("Account", filters["account"], ["lft", "rgt"])
-        conditions.append("""account in (select name from tabAccount
+        conditions.append("""l.account in (select name from tabAccount
 			where lft>=%s and rgt<=%s and docstatus<2)""" % (lft, rgt))
 
     if filters.get("cost_center"):
         filters.cost_center = get_cost_centers_with_children(filters.cost_center)
-        conditions.append("cost_center in %(cost_center)s")
+        conditions.append(" COALESCE(l.cost_center, j.cost_center) in %(cost_center)s ")
 
     if filters.get("voucher_no"):
-        conditions.append("voucher_no=%(voucher_no)s")
+        conditions.append("l.voucher_no=%(voucher_no)s")
 
     if filters.get("group_by") == "Group by Party" and not filters.get("party_type"):
-        conditions.append("party_type in ('Customer', 'Supplier')")
+        conditions.append("l.party_type in ('Customer', 'Supplier')")
 
     if filters.get("party_type"):
-        conditions.append("party_type=%(party_type)s")
+        conditions.append("l.party_type=%(party_type)s")
 
     if not (filters.get("account") or filters.get("party") or
             filters.get("group_by") in ["Group by Account", "Group by Party"]):
-        conditions.append("posting_date >=%(from_date)s")
-        conditions.append("posting_date <=%(to_date)s")
+        conditions.append("l.posting_date >=%(from_date)s")
+        conditions.append("l.posting_date <=%(to_date)s")
 
     if filters.get("project"):
-        conditions.append("project = %(project)s")
+        conditions.append("l.project = %(project)s")
 
     if filters.get("finance_book"):
-        conditions.append("ifnull(finance_book, '') in (%(finance_book)s, '')")
+        conditions.append("ifnull(l.finance_book, '') in (%(finance_book)s, '')")
 
     from frappe.desk.reportview import build_match_conditions
     match_conditions = build_match_conditions("GL Entry")
