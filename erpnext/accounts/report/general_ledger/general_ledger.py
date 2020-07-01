@@ -197,7 +197,7 @@ def get_gl_entries(filters):
         """
         select
             l.posting_date, l.account, l.party_type, l.party,
-            l.voucher_type, l.voucher_no, l.cost_center, l.project,
+            l.voucher_type, l.voucher_no, COALESCE(l.cost_center, j.cost_center), l.project,
             l.against_voucher_type, l.against_voucher, l.account_currency,
             l.remarks, l.against, l.is_opening {select_fields}
         from `tabGL Entry` l 
