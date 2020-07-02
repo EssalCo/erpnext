@@ -193,15 +193,15 @@ def get_gl_entries(filters):
             party_filter = " and party IN ('{0}') ".format("','".format(temp.name for temp in customers))
         else:
             party_filter = " and party = 'xyzmnb' "
+    #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
     gl_entries = frappe.db.sql(
         """
         select
             `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
-            `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, j.cost_center) AS cost_center, `tabGL Entry`.project,
+            `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
             `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
             `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
         from `tabGL Entry`
-        left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
         where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
