@@ -143,21 +143,21 @@ def get_result(filters, account_details):
 
 
 def get_gl_entries(filters):
-    select_fields = """, l.debit, l.credit, l.debit_in_account_currency,
-		l.credit_in_account_currency """
+    select_fields = """, `tabGL Entry`.debit, `tabGL Entry`.credit, `tabGL Entry`.debit_in_account_currency,
+		`tabGL Entry`.credit_in_account_currency """
 
-    group_by_statement = 'group by l.name'
-    order_by_statement = "order by l.posting_date, l.account"
+    group_by_statement = 'group by `tabGL Entry`.name'
+    order_by_statement = "order by `tabGL Entry`.posting_date, `tabGL Entry`.account"
 
     if filters.get("group_by") == _("Group by Voucher"):
-        order_by_statement = "order by l.posting_date, l.voucher_type, l.voucher_no"
+        order_by_statement = "order by `tabGL Entry`.posting_date, `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no"
 
     if filters.get("group_by") == _("Group by Voucher (Consolidated)"):
-        group_by_statement = "group by l.voucher_type, l.voucher_no, l.account, l.cost_center"
+        group_by_statement = "group by `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, `tabGL Entry`.account, `tabGL Entry`.cost_center"
 
-        select_fields = """, sum(l.debit) as debit, sum(l.credit) as credit,
-			round(sum(l.debit_in_account_currency), 4) as debit_in_account_currency,
-			round(sum(l.credit_in_account_currency), 4) as  credit_in_account_currency"""
+        select_fields = """, sum(`tabGL Entry`.debit) as debit, sum(`tabGL Entry`.credit) as credit,
+			round(sum(`tabGL Entry`.debit_in_account_currency), 4) as debit_in_account_currency,
+			round(sum(`tabGL Entry`.credit_in_account_currency), 4) as  credit_in_account_currency"""
     party_filter = ""
 
     if filters.get("party_name"):
@@ -196,13 +196,13 @@ def get_gl_entries(filters):
     gl_entries = frappe.db.sql(
         """
         select
-            l.posting_date, l.account, l.party_type, l.party,
-            l.voucher_type, l.voucher_no, COALESCE(l.cost_center, j.cost_center) AS cost_center, l.project,
-            l.against_voucher_type, l.against_voucher, l.account_currency,
-            l.remarks, l.against, l.is_opening {select_fields}
-        from `tabGL Entry` l 
-        left join `tabJournal Entry Account` j on j.parent = l.voucher_no and l.remarks = j.journal_note and l.account = j.account and l.party = j.party
-        where l.company=%(company)s {conditions} {party_filter} {group_by_statement} 
+            `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
+            `tabGL Entry`.voucher_type, `tabGL Entry`..voucher_no, COALESCE(`tabGL Entry`.cost_center, j.cost_center) AS cost_center, `tabGL Entry`.project,
+            `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
+            `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
+        from `tabGL Entry`
+        left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
+        where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
             select_fields=select_fields, conditions=get_conditions(filters),
@@ -233,32 +233,32 @@ def get_conditions(filters):
     conditions = []
     if filters.get("account"):
         lft, rgt = frappe.db.get_value("Account", filters["account"], ["lft", "rgt"])
-        conditions.append("""l.account in (select name from tabAccount
+        conditions.append("""`tabGL Entry`.account in (select name from tabAccount
 			where lft>=%s and rgt<=%s and docstatus<2)""" % (lft, rgt))
 
     if filters.get("cost_center"):
         filters.cost_center = get_cost_centers_with_children(filters.cost_center)
-        conditions.append(" COALESCE(l.cost_center, j.cost_center) in %(cost_center)s ")
+        conditions.append(" COALESCE(`tabGL Entry`.cost_center, j.cost_center) in %(cost_center)s ")
 
     if filters.get("voucher_no"):
-        conditions.append("l.voucher_no=%(voucher_no)s")
+        conditions.append("`tabGL Entry`.voucher_no=%(voucher_no)s")
 
     if filters.get("group_by") == "Group by Party" and not filters.get("party_type"):
-        conditions.append("l.party_type in ('Customer', 'Supplier')")
+        conditions.append("`tabGL Entry`.party_type in ('Customer', 'Supplier')")
 
     if filters.get("party_type"):
-        conditions.append("l.party_type=%(party_type)s")
+        conditions.append("`tabGL Entry`.party_type=%(party_type)s")
 
     if not (filters.get("account") or filters.get("party") or
             filters.get("group_by") in ["Group by Account", "Group by Party"]):
-        conditions.append("l.posting_date >=%(from_date)s")
-        conditions.append("l.posting_date <=%(to_date)s")
+        conditions.append("`tabGL Entry`.posting_date >=%(from_date)s")
+        conditions.append("`tabGL Entry`.posting_date <=%(to_date)s")
 
     if filters.get("project"):
-        conditions.append("l.project = %(project)s")
+        conditions.append("`tabGL Entry`.project = %(project)s")
 
     if filters.get("finance_book"):
-        conditions.append("ifnull(l.finance_book, '') in (%(finance_book)s, '')")
+        conditions.append("ifnull(`tabGL Entry`.finance_book, '') in (%(finance_book)s, '')")
 
     from frappe.desk.reportview import build_match_conditions
     match_conditions = build_match_conditions("GL Entry")
