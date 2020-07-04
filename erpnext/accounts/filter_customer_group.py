@@ -13,6 +13,11 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
         return ()
     if filters.get('party_type') == "Customer":
         if filters.get('customer_group'):
+            if frappe.get_value(
+                "Customer Group",
+                filters['customer_group'],
+                "parent_customer_group"
+            ):
                 _filters = dict(
                 customer_group=filters['customer_group']
             )
