@@ -166,6 +166,11 @@ def get_gl_entries(filters):
             if not party_name:
                 party_name = frappe.get_value(filters['party_type'], dict(
                     customer_name=filters['party_name']), "name")
+        elif filters['party_type'] == "Supplier":
+            party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
+            if not party_name:
+                party_name = frappe.get_value(filters['party_type'], dict(
+                    supplier_name=filters['party_name']), "name")
         else:
             party_name = filters['party_name']
         # import re
