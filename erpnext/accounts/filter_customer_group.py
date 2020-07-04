@@ -13,13 +13,13 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
         return ()
     if filters.get('party_type') == "Customer":
         if filters.get('customer_group'):
-                filters = dict(
+                _filters = dict(
                 customer_group=filters['customer_group']
             )
         else:
-            filters = dict()
+            _filters = dict()
     else:
-        filters = dict()
+        _filters = dict()
     # send_msg_telegram(str(filters))
     customers = frappe.get_all(
         filters["party_type"],
@@ -27,7 +27,7 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
             "name",
             "{0}_name".format(filters["party_type"].lower())
         ],
-        filters=filters,
+        filters=_filters,
         ignore_ifnull=1,
         ignore_permissions=1
     )
