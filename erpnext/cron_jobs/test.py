@@ -5,7 +5,7 @@ import frappe
 
 def execute():
     x = frappe.db.sql(
-        """                `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
+        """SELECT `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
                 `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
                 `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
                 `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening , sum(`tabGL Entry`.debit) as debit, sum(`tabGL Entry`.credit) as credit,
