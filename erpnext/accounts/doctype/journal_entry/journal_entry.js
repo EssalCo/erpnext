@@ -654,9 +654,9 @@ cur_frm.cscript.custom_due_date = function() {
 
 
 function filterCustomer(frm) {
-	console.log(cur_frm.selected_doc.party_type);
-	console.log(cur_frm.selected_doc.party_type == "Customer");
-	if (cur_frm.selected_doc.party_type == "Customer") {
+	// console.log(cur_frm.selected_doc.party_type);
+	// console.log(cur_frm.selected_doc.party_type == "Customer");
+	// if (cur_frm.selected_doc.party_type == "Customer") {
 		cur_frm.fields_dict['accounts'].grid.get_field('party').get_query = function (doc) {
 
 			/* Get parties of this customer group only if filled */
@@ -671,5 +671,5 @@ function filterCustomer(frm) {
 				}
 			}
 		};
-	}
+	// }
 }
