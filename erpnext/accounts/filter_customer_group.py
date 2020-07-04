@@ -1,13 +1,13 @@
 from __future__ import unicode_literals
 
 import frappe
-from erpnext.utilities.send_telegram import send_msg_telegram
+# from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 @frappe.whitelist()
 def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start, limit_page_length, filters):
-    send_msg_telegram(
-        str(filters))
+    # send_msg_telegram(
+    #     str(filters))
 
     if not filters.get("party_type"):
         return ()
@@ -15,13 +15,13 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
     if filters.get('party_type') == "Customer":
         if filters.get('customer_group'):
             if frappe.get_value(
-                "Customer Group",
-                filters['customer_group'],
-                "parent_customer_group"
+                    "Customer Group",
+                    filters['customer_group'],
+                    "parent_customer_group"
             ):
                 _filters = dict(
-                customer_group=filters['customer_group']
-            )
+                    customer_group=filters['customer_group']
+                )
     # send_msg_telegram(str(filters))
     if filters['party_type'] == "Customer":
         customers = frappe.get_all(

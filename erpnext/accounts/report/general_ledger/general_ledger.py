@@ -173,10 +173,11 @@ def get_gl_entries(filters):
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
         # if party_name != filters['party_name']:
         #     party_filter = ' and party like "%{party_name}%" '.format(party_name=party_name)
-        #     send_msg_telegram(party_filter)
         #
         # else:
         party_filter = ' and party="{0}" '.format(party_name)
+        send_msg_telegram(party_filter)
+
     if filters.get("customer_group"):
         customers = frappe.get_all(
             "Customer",
