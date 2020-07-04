@@ -13,7 +13,7 @@ def execute():
    round(sum(`tabGL Entry`.debit_in_account_currency), 4) as debit_in_account_currency,
    round(sum(`tabGL Entry`.credit_in_account_currency), 4) as  credit_in_account_currency
             from `tabGL Entry`
-            where `tabGL Entry`.company='ALNAMAA' and `tabGL Entry`.party_type='Supplie'r  and party="مؤسسة سالم باطيب لمواد البناء"  group by `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, `tabGL Entry`.account, `tabGL Entry`.cost_center 
+            where `tabGL Entry`.company='ALNAMAA' and `tabGL Entry`.party_type='Supplier'  and party="مؤسسة سالم باطيب لمواد البناء"  group by `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, `tabGL Entry`.account, `tabGL Entry`.cost_center 
             order by `tabGL Entry`.posting_date, `tabGL Entry`.account;""", as_dict=True
     )
 
