@@ -11,6 +11,7 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
 
     if not filters.get("party_type"):
         return ()
+    _filters = dict()
     if filters.get('party_type') == "Customer":
         if filters.get('customer_group'):
             if frappe.get_value(
@@ -21,10 +22,6 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
                 _filters = dict(
                 customer_group=filters['customer_group']
             )
-        else:
-            _filters = dict()
-    else:
-        _filters = dict()
     # send_msg_telegram(str(filters))
     if filters['party_type'] == "Customer":
         customers = frappe.get_all(
