@@ -14,4 +14,4 @@ def execute():
             order by `tabGL Entry`.posting_date, `tabGL Entry`.account;""", as_dict=True
     )
 
-    print x
+    print len(x)
