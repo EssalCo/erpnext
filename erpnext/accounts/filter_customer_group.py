@@ -21,21 +21,40 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
     else:
         _filters = dict()
     # send_msg_telegram(str(filters))
-    customers = frappe.get_all(
-        filters["party_type"],
-        fields=[
-            "name",
-            "{0}_name".format(filters["party_type"].lower())
-        ],
-        filters=_filters,
-        ignore_ifnull=1,
-        ignore_permissions=1
-    )
-    result = []
-    for customer in customers:
-        result.append(
-            (customer.name, "{0}".format(customer["{0}_name".format(filters["party_type"].lower())]))
+    if filters['party_type'] == "Customer":
+        customers = frappe.get_all(
+            filters["party_type"],
+            fields=[
+                "name",
+                "{0}_name".format(filters["party_type"].lower()),
+                "customer_group"
+            ],
+            filters=_filters,
+            ignore_ifnull=1,
+            ignore_permissions=1
         )
+        result = []
+        for customer in customers:
+            result.append(
+                (customer.name, "{0} - {1}".format(
+                    customer["{0}_name".format(filters["party_type"].lower())], customer.customer_group))
+            )
+    else:
+        customers = frappe.get_all(
+            filters["party_type"],
+            fields=[
+                "name",
+                "{0}_name".format(filters["party_type"].lower())
+            ],
+            filters=_filters,
+            ignore_ifnull=1,
+            ignore_permissions=1
+        )
+        result = []
+        for customer in customers:
+            result.append(
+                (customer.name, "{0}".format(customer["{0}_name".format(filters["party_type"].lower())]))
+            )
     if not result:
         return ()
     return ((temp) for temp in result)
