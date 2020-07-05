@@ -452,7 +452,21 @@ def execute():
                 'JV-02813',
                 'JV-02814',
                 'JV-02812']
+    counts = dict()
 
+    _journals = list()
+
+    for temp in journals:
+        if temp not in counts:
+            counts[temp] = 0
+        counts[temp] += 1
+
+    for temp in counts:
+        if counts[temp] % 2  == 0:
+            _journals.append(temp)
+
+    print _journals
+    return
     for _id in journals:
         print _id
         journal_entry = frappe.get_value("Journal Entry", _id, ["posting_date"], as_dict=True)
