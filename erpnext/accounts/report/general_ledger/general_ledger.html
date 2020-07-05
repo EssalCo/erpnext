@@ -38,7 +38,10 @@
 			{% if(data[i].posting_date) { %}
 				<td>{%= dateutil.str_to_user(data[i].posting_date) %}</td>
 				<td>{%= data[i].voucher_type %}
-					<br>{%= data[i].voucher_no %}</td>
+					<br>{%= data[i].voucher_no %}
+					{% if(!(filters.customize_remarks_text)) { %}
+					<br>{%= data[i].title %}
+					{% } %}</td>
 				<td>
 					{% if(!(filters.party || filters.account)) { %}
 						{%= data[i].party || data[i].account %}
@@ -49,6 +52,9 @@
 						{{ __("Against") }}: {%= data[i].against %}
 					{% } %}
 					<br>{%= __("Remarks") %}: {%= data[i].remarks %}
+					{% if((filters.customize_remarks_text)) { %}
+						<br>{%= __("Remarks") %}: {%= data[i].journal_label %}
+					{% } %}
 					{% if(data[i].bill_no) { %}
 						<br>{%= __("Supplier Invoice No") %}: {%= data[i].bill_no %}
 					{% } %}

@@ -271,6 +271,11 @@ frappe.query_reports["General Ledger"] = {
             "label": __("Customize Party Text"),
             "fieldtype": "Check"
         },
+        {
+            "fieldname": "customize_remarks_text",
+            "label": __("Customize Remarks Text"),
+            "fieldtype": "Check"
+        },
     ]
 };
 

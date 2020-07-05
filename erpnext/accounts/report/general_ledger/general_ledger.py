@@ -200,14 +200,18 @@ def get_gl_entries(filters):
         else:
             party_filter = " and party = 'xyzmnb' "
     #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
+    #         `tabGL Entry`.journal_note,
+
     gl_entries = frappe.db.sql(
         """
         select
-            `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
+            `tabGL Entry`.posting_date, 
+            `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party, j.title,
             `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
             `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
             `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
         from `tabGL Entry`
+        LEFT JOIN `tabJournal Entry` j on j.`name` = `tabGL Entry`.`voucher_no`
         where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
@@ -539,12 +543,12 @@ def get_columns(filters):
             "fieldname": "remarks",
             "fieldtype": "Data",
             "width": 00
+        },
+        {
+            "label": _("Label"),
+            "fieldname": "title",
+            "width": 100
         }
-        # {
-        #     "label": _("Label"),
-        #     "fieldname": "title",
-        #     "width": 100
-        # }
     ])
 
     return columns
