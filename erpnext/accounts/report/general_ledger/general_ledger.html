@@ -39,7 +39,7 @@
 				<td>{%= dateutil.str_to_user(data[i].posting_date) %}</td>
 				<td>{%= data[i].voucher_type %}
 					<br>{%= data[i].voucher_no %}
-					{% if(!(filters.customize_remarks_text)) { %}
+					{% if((filters.customize_remarks_text)) { %}
 					<br>{%= data[i].title %}
 					{% } %}</td>
 				<td>
