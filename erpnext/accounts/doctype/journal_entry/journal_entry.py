@@ -512,7 +512,7 @@ class JournalEntry(AccountsController):
                                                           d.precision("credit_in_account_currency")),
                         "against_voucher_type": d.reference_type,
                         "against_voucher": d.reference_name,
-                        "remarks": self.remark or d.title,
+                        "remarks": d.title or self.remark,
                         "journal_note": d.journal_note or d.title,
                         "cost_center": d.cost_center,
                         "project": d.project
