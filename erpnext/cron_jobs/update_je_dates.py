@@ -454,11 +454,13 @@ def execute():
                 'JV-02812']
 
     for _id in journals:
+        print _id
         journal_entry = frappe.get_value("Journal Entry", _id, ["posting_date"], as_dict=True)
         posting_hijri_date = convert_to_hijri(journal_entry.posting_date)
+        print journal_entry.posting_date
 
         posting_date = journal_entry.posting_date[:5] + journal_entry.posting_date[8:10]  +  journal_entry.posting_date[4:7]
-
+        print posting_date
         frappe.db.sql("""UPDATE `tabJournal Entry` 
         SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
             posting_date=posting_date,
