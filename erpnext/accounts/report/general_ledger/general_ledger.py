@@ -544,11 +544,11 @@ def get_columns(filters):
             "fieldtype": "Data",
             "width": 00
         },
-        {
-            "label": _("Label"),
-            "fieldname": "title",
-            "width": 100
-        }
+        # {
+        #     "label": _("Label"),
+        #     "fieldname": "title",
+        #     "width": 100
+        # }
     ])
 
     return columns
