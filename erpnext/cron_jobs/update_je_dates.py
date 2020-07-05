@@ -465,9 +465,9 @@ def execute():
         if counts[temp] % 2  == 0:
             _journals.append(temp)
 
-    print _journals
-    return
-    for _id in journals:
+    # print _journals
+    # return
+    for _id in _journals:
         print _id
         journal_entry = frappe.get_value("Journal Entry", _id, ["posting_date"], as_dict=True)
         posting_hijri_date = convert_to_hijri(journal_entry.posting_date)
