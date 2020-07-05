@@ -217,21 +217,21 @@ def get_gl_entries(filters):
             party_filter=party_filter
         ),
         filters, as_dict=1)
-    send_msg_telegram("""
-            select
-                `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
-                `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
-                `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
-                `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
-            from `tabGL Entry`
-            where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement} 
-            {order_by_statement}
-            """.format(
-                select_fields=select_fields, conditions=get_conditions(filters),
-                group_by_statement=group_by_statement,
-                order_by_statement=order_by_statement,
-                party_filter=party_filter
-            ) % filters)
+    # send_msg_telegram("""
+    #         select
+    #             `tabGL Entry`.posting_date, `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party,
+    #             `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
+    #             `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
+    #             `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
+    #         from `tabGL Entry`
+    #         where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement}
+    #         {order_by_statement}
+    #         """.format(
+    #             select_fields=select_fields, conditions=get_conditions(filters),
+    #             group_by_statement=group_by_statement,
+    #             order_by_statement=order_by_statement,
+    #             party_filter=party_filter
+    #         ) % filters)
     return gl_entries
 
 
