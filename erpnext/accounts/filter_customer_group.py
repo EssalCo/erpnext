@@ -12,6 +12,8 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
     if not filters.get("party_type"):
         return ()
     _filters = dict()
+    if filters.get('party'):
+        _filters["{0}_name".format(filters["party_type"].lower())] = ("like", "%{0}%".format(filters['party']))
     if filters.get('party_type') == "Customer":
         if filters.get('customer_group'):
             if frappe.get_value(
