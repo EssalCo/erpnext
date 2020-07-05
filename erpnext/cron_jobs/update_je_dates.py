@@ -455,7 +455,7 @@ def execute():
 
     for _id in journals:
         print _id
-        journal_entry = frappe.get_value("Journal Entry", _id, ["posting_date"], as_dict=True)
+        journal_entry = str(frappe.get_value("Journal Entry", _id, ["posting_date"], as_dict=True))
         posting_hijri_date = convert_to_hijri(journal_entry.posting_date)
         print journal_entry.posting_date
 
