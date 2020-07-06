@@ -11,7 +11,7 @@ def execute():
 	where dt.name = df.parent) as issingle
 from tabDocField df
 where
-	df.options="Account" and df.fieldtype='Link' HAVING issingle = 0 ;"""
+	df.options="Account" and df.fieldtype='Link' HAVING issingle = 0 ;""", as_dict=True
     )
 
     for temp in to_be_updated:
