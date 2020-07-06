@@ -222,7 +222,7 @@ def get_gl_entries(filters):
         #
         # else:
 
-        send_msg_telegram(party_filter)
+    send_msg_telegram(party_filter)
 
     #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
     #         `tabGL Entry`.journal_note,
