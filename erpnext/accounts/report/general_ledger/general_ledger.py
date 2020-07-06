@@ -201,15 +201,16 @@ def get_gl_entries(filters):
                     party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
             else:
                 party_filter = ' and `tabGL Entry`.party_type="Customer" '
-    elif filters['party_type'] == "Supplier":
+    elif filters.get('party_type') == "Supplier":
         party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
         if not party_name:
             party_name = frappe.get_value(filters['party_type'], dict(
                 supplier_name=filters['party_name']), "name")
             party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
     else:
-        party_name = filters['party_name']
-        party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
+        if filters.get('party_name'):
+            party_name = filters['party_name']
+            party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
         # import re
         # party_name = u''.join((party_name,)).encode('utf-8')
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
