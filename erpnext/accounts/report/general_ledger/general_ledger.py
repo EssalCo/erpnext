@@ -193,7 +193,7 @@ def get_gl_entries(filters):
             send_msg_telegram(str(_filters))
 
             if len(customers) != 0:
-                party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
+                party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".join(temp.name for temp in customers))
             else:
                 party_filter = " and `tabGL Entry`.party = 'xyzmnb' "
             # else:
