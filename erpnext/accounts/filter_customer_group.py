@@ -6,8 +6,8 @@ import frappe
 
 @frappe.whitelist()
 def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start, limit_page_length, filters):
-    # send_msg_telegram(
-    #     str(filters))
+    send_msg_telegram(
+        str(filters))
 
     if not filters.get("party_type"):
         return ()
