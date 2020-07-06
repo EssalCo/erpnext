@@ -180,7 +180,7 @@ def get_gl_entries(filters):
         #     party_filter = ' and party like "%{party_name}%" '.format(party_name=party_name)
         #
         # else:
-        party_filter = ' and party="{0}" '.format(party_name)
+        party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
         send_msg_telegram(party_filter)
 
     if filters.get("customer_group"):
@@ -196,9 +196,9 @@ def get_gl_entries(filters):
             ignore_permissions=1
         )
         if len(customers) != 0:
-            party_filter = " and party IN ('{0}') ".format("','".format(temp.name for temp in customers))
+            party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
         else:
-            party_filter = " and party = 'xyzmnb' "
+            party_filter = " and `tabGL Entry`.party = 'xyzmnb' "
     #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
     #         `tabGL Entry`.journal_note,
 
