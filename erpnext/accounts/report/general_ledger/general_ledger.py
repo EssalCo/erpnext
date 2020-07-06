@@ -159,7 +159,7 @@ def get_gl_entries(filters):
 			round(sum(`tabGL Entry`.debit_in_account_currency), 4) as debit_in_account_currency,
 			round(sum(`tabGL Entry`.credit_in_account_currency), 4) as  credit_in_account_currency"""
     party_filter = ""
-    if filters['party_type'] == "Customer":
+    if filters.get('party_type') == "Customer":
         if filters.get("customer_group"):
             _filters=dict(
                 customer_group=filters['customer_group']
