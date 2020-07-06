@@ -349,7 +349,7 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 		for customer in customers:
 			result.append(
 				(customer.name, "{0} - {1}".format(
-					customer["{0}_name".format(filters["party_type"].lower())], customer.customer_group))
+					customer["{0}_name".format(doctype.lower().lower())], customer.customer_group))
 			)
 		return ((temp) for temp in result)
 	else:
