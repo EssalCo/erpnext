@@ -26,17 +26,17 @@ where
         # print test
         # continue
         frappe.db.sql(
-            """UPDATE `tab{doctype}` SET {field} = CONCAT(TRIM(TRAILING '- نلا' FROM {field}), "")
-    WHERE {field} IS NOT NULL AND {field} LIKE "%- نلا";""".format(
+            """UPDATE `tab{doctype}` SET {field} = CONCAT(TRIM(TRAILING '- N' FROM {field}), "")
+    WHERE {field} IS NOT NULL AND {field} LIKE "%- N";""".format(
                 doctype=temp.parent,
                 field=temp.fieldname
             )
         )
         frappe.db.sql(
-            """UPDATE `tabAccount` SET name = CONCAT(TRIM(TRAILING '- نلا' FROM name), "")
-    WHERE name IS NOT NULL AND name LIKE "%- نلا";"""
+            """UPDATE `tabAccount` SET name = CONCAT(TRIM(TRAILING '- N' FROM name), "")
+    WHERE name IS NOT NULL AND name LIKE "%- N";"""
         )
         frappe.db.sql(
-            """UPDATE `tabGL Entry` SET against = CONCAT(TRIM(TRAILING '- نلا' FROM against), "")
-    WHERE against IS NOT NULL AND against LIKE "%- نلا";"""
+            """UPDATE `tabGL Entry` SET against = CONCAT(TRIM(TRAILING '- N' FROM against), "")
+    WHERE against IS NOT NULL AND against LIKE "%- N";"""
         )
