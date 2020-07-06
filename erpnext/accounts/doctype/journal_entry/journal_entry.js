@@ -667,8 +667,8 @@ function filterCustomer(frm) {
 				query: 'erpnext.controllers.queries.get_customer_list',
 				filters: {
 					'customer_group': cur_frm.selected_doc.customer_group,
-					'party_type': cur_frm.selected_doc.party_type,
-					'party': cur_frm.selected_doc.party_type
+					// 'party_type': cur_frm.selected_doc.party_type,
+					// 'party': cur_frm.selected_doc.party_type
 				}
 			}
 		};
