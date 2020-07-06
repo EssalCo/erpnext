@@ -24,7 +24,7 @@ where
     #         )
     #     )
         # print test
-        continue
+        # continue
         frappe.db.sql(
             """UPDATE `tab{doctype}` SET {field} = CONCAT(TRIM(TRAILING '- نلا' FROM {field}), "- N")
     WHERE {field} IS NOT NULL AND {field} LIKE "%- نلا";""".format(
