@@ -76,14 +76,33 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
     # elif isinstance(filters, list):
     #     filter_list.extend(filters)
     is_customer = False
-    for d in filter_list:
-        if d[3] is not None and d[0] == "Customer" and d[1] == "customer_group":
-            is_customer = True
-            filter_list.append(["Customer", "customer_group", "=", d[3]])
 
+    for d in filters:
+        if d[3] and d[0] == "Customer" and d[1] == "customer_group":
+            if frappe.get_value(
+                    "Customer Group",
+                    d[3],
+                    "parent_customer_group"
+            ):
+                filter_list.append(["Customer", "customer_group", "=", d[3]])
+            is_customer = True
+    if doctype == "Customer": is_customer = True
     if searchfield and txt:
         filter_list.append([doctype, searchfield, "like", "%%%s%%" % txt])
-
-    return frappe.desk.reportview.execute(doctype, filters= filter_list,
-                                          fields = ["name", "{0}_name".format(doctype.lower())],
+    if is_customer:
+        fields = ["name", "{0}_name".format(doctype.lower()), "customer_group"]
+        customers = frappe.db.get_list(doctype, filters= filter_list,
+                                                   fields = fields,
+                                                   limit_start=start, limit_page_length=page_len)
+        result = []
+        for customer in customers:
+            result.append(
+                (customer.name, "{0} - {1}".format(
+                    customer["{0}_name".format(doctype.lower().lower())], customer.customer_group))
+            )
+        return ((temp) for temp in result)
+    else:
+        fields = ["name", "{0}_name".format(doctype.lower())]
+    return frappe.db.get_list(doctype, filters= filter_list,
+                                          fields = fields,
                                           limit_start=start, limit_page_length=page_len, as_list=True)
