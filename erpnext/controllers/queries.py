@@ -315,6 +315,28 @@ def get_account_list(doctype, txt, searchfield, start, page_len, filters):
 		limit_start=start, limit_page_length=page_len, as_list=True)
 
 
+def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
+	filter_list = []
+
+	# if isinstance(filters, dict):
+	#     for key, val in filters.items():
+	#         if isinstance(val, (list, tuple)):
+	#             filter_list.append([doctype, key, val[0], val[1]])
+	#         else:
+	#             filter_list.append([doctype, key, "=", val])
+	# elif isinstance(filters, list):
+	#     filter_list.extend(filters)
+	for d in filter_list:
+		if d[3] is not None and d[0] == "Customer" and d[1] == "customer_group":
+			filter_list.append(["Customer", "customer_group", "=", d[3]])
+
+	if searchfield and txt:
+		filter_list.append([doctype, searchfield, "like", "%%%s%%" % txt])
+
+	return frappe.desk.reportview.execute(doctype, filters= filter_list,
+										  fields = ["name", "{0}_name".format(doctype.lower())],
+										  limit_start=start, limit_page_length=page_len, as_list=True)
+
 @frappe.whitelist()
 def get_income_account(doctype, txt, searchfield, start, page_len, filters):
 	from erpnext.controllers.queries import get_match_cond
