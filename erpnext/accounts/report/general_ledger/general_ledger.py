@@ -208,9 +208,11 @@ def get_gl_entries(filters):
                 supplier_name=filters['party_name']), "name")
             party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
     else:
+        if filters.get('party_type'):
+            party_filter = ' and `tabGL Entry`.party_type="{0}" '.format(filters.get('party_type'))
         if filters.get('party_name'):
             party_name = filters['party_name']
-            party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
+            party_filter += ' and `tabGL Entry`.party="{0}" '.format(party_name)
         # import re
         # party_name = u''.join((party_name,)).encode('utf-8')
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
