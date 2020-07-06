@@ -67,14 +67,14 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
 def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
     filter_list = []
 
-    if isinstance(filters, dict):
-        for key, val in filters.items():
-            if isinstance(val, (list, tuple)):
-                filter_list.append([doctype, key, val[0], val[1]])
-            else:
-                filter_list.append([doctype, key, "=", val])
-    elif isinstance(filters, list):
-        filter_list.extend(filters)
+    # if isinstance(filters, dict):
+    #     for key, val in filters.items():
+    #         if isinstance(val, (list, tuple)):
+    #             filter_list.append([doctype, key, val[0], val[1]])
+    #         else:
+    #             filter_list.append([doctype, key, "=", val])
+    # elif isinstance(filters, list):
+    #     filter_list.extend(filters)
     for d in filter_list:
         if d[3] is not None and d[0] == "Customer" and d[1] == "customer_group":
             filter_list.append(["Customer", "customer_group", "=", d[3]])
