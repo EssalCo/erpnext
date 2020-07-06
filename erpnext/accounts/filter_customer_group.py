@@ -62,3 +62,26 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
     if not result:
         return ()
     return ((temp) for temp in result)
+
+
+def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
+    filter_list = []
+
+    if isinstance(filters, dict):
+        for key, val in filters.items():
+            if isinstance(val, (list, tuple)):
+                filter_list.append([doctype, key, val[0], val[1]])
+            else:
+                filter_list.append([doctype, key, "=", val])
+    elif isinstance(filters, list):
+        filter_list.extend(filters)
+    for d in filter_list:
+        if d[3] is not None and d[0] == "Customer" and d[1] == "customer_group":
+            filter_list.append(["Customer", "customer_group", "=", d[3]])
+
+    if searchfield and txt:
+        filter_list.append([doctype, searchfield, "like", "%%%s%%" % txt])
+
+    return frappe.desk.reportview.execute(doctype, filters= filter_list,
+                                          fields = ["name", "{0}_name".format(doctype.lower())],
+                                          limit_start=start, limit_page_length=page_len, as_list=True)

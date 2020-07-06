@@ -159,6 +159,14 @@ frappe.query_reports["General Ledger"] = {
                         frappe.query_report_filters_by_name.tax_id.set_value(value["tax_id"]);
                     });
                 }
+            },
+            "get_query": function() {
+                return {
+                    "query": "erpnext.accounts.filter_customer_group.get_customer_list",
+                    "filters": [
+                        [frappe.query_report_filters_by_name.party_type.get_value(), 'customer_group', '=', frappe.query_report_filters_by_name.customer_group.get_value()]
+                    ]
+                }
             }
         },
         // get_data: function(txt) {
