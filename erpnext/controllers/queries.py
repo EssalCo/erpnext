@@ -318,12 +318,12 @@ def get_account_list(doctype, txt, searchfield, start, page_len, filters):
 def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 	filter_list = []
 
-	# if isinstance(filters, dict):
-	#     for key, val in filters.items():
-	#         if isinstance(val, (list, tuple)):
-	#             filter_list.append([doctype, key, val[0], val[1]])
-	#         else:
-	#             filter_list.append([doctype, key, "=", val])
+	if isinstance(filters, dict):
+	    for key, val in filters.items():
+	        if isinstance(val, (list, tuple)):
+	            filter_list.append([doctype, key, val[0], val[1]])
+	        else:
+	            filter_list.append([doctype, key, "=", val])
 	# elif isinstance(filters, list):
 	#     filter_list.extend(filters)
 	is_customer = False
