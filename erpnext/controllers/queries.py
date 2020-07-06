@@ -329,15 +329,15 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 	is_customer = False
 
 	for d in filters:
-		if d[0] == "Customer" and d[1] == "customer_group":
-			if d[3] and frappe.get_value(
+		if d[3] and d[0] == "Customer" and d[1] == "customer_group":
+			if frappe.get_value(
 			"Customer Group",
 			d[3],
 			"parent_customer_group"
 			):
 				filter_list.append(["Customer", "customer_group", "=", d[3]])
 			is_customer = True
-
+	if doctype == "Customer": is_customer = True
 	if searchfield and txt:
 		filter_list.append([doctype, searchfield, "like", "%%%s%%" % txt])
 	if is_customer:
