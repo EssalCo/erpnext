@@ -202,7 +202,7 @@ def get_gl_entries(filters):
             else:
                 party_filter = ' and `tabGL Entry`.party_type="Customer" '
     elif filters.get('party_type') == "Supplier":
-        party_filter = ' and `tabGL Entry`.party_type="Supplier"" '
+        party_filter = ' and `tabGL Entry`.party_type="Supplier" '
         party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
         if not party_name:
             party_name = frappe.get_value(filters['party_type'], dict(
