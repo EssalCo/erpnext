@@ -161,9 +161,17 @@ def get_gl_entries(filters):
     party_filter = ""
     if filters.get('party_type') == "Customer":
         if filters.get("customer_group"):
-            _filters=dict(
-                customer_group=filters['customer_group']
-            )
+            if frappe.get_value(
+                    "Customer Group",
+                    filters['customer_group'],
+                    "parent_customer_group"
+            ):
+                _filters = dict(
+                    customer_group=filters['customer_group']
+                )
+            else:
+                _filters=dict(
+                )
             if filters.get('party_name'):
                 party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
                 if not party_name:
@@ -181,6 +189,8 @@ def get_gl_entries(filters):
                 ignore_ifnull=1,
                 ignore_permissions=1
             )
+            send_msg_telegram(str(customers))
+
             if len(customers) != 0:
                 party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
             else:
