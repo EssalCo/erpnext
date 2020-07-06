@@ -75,8 +75,10 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
     #             filter_list.append([doctype, key, "=", val])
     # elif isinstance(filters, list):
     #     filter_list.extend(filters)
+    is_customer = False
     for d in filter_list:
         if d[3] is not None and d[0] == "Customer" and d[1] == "customer_group":
+            is_customer = True
             filter_list.append(["Customer", "customer_group", "=", d[3]])
 
     if searchfield and txt:
