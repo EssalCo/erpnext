@@ -159,40 +159,57 @@ def get_gl_entries(filters):
 			round(sum(`tabGL Entry`.debit_in_account_currency), 4) as debit_in_account_currency,
 			round(sum(`tabGL Entry`.credit_in_account_currency), 4) as  credit_in_account_currency"""
     party_filter = ""
-
-    if filters.get("party_name"):
-        if filters['party_type'] == "Customer":
-            if filters.get("customer_group"):
-                customers = frappe.get_all(
-                    "Customer",
-                    fields=[
-                        "name"
-                    ],
-                    filters=dict(
-                        customer_group=filters['customer_group']
-                    ),
-                    ignore_ifnull=1,
-                    ignore_permissions=1
+    if filters['party_type'] == "Customer":
+        if filters.get("customer_group"):
+            _filters=dict(
+                customer_group=filters['customer_group']
+            )
+            if filters.get('party_name'):
+                party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
+                if not party_name:
+                    party_name = frappe.get_value(filters['party_type'], dict(
+                        customer_name=filters['party_name']), "name")
+                _filters=dict(
+                    customer_name=party_name
                 )
-                if len(customers) != 0:
-                    party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
-                else:
-                    party_filter = " and `tabGL Entry`.party = 'xyzmnb' "
+            customers = frappe.get_all(
+                "Customer",
+                fields=[
+                    "name"
+                ],
+                filters=_filters,
+
+                ignore_ifnull=1,
+                ignore_permissions=1
+            )
+            if len(customers) != 0:
+                party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
             else:
+                party_filter = " and `tabGL Entry`.party = 'xyzmnb' "
+            # else:
+            #     party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
+            #     if not party_name:
+            #         party_name = frappe.get_value(filters['party_type'], dict(
+            #             customer_name=filters['party_name']), "name")
+            #         party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
+        else:
+            if filters.get('party_name'):
                 party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
                 if not party_name:
                     party_name = frappe.get_value(filters['party_type'], dict(
                         customer_name=filters['party_name']), "name")
                     party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
-        elif filters['party_type'] == "Supplier":
-            party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
-            if not party_name:
-                party_name = frappe.get_value(filters['party_type'], dict(
-                    supplier_name=filters['party_name']), "name")
-                party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
-        else:
-            party_name = filters['party_name']
+            else:
+                party_filter = ' and `tabGL Entry`.party_type="Customer" '
+    elif filters['party_type'] == "Supplier":
+        party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
+        if not party_name:
+            party_name = frappe.get_value(filters['party_type'], dict(
+                supplier_name=filters['party_name']), "name")
             party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
+    else:
+        party_name = filters['party_name']
+        party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
         # import re
         # party_name = u''.join((party_name,)).encode('utf-8')
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
