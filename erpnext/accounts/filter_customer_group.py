@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import frappe
-# from erpnext.utilities.send_telegram import send_msg_telegram
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 @frappe.whitelist()
