@@ -329,7 +329,7 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 	is_customer = False
 
 	for d in filters:
-		if d[3] and d[0] == "Customer" and d[1] == "customer_group":
+		if doctype == "Customer" and d[3] and d[0] == "Customer" and d[1] == "customer_group":
 			if frappe.get_value(
 			"Customer Group",
 			d[3],
