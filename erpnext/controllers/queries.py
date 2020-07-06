@@ -343,8 +343,7 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 	if is_customer:
 		fields = ["name", "{0}_name".format(doctype.lower()), "customer_group"]
 		customers = frappe.desk.reportview.execute(doctype, filters= filter_list,
-									   fields = fields,
-									   limit_start=start, limit_page_length=page_len)
+									   fields = fields)
 		result = []
 		for customer in customers:
 			result.append(
@@ -355,8 +354,7 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 	else:
 		fields = ["name", "{0}_name".format(doctype.lower())]
 	return frappe.desk.reportview.execute(doctype, filters= filter_list,
-										  fields = fields,
-										  limit_start=start, limit_page_length=page_len, as_list=True)
+										  fields = fields, as_list=True)
 
 @frappe.whitelist()
 def get_income_account(doctype, txt, searchfield, start, page_len, filters):
