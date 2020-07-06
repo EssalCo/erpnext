@@ -330,13 +330,18 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
 
 	for d in filters:
 		if d[3] and d[0] == "Customer" and d[1] == "customer_group":
-			filter_list.append(["Customer", "customer_group", "=", d[3]])
+			if frappe.get_value(
+			"Customer Group",
+			d[3],
+			"parent_customer_group"
+			):
+				filter_list.append(["Customer", "customer_group", "=", d[3]])
 			is_customer = True
 
 	if searchfield and txt:
 		filter_list.append([doctype, searchfield, "like", "%%%s%%" % txt])
 	if is_customer:
-		fields = ["name", "{0}_name".format(doctype.lower()), "customer_group"]
+		fields = ["name", "CONCAT(customer_name, '-', customer_group) AS customer_group ".format(doctype.lower())]
 	else:
 		fields = ["name", "{0}_name".format(doctype.lower())]
 	return frappe.desk.reportview.execute(doctype, filters= filter_list,
