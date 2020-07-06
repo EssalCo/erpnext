@@ -162,17 +162,37 @@ def get_gl_entries(filters):
 
     if filters.get("party_name"):
         if filters['party_type'] == "Customer":
-            party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
-            if not party_name:
-                party_name = frappe.get_value(filters['party_type'], dict(
-                    customer_name=filters['party_name']), "name")
+            if filters.get("customer_group"):
+                customers = frappe.get_all(
+                    "Customer",
+                    fields=[
+                        "name"
+                    ],
+                    filters=dict(
+                        customer_group=filters['customer_group']
+                    ),
+                    ignore_ifnull=1,
+                    ignore_permissions=1
+                )
+                if len(customers) != 0:
+                    party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
+                else:
+                    party_filter = " and `tabGL Entry`.party = 'xyzmnb' "
+            else:
+                party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
+                if not party_name:
+                    party_name = frappe.get_value(filters['party_type'], dict(
+                        customer_name=filters['party_name']), "name")
+                    party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
         elif filters['party_type'] == "Supplier":
             party_name = frappe.get_value(filters['party_type'], filters['party_name'], "name")
             if not party_name:
                 party_name = frappe.get_value(filters['party_type'], dict(
                     supplier_name=filters['party_name']), "name")
+                party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
         else:
             party_name = filters['party_name']
+            party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
         # import re
         # party_name = u''.join((party_name,)).encode('utf-8')
         # party_name = "".join(re.split("[^a-zA-Z 1234567890()#$&@*']*", party_name))
@@ -180,25 +200,9 @@ def get_gl_entries(filters):
         #     party_filter = ' and party like "%{party_name}%" '.format(party_name=party_name)
         #
         # else:
-        party_filter = ' and `tabGL Entry`.party="{0}" '.format(party_name)
+
         send_msg_telegram(party_filter)
 
-    if filters.get("customer_group"):
-        customers = frappe.get_all(
-            "Customer",
-            fields=[
-                "name"
-            ],
-            filters=dict(
-                customer_group=filters['customer_group']
-            ),
-            ignore_ifnull=1,
-            ignore_permissions=1
-        )
-        if len(customers) != 0:
-            party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".format(temp.name for temp in customers))
-        else:
-            party_filter = " and `tabGL Entry`.party = 'xyzmnb' "
     #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
     #         `tabGL Entry`.journal_note,
 
