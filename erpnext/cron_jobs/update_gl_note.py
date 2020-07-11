@@ -25,8 +25,9 @@ def execute():
                 continue
 
             print gl_id
-            note = row[1]
-
+            try:
+                note = row[1]
+            except: continue
             frappe.db.sql(
                 """UPDATE `tabGL Entry` SET journal_note = %(journal_note)s WHERE name = %(name)s AND (journal_note IS NULL OR journal_note = "");""", dict(
                     journal_note=note,
