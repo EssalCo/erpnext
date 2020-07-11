@@ -582,6 +582,12 @@ def get_columns(filters):
             "fieldtype": "Data",
             "width": 00
         },
+        {
+            "label": _("Title"),
+            "fieldname": "title",
+            "fieldtype": "Data",
+            "width": 00
+        },
         # {
         #     "label": _("Label"),
         #     "fieldname": "title",

@@ -506,4 +506,4 @@ erpnext.patches.v10_0.update_address_template_for_india
 erpnext.patches.v10_0.set_discount_amount
 erpnext.patches.v10_0.recalculate_gross_margin_for_project
 execute:frappe.db.sql("update `tabJournal Entry` je set je.owner_name = (select u.full_name from `tabUser` u where u.name = je.owner) where je.owner_name is null;") # 2018-09-10
-execute:frappe.db.sql("alter table tabDocType modify column track_views int(1) NULL default 0;") # 2019-06-23
+#execute:frappe.db.sql("alter table tabDocType modify column track_views int(1) NULL default 0;") # 2019-06-23
