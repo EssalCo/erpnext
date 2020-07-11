@@ -20,7 +20,7 @@ def execute():
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
             try:
-                gl_id = int(row[0])
+                gl_id = row[0]
             except:
                 continue
 
