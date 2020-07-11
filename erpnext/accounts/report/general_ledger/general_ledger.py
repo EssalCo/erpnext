@@ -244,7 +244,7 @@ def get_gl_entries(filters):
         """
         select
             `tabGL Entry`.posting_date, 
-            `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party, j.title, `tabGL Entry`.party.journal_note,
+            `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party, j.title, `tabGL Entry`.journal_note,
             `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
             `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
             `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
