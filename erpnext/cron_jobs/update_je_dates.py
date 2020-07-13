@@ -23,6 +23,7 @@ def execute():
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
+            if "Name" in row[0]: continue
             try:
                 gl_id = row[0]
             except:
