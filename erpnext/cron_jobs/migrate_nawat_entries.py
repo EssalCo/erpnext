@@ -66,6 +66,7 @@ def execute_again_mod():
             remark = row[4]
 
             post_date = row[3]
+
             if "/" in post_date:
                 post_date = str(datetime.strptime(
                 str(post_date), '%d/%m/%Y'
