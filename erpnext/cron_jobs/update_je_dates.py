@@ -1,3 +1,15 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
+
+import sys
+
+import frappe
+
+sys.path.append('../..')
+import csv
+from frappe.utils.file_manager import get_file_path
+from datetime import datetime
 
 
 import frappe
@@ -5,490 +17,63 @@ from erpnext.utilities.hijri_date import convert_to_hijri
 
 
 def execute():
-    journals = ['JV-02029',
-                'JV-02031',
-                'JV-02066',
-                'JV-02067',
-                'JV-02068',
-                'JV-02069',
-                'JV-02070',
-                'JV-02071',
-                'JV-02073',
-                'JV-02074',
-                'JV-02094',
-                'JV-02029',
-                'JV-02031',
-                'JV-02094',
-                'JV-02066',
-                'JV-02067',
-                'JV-02068',
-                'JV-02070',
-                'JV-02029',
-                'JV-02031',
-                'JV-02094',
-                'JV-02071',
-                'JV-02072',
-                'JV-02073',
-                'JV-02074',
-                'JV-02069',
-                'JV-02072',
-                'JV-02541',
-                'JV-02544',
-                'JV-02545',
-                'JV-02546',
-                'JV-02547',
-                'JV-02596',
-                'JV-02597',
-                'JV-02541',
-                'JV-02547',
-                'JV-02541',
-                'JV-02545',
-                'JV-02546',
-                'JV-02564',
-                'JV-02564',
-                'JV-02564',
-                'JV-02596',
-                'JV-02597',
-                'JV-02596',
-                'JV-02597',
-                'JV-02544',
-                'JV-02783',
-                'JV-02785',
-                'JV-02785',
-                'JV-02785',
-                'JV-02773',
-                'JV-02782',
-                'JV-02782',
-                'JV-02783',
-                'JV-02773',
-                'JV-02951',
-                'JV-02953',
-                'JV-02954',
-                'JV-02955',
-                'JV-02956',
-                'JV-03014',
-                'JV-03015',
-                'JV-03014',
-                'JV-03015',
-                'JV-03014',
-                'JV-02950',
-                'JV-02952',
-                'JV-02952',
-                'JV-02953',
-                'JV-02950',
-                'JV-02951',
-                'JV-02950',
-                'JV-02952',
-                'JV-02954',
-                'JV-02956',
-                'JV-02955',
-                'JV-02043',
-                'JV-02076',
-                'JV-02078',
-                'JV-02043',
-                'JV-02077',
-                'JV-02077',
-                'JV-02078',
-                'JV-02076',
-                'JV-02264',
-                'JV-02267',
-                'JV-02272',
-                'JV-02294',
-                'JV-02296',
-                'JV-02272',
-                'JV-02295',
-                'JV-02264',
-                'JV-02266',
-                'JV-02293',
-                'JV-02294',
-                'JV-02266',
-                'JV-02267',
-                'JV-02296',
-                'JV-02293',
-                'JV-02295',
-                'JV-02539',
-                'JV-02540',
-                'JV-02550',
-                'JV-02539',
-                'JV-02540',
-                'JV-02539',
-                'JV-02550',
-                'JV-02685',
-                'JV-02707',
-                'JV-02707',
-                'JV-02707',
-                'JV-02685',
-                'JV-02957',
-                'JV-02960',
-                'JV-02962',
-                'JV-02957',
-                'JV-02962',
-                'JV-02960',
-                'JV-02050',
-                'JV-02056',
-                'JV-02056',
-                'JV-02050',
-                'JV-02274',
-                'JV-02285',
-                'JV-02286',
-                'JV-02297',
-                'JV-02299',
-                'JV-02301',
-                'JV-02274',
-                'JV-02285',
-                'JV-02286',
-                'JV-02274',
-                'JV-02285',
-                'JV-02286',
-                'JV-02297',
-                'JV-02298',
-                'JV-02301',
-                'JV-02298',
-                'JV-02299',
-                'JV-02537',
-                'JV-02538',
-                'JV-02552',
-                'JV-02553',
-                'JV-02537',
-                'JV-02538',
-                'JV-02551',
-                'JV-02537',
-                'JV-02538',
-                'JV-02551',
-                'JV-02552',
-                'JV-02553',
-                'JV-02799',
-                'JV-02801',
-                'JV-02808',
-                'JV-02810',
-                'JV-02800',
-                'JV-02807',
-                'JV-02809',
-                'JV-02799',
-                'JV-02800',
-                'JV-02801',
-                'JV-02807',
-                'JV-02808',
-                'JV-02809',
-                'JV-02810',
-                'JV-02958',
-                'JV-02961',
-                'JV-02963',
-                'JV-02964',
-                'JV-02965',
-                'JV-02966',
-                'JV-03042',
-                'JV-03043',
-                'JV-03042',
-                'JV-03043',
-                'JV-02965',
-                'JV-03042',
-                'JV-03043',
-                'JV-02966',
-                'JV-02959',
-                'JV-02975',
-                'JV-02958',
-                'JV-02959',
-                'JV-02963',
-                'JV-02961',
-                'JV-02959',
-                'JV-02975',
-                'JV-02975',
-                'JV-02964',
-                'JV-02089',
-                'JV-02089',
-                'JV-02089',
-                'JV-02287',
-                'JV-02288',
-                'JV-02289',
-                'JV-02290',
-                'JV-02292',
-                'JV-02302',
-                'JV-02303',
-                'JV-02287',
-                'JV-02288',
-                'JV-02289',
-                'JV-02290',
-                'JV-02292',
-                'JV-02302',
-                'JV-02287',
-                'JV-02288',
-                'JV-02289',
-                'JV-02290',
-                'JV-02292',
-                'JV-02303',
-                'JV-02535',
-                'JV-02536',
-                'JV-02542',
-                'JV-02554',
-                'JV-02535',
-                'JV-02536',
-                'JV-02542',
-                'JV-02554',
-                'JV-02535',
-                'JV-02536',
-                'JV-02542',
-                'JV-02678',
-                'JV-02678',
-                'JV-02678',
-                'JV-02789',
-                'JV-02803',
-                'JV-02805',
-                'JV-02806',
-                'JV-02789',
-                'JV-02802',
-                'JV-02804',
-                'JV-02789',
-                'JV-02806',
-                'JV-02806',
-                'JV-02802',
-                'JV-02803',
-                'JV-02804',
-                'JV-02805',
-                'JV-02968',
-                'JV-02972',
-                'JV-03040',
-                'JV-03091',
-                'JV-03040',
-                'JV-03091',
-                'JV-03040',
-                'JV-03091',
-                'JV-02967',
-                'JV-02971',
-                'JV-02971',
-                'JV-02972',
-                'JV-02967',
-                'JV-02968',
-                'JV-02967',
-                'JV-02971',
-                'JV-02075',
-                'JV-02088',
-                'JV-02075',
-                'JV-02088',
-                'JV-02291',
-                'JV-02315',
-                'JV-02291',
-                'JV-02315',
-                'JV-02291',
-                'JV-02315',
-                'JV-02533',
-                'JV-02534',
-                'JV-02555',
-                'JV-02558',
-                'JV-02581',
-                'JV-02533',
-                'JV-02534',
-                'JV-02556',
-                'JV-02533',
-                'JV-02534',
-                'JV-02608',
-                'JV-02557',
-                'JV-02580',
-                'JV-02608',
-                'JV-02582',
-                'JV-02557',
-                'JV-02558',
-                'JV-02580',
-                'JV-02581',
-                'JV-02582',
-                'JV-02582',
-                'JV-02555',
-                'JV-02556',
-                'JV-02702',
-                'JV-02703',
-                'JV-02702',
-                'JV-02703',
-                'JV-02788',
-                'JV-02790',
-                'JV-02792',
-                'JV-02794',
-                'JV-02795',
-                'JV-02797',
-                'JV-02811',
-                'JV-02788',
-                'JV-02790',
-                'JV-02788',
-                'JV-02790',
-                'JV-02791',
-                'JV-02793',
-                'JV-02795',
-                'JV-02796',
-                'JV-02811',
-                'JV-02796',
-                'JV-02797',
-                'JV-02793',
-                'JV-02794',
-                'JV-02791',
-                'JV-02792',
-                'JV-02796',
-                'JV-02974',
-                'JV-02976',
-                'JV-03030',
-                'JV-03038',
-                'JV-03039',
-                'JV-03090',
-                'JV-03030',
-                'JV-03038',
-                'JV-03039',
-                'JV-03090',
-                'JV-03030',
-                'JV-03038',
-                'JV-03039',
-                'JV-02973',
-                'JV-02976',
-                'JV-02973',
-                'JV-02974',
-                'JV-02095',
-                'JV-02096',
-                'JV-02097',
-                'JV-02098',
-                'JV-02103',
-                'JV-02104',
-                'JV-02106',
-                'JV-02095',
-                'JV-02096',
-                'JV-02097',
-                'JV-02098',
-                'JV-02082',
-                'JV-02085',
-                'JV-02095',
-                'JV-02096',
-                'JV-02097',
-                'JV-02098',
-                'JV-02079',
-                'JV-02080',
-                'JV-02081',
-                'JV-02082',
-                'JV-02083',
-                'JV-02084',
-                'JV-02085',
-                'JV-02086',
-                'JV-02087',
-                'JV-02103',
-                'JV-02104',
-                'JV-02095',
-                'JV-02095',
-                'JV-02079',
-                'JV-02079',
-                'JV-02084',
-                'JV-02087',
-                'JV-02084',
-                'JV-02086',
-                'JV-02086',
-                'JV-02086',
-                'JV-02080',
-                'JV-02081',
-                'JV-02106',
-                'JV-02081',
-                'JV-02081',
-                'JV-02083',
-                'JV-02304',
-                'JV-02309',
-                'JV-02314',
-                'JV-02316',
-                'JV-02317',
-                'JV-02314',
-                'JV-02316',
-                'JV-02317',
-                'JV-02308',
-                'JV-02314',
-                'JV-02316',
-                'JV-02317',
-                'JV-02320',
-                'JV-02320',
-                'JV-02394',
-                'JV-02392',
-                'JV-02394',
-                'JV-02307',
-                'JV-02309',
-                'JV-02392',
-                'JV-02392',
-                'JV-02394',
-                'JV-02304',
-                'JV-02307',
-                'JV-02308',
-                'JV-02529',
-                'JV-02530',
-                'JV-02531',
-                'JV-02532',
-                'JV-02559',
-                'JV-02560',
-                'JV-02561',
-                'JV-02562',
-                'JV-02563',
-                'JV-02565',
-                'JV-02566',
-                'JV-02567',
-                'JV-02569',
-                'JV-02529',
-                'JV-02531',
-                'JV-02532',
-                'JV-02563',
-                'JV-02568',
-                'JV-02529',
-                'JV-02531',
-                'JV-02532',
-                'JV-02561',
-                'JV-02565',
-                'JV-02530',
-                'JV-02559',
-                'JV-02530',
-                'JV-02559',
-                'JV-02560',
-                'JV-02569',
-                'JV-02566',
-                'JV-02562',
-                'JV-02560',
-                'JV-02567',
-                'JV-02568',
-                'JV-02787',
-                'JV-02812',
-                'JV-02813',
-                'JV-02814',
-                'JV-02787',
-                'JV-02813',
-                'JV-02814',
-                'JV-02787',
-                'JV-02813',
-                'JV-02814',
-                'JV-02812']
+    _file = "/private/files/nawat_gl_dates.csv"
+    current_file = get_file_path(_file)
 
-    journals = list(set(journals))
-    # counts = dict()
-    #
-    # _journals = list()
-    #
-    # for temp in journals:
-    #     if temp not in counts:
-    #         counts[temp] = 0
-    #     counts[temp] += 1
-    #
-    # for temp in counts:
-    #     if counts[temp] % 2  == 0:
-    #         _journals.append(temp)
+    with open(current_file, 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
+        for row in spamreader:
+            try:
+                gl_id = row[0]
+            except:
+                continue
+            date = row[1]
+            if "/" in post_date:
+                post_date = str(datetime.strptime(
+                    str(date), '%d/%m/%Y'
+                ))
+            je_id = row[2]
+            print gl_id
+            print date
+            gl_entry = frappe.get_value("GL Entry", gl_id, ["posting_date"], as_dict=True)
+            if str(gl_entry.posting_date) != date:
+                print date
 
-    # print _journals
-    # return
-    for _id in journals:
-        print _id
-        journal_entry = frappe.get_value("Journal Entry", _id, ["posting_date"], as_dict=True)
-        posting_hijri_date = convert_to_hijri(journal_entry.posting_date)
-        print journal_entry.posting_date
+                posting_hijri_date = convert_to_hijri(date)
+                frappe.db.sql("""UPDATE `tabJournal Entry` 
+                SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
+                    posting_date=date,
+                    posting_hijri_date=posting_hijri_date
+                ), dict(
+                    name=je_id
+                )
+                )
+                frappe.db.sql("""UPDATE `tabGL Entry`
+                SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
+                    posting_date=date,
+                    posting_hijri_date=posting_hijri_date
+                ), dict(
+                    name=gl_id
+                ))
 
-        posting_date = str(journal_entry.posting_date)[:5] + str(journal_entry.posting_date)[8:10]  +  str(journal_entry.posting_date)[4:7]
-        print posting_date
-        frappe.db.sql("""UPDATE `tabJournal Entry` 
-        SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
-            posting_date=posting_date,
-            posting_hijri_date=posting_hijri_date
-        ), dict(
-            name=_id
-        )
-    )
-        frappe.db.sql("""UPDATE `tabGL Entry`
-        SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE voucher_no = %(name)s;""".format(
-            posting_date=posting_date,
-            posting_hijri_date=posting_hijri_date
-        ), dict(
-            name=_id
-        ))
+        #     journal_entry = frappe.get_value("Journal Entry", je_id, ["posting_date"], as_dict=True)
+        #     posting_hijri_date = convert_to_hijri(journal_entry.posting_date)
+        #     print journal_entry.posting_date
+        #
+        #     posting_date = str(journal_entry.posting_date)[:5] + str(journal_entry.posting_date)[8:10]  +  str(journal_entry.posting_date)[4:7]
+        #     print posting_date
+        #     frappe.db.sql("""UPDATE `tabJournal Entry`
+        #     SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
+        #         posting_date=posting_date,
+        #         posting_hijri_date=posting_hijri_date
+        #     ), dict(
+        #         name=_id
+        #     )
+        # )
+        #     frappe.db.sql("""UPDATE `tabGL Entry`
+        #     SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE voucher_no = %(name)s;""".format(
+        #         posting_date=posting_date,
+        #         posting_hijri_date=posting_hijri_date
+        #     ), dict(
+        #         name=_id
+        #     ))
