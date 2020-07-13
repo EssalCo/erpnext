@@ -28,7 +28,7 @@ def execute():
                 continue
             date = str(row[1])
             if date == "5/27/2020":
-                date = "27/5/2020"
+                date = "27/05/2020"
             if "/" in date:
                 date = str(datetime.strptime(
                     str(date), '%d/%m/%Y'
