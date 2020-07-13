@@ -40,7 +40,7 @@ def execute():
             if str(gl_entry.posting_date) != date:
                 print date
 
-                posting_hijri_date = convert_to_hijri(date)
+                posting_hijri_date = str(convert_to_hijri(date))
                 frappe.db.sql("""UPDATE `tabJournal Entry` 
                 SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
                     posting_date=date,
