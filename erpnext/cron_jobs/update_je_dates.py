@@ -29,8 +29,8 @@ def execute():
             date = str(row[1])
             if date == "5/27/2020":
                 date = "27/05/2020"
-            if date == "31/05/200":
-                date = "31/05/2020"
+            if "/200" in date:
+                date = date.replace("/200", "/2020")
             if "/" in date:
                 date = str(datetime.strptime(
                     str(date), '%d/%m/%Y'
