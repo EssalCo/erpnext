@@ -28,8 +28,8 @@ def execute():
             except:
                 continue
             date = row[1]
-            if "/" in post_date:
-                post_date = str(datetime.strptime(
+            if "/" in date:
+                date = str(datetime.strptime(
                     str(date), '%d/%m/%Y'
                 ))
             je_id = row[2]
