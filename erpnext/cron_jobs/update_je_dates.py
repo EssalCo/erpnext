@@ -15,7 +15,7 @@ from erpnext.utilities.hijri_date import convert_to_hijri
 
 
 def execute():
-    _file = "/private/files/nawat_gl_dates.csv"
+    _file = "/private/files/nawat_albitar.csv"
     current_file = get_file_path(_file)
 
     with open(current_file, 'rb') as csvfile:
