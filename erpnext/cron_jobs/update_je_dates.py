@@ -27,7 +27,7 @@ def execute():
                 gl_id = row[0]
             except:
                 continue
-            date = row[1]
+            date = str(row[1])
             if "/" in date:
                 date = str(datetime.strptime(
                     str(date), '%d/%m/%Y'
