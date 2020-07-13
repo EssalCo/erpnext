@@ -53,7 +53,8 @@
 					{% } %}
 					<br>{%= __("Remarks") %}: {%= data[i].remarks %}
 					{% if((filters.customize_remarks_text)) { %}
-						<br>{%= __("Remarks") %}: {%= data[i].journal_label %}
+						<br>{%= data[i].journal_label %}
+						<br>{%= data[i].journal_note %}
 					{% } %}
 					{% if(data[i].bill_no) { %}
 						<br>{%= __("Supplier Invoice No") %}: {%= data[i].bill_no %}
