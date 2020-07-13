@@ -4,8 +4,6 @@ from __future__ import unicode_literals
 
 import sys
 
-import frappe
-
 sys.path.append('../..')
 import csv
 from frappe.utils.file_manager import get_file_path
@@ -42,19 +40,21 @@ def execute():
 
                 posting_hijri_date = str(convert_to_hijri(date))
                 frappe.db.sql("""UPDATE `tabJournal Entry` 
-                SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
+                SET posting_date  = '{posting_date}', posting_hijri_date  =  %(posting_hijri_date)s WHERE name = %(name)s;""".format(
                     posting_date=date,
                     posting_hijri_date=posting_hijri_date
                 ), dict(
-                    name=je_id
+                    name=je_id,
+                    posting_hijri_date=posting_hijri_date
                 )
                 )
                 frappe.db.sql("""UPDATE `tabGL Entry`
-                SET posting_date  = '{posting_date}', posting_hijri_date  =  '{posting_hijri_date}' WHERE name = %(name)s;""".format(
+                SET posting_date  = '{posting_date}', posting_hijri_date  =  %(posting_hijri_date)s WHERE name = %(name)s;""".format(
                     posting_date=date,
                     posting_hijri_date=posting_hijri_date
                 ), dict(
-                    name=gl_id
+                    name=gl_id,
+                    posting_hijri_date=posting_hijri_date
                 ))
 
         #     journal_entry = frappe.get_value("Journal Entry", je_id, ["posting_date"], as_dict=True)
