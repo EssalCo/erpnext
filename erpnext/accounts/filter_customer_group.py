@@ -101,8 +101,22 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
                     customer["{0}_name".format(doctype.lower().lower())], customer.customer_group))
             )
         return ((temp) for temp in result)
+    elif doctype == "Employee":
+        fields = ["name", "{0}_name".format(doctype.lower())]
+        filter_list.append([doctype, "employee_name", "like", "%%%s%%" % txt])
+        customers = frappe.db.get_list(doctype, or_filters= filter_list,
+                                       fields = fields,
+                                       limit_start=start, limit_page_length=page_len)
+        result = []
+        for customer in customers:
+            result.append(
+                (customer.name, "{0}".format(
+                    customer["{0}_name".format(doctype.lower().lower())]))
+            )
+        return ((temp) for temp in result)
     else:
         fields = ["name", "{0}_name".format(doctype.lower())]
+
     return frappe.db.get_list(doctype, filters= filter_list,
                                           fields = fields,
                                           limit_start=start, limit_page_length=page_len, as_list=True)
