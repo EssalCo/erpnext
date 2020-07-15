@@ -8,7 +8,7 @@ from frappe.utils import getdate, flt, add_to_date, add_days
 from six import iteritems
 from erpnext.accounts.utils import get_fiscal_year
 
-
+@frappe.whitelist(allow_guest=True)
 def execute():
     try:
 
