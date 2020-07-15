@@ -94,7 +94,9 @@ def execute():
         res = get_result(filters, account_details)
 
     except Exception as e:
-        return dict(status=False, message=str(e))
+        import traceback
+
+        return dict(status=False, message=traceback.format_exc())
 
     return dict(status=True, message="Success", report=res)
 
