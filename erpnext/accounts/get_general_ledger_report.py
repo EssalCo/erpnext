@@ -71,7 +71,7 @@ def execute():
 
         if not filters:
             return [], []
-
+        filters = frappe._dict(filters or {})
         account_details = {}
 
         if filters and filters.get('print_in_account_currency') and \
