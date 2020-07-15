@@ -31,6 +31,7 @@ def execute():
         # group_by: ["", "Group by Voucher", "Group by Voucher (Consolidated)",
         #                 "Group by Account", "Group by Party", "No Grouping (Consolidated)"]
         # from_date
+        # to_date
         filters = dict()
 
         data = frappe.form_dict
@@ -38,7 +39,7 @@ def execute():
         if account:
             filters['account'] = account
 
-        party = data.get('account')
+        party = data.get('party')
         if party:
             filters['party'] = party
 
@@ -71,6 +72,7 @@ def execute():
 
         if not filters:
             return [], []
+
         filters = frappe._dict(filters or {})
         account_details = {}
 
