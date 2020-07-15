@@ -54,7 +54,7 @@ def execute():
         cost_center = data.get('cost_center')
         if cost_center:
             filters['cost_center'] = cost_center
-        voucher_no = data.voucher_no('account')
+        voucher_no = data.get('voucher_no')
         if voucher_no:
             filters['voucher_no'] = voucher_no
         group_by = data.get('group_by')
