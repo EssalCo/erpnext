@@ -40,7 +40,7 @@ def execute():
             filters['to_date'] = to_date
         _range = data.get('range')
 
-        if range:
+        if _range:
             filters['range'] = _range
 
         report = Analytics(filters).run()
