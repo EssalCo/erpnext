@@ -15,6 +15,7 @@ def execute():
         data = frappe.form_dict
         project = data.get('project')
         filters = dict(project=project)
+        columns = get_columns(filters)
         data = get_data(filters)
     except Exception as e:
         return dict(status=False, message=str(e))
