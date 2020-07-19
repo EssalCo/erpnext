@@ -65,18 +65,18 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
 
 
 def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
-    filter_list_temp = []
+    filter_list_temp, filter_list = [], []
 
     if isinstance(filters, dict):
         for key, val in filters.items():
             if isinstance(val, (list, tuple)):
-                filter_list_temp.append([doctype, key, val[0], val[1]])
+                filter_list.append([doctype, key, val[0], val[1]])
             else:
-                filter_list_temp.append([doctype, key, "=", val])
-    # elif isinstance(filters, list):
-    #     filter_list.extend(filters)
+                filter_list.append([doctype, key, "=", val])
+    elif isinstance(filters, list):
+        filter_list.extend(filters)
     is_customer = False
-    for d in filters:
+    for d in filter_list:
         if d[3] and d[0] == "Customer" and d[1] == "customer_group":
             if frappe.get_value(
                     "Customer Group",
@@ -85,6 +85,8 @@ def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
             ):
                 filter_list_temp.append(["Customer", "customer_group", "=", d[3]])
             is_customer = True
+        else:
+            filter_list_temp.append(d)
     if doctype == "Customer": is_customer = True
 
     if searchfield and txt:
