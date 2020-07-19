@@ -64,21 +64,77 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
     return ((temp) for temp in result)
 
 
+def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
+    filter_list_temp = []
+
+    if isinstance(filters, dict):
+        for key, val in filters.items():
+            if isinstance(val, (list, tuple)):
+                filter_list_temp.append([doctype, key, val[0], val[1]])
+            else:
+                filter_list_temp.append([doctype, key, "=", val])
+    # elif isinstance(filters, list):
+    #     filter_list.extend(filters)
+    is_customer = False
+    for d in filters:
+        if d[3] and d[0] == "Customer" and d[1] == "customer_group":
+            if frappe.get_value(
+                    "Customer Group",
+                    d[3],
+                    "parent_customer_group"
+            ):
+                filter_list_temp.append(["Customer", "customer_group", "=", d[3]])
+            is_customer = True
+    if doctype == "Customer": is_customer = True
+
+    if searchfield and txt:
+        filter_list_temp.append([doctype, searchfield, "like", "%%%s%%" % txt])
+    if is_customer:
+        fields = ["name", "{0}_name".format(doctype.lower()), "customer_group"]
+        customers = frappe.db.get_list(doctype, or_filters= filter_list_temp,
+                                                   fields = fields)
+        result = []
+        for customer in customers:
+            result.append(
+                (customer.name, "{0} - {1}".format(
+                    customer["{0}_name".format(doctype.lower())], customer.customer_group))
+            )
+        return ((temp) for temp in result)
+    elif doctype == "Employee":
+        fields = ["name", "{0}_name".format(doctype.lower())]
+        filter_list_temp.append([doctype, "employee_name", "like", "%%%s%%" % txt])
+        customers = frappe.db.get_list(doctype, or_filters= filter_list_temp,
+                                       fields = fields,
+                                       limit_start=start, limit_page_length=page_len)
+        result = []
+        for customer in customers:
+            result.append(
+                (customer.name, "{0}".format(
+                    customer["{0}_name".format(doctype.lower())]))
+            )
+        return ((temp) for temp in result)
+    else:
+        fields = ["name", "{0}_name".format(doctype.lower())]
+    return frappe.db.get_list(doctype, or_filters= filter_list_temp,
+                              fields = fields,
+                              limit_start=start, limit_page_length=page_len, as_list=True)
+
+
 # def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
-#     filter_list_temp = []
+#     filter_list = []
 #
 #     if isinstance(filters, dict):
 #         for key, val in filters.items():
 #             if isinstance(val, (list, tuple)):
-#                 filter_list_temp.append([doctype, key, val[0], val[1]])
+#                 filter_list.append([doctype, key, val[0], val[1]])
 #             else:
-#                 filter_list_temp.append([doctype, key, "=", val])
+#                 filter_list.append([doctype, key, "=", val])
 #     # elif isinstance(filters, list):
 #     #     filter_list.extend(filters)
 #     is_customer = False
-#     filter_list = []
+#
 #     for d in filters:
-#         if doctype == "Customer" and d[3] and d[0] == "Customer" and d[1] == "customer_group":
+#         if d[3] and d[0] == "Customer" and d[1] == "customer_group":
 #             if frappe.get_value(
 #                     "Customer Group",
 #                     d[3],
@@ -92,7 +148,8 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
 #     if is_customer:
 #         fields = ["name", "{0}_name".format(doctype.lower()), "customer_group"]
 #         customers = frappe.db.get_list(doctype, filters= filter_list,
-#                                                    fields = fields)
+#                                                    fields = fields,
+#                                                    limit_start=start, limit_page_length=page_len)
 #         result = []
 #         for customer in customers:
 #             result.append(
@@ -115,64 +172,7 @@ def filter_customer_group(doctype, txt_ignored, searchfield_ignored, limit_start
 #         return ((temp) for temp in result)
 #     else:
 #         fields = ["name", "{0}_name".format(doctype.lower())]
+#
 #     return frappe.db.get_list(doctype, filters= filter_list,
-#                               fields = fields,
-#                               limit_start=start, limit_page_length=page_len, as_list=True)
-
-
-def get_customer_list(doctype, txt, searchfield, start, page_len, filters):
-    filter_list = []
-
-    if isinstance(filters, dict):
-        for key, val in filters.items():
-            if isinstance(val, (list, tuple)):
-                filter_list.append([doctype, key, val[0], val[1]])
-            else:
-                filter_list.append([doctype, key, "=", val])
-    # elif isinstance(filters, list):
-    #     filter_list.extend(filters)
-    is_customer = False
-
-    for d in filters:
-        if d[3] and d[0] == "Customer" and d[1] == "customer_group":
-            if frappe.get_value(
-                    "Customer Group",
-                    d[3],
-                    "parent_customer_group"
-            ):
-                filter_list.append(["Customer", "customer_group", "=", d[3]])
-            is_customer = True
-    if doctype == "Customer": is_customer = True
-    if searchfield and txt:
-        filter_list.append([doctype, searchfield, "like", "%%%s%%" % txt])
-    if is_customer:
-        fields = ["name", "{0}_name".format(doctype.lower()), "customer_group"]
-        customers = frappe.db.get_list(doctype, filters= filter_list,
-                                                   fields = fields,
-                                                   limit_start=start, limit_page_length=page_len)
-        result = []
-        for customer in customers:
-            result.append(
-                (customer.name, "{0} - {1}".format(
-                    customer["{0}_name".format(doctype.lower().lower())], customer.customer_group))
-            )
-        return ((temp) for temp in result)
-    elif doctype == "Employee":
-        fields = ["name", "{0}_name".format(doctype.lower())]
-        filter_list.append([doctype, "employee_name", "like", "%%%s%%" % txt])
-        customers = frappe.db.get_list(doctype, or_filters= filter_list,
-                                       fields = fields,
-                                       limit_start=start, limit_page_length=page_len)
-        result = []
-        for customer in customers:
-            result.append(
-                (customer.name, "{0}".format(
-                    customer["{0}_name".format(doctype.lower())]))
-            )
-        return ((temp) for temp in result)
-    else:
-        fields = ["name", "{0}_name".format(doctype.lower())]
-
-    return frappe.db.get_list(doctype, filters= filter_list,
-                                          fields = fields,
-                                          limit_start=start, limit_page_length=page_len, as_list=True)
+#                                           fields = fields,
+#                                           limit_start=start, limit_page_length=page_len, as_list=True)
