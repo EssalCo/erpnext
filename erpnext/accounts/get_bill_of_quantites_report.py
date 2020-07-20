@@ -21,9 +21,14 @@ def execute():
 
         filters = dict(project=project)
         columns = get_columns(filters)
+        cols = list()
         for temp in columns:
             temp = temp.split(":")[0]
+            cols.append(temp)
         data = get_data(filters)
+
+        result = list()
+        for i in range(0, len(data), 1):
 
     except Exception as e:
         return dict(status=False, message=str(e))
