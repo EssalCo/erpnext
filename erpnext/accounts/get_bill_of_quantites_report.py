@@ -29,11 +29,15 @@ def execute():
 
         result = list()
         for i in range(0, len(data), 1):
+            temp = dict()
+            for j in range(0, len(data[i]), 1):
+                temp[cols[j]] = data[i][j]
+            result.append(temp)
 
     except Exception as e:
         return dict(status=False, message=str(e))
 
-    return dict(status=True, message="Success", report=dict(data=data, columns=columns))
+    return dict(status=True, message="Success", report=dict(data=result, columns=cols))
 
 
 # def execute(filters=None):
