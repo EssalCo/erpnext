@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 
 import frappe
-
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 # from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import get_accounting_dimensions
 # from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
@@ -45,6 +45,7 @@ def execute():
             to_date = data.get('to_date')
             if to_date:
                 filters.append(["Bill of Quantities", "posting_date", "<", to_date])
+        send_msg_telegram(str(filters))
         frappe.set_user("Administrator")
         data = frappe.get_list(
             "Bill of Quantities",
