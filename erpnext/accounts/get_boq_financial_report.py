@@ -8,6 +8,7 @@ from erpnext.utilities.send_telegram import send_msg_telegram
 
 # from erpnext.accounts.doctype.accounting_dimension.accounting_dimension import get_accounting_dimensions
 # from erpnext.accounts.report.utils import get_currency, convert_to_presentation_currency
+import urllib
 
 
 @frappe.whitelist(allow_guest=True)
@@ -20,7 +21,7 @@ def execute():
         filters = list()
 
         data = frappe.form_dict
-        project = data.get('project')
+        project = urllib.unquote(str(data.get('project'))).decode('utf-8', 'replace') if data.get('project') else None
         if project:
             filters.append(["Bill of Quantities", "project", "=", project])
 
@@ -34,7 +35,7 @@ def execute():
 
         if not filters:
             data = frappe.form_dict.data
-            project = data.get('project')
+            project = urllib.unquote(str(data.get('project'))).decode('utf-8', 'replace') if data.get('project') else None
             if project:
                 filters.append(["Bill of Quantities", "project", "=", project])
 
