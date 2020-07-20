@@ -109,7 +109,7 @@ def execute():
 
         if not filters:
             return [], []
-
+        frappe.set_user("Administrator")
         filters = frappe._dict(filters or {})
         account_details = {}
 

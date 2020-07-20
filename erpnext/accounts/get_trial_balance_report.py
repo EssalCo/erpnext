@@ -47,6 +47,7 @@ def execute():
             company = data.get('company')
             if company:
                 filters['company'] = company
+        frappe.set_user("Administrator")
 
         with_period_closing_entry = data.get('with_period_closing_entry')
         if with_period_closing_entry:

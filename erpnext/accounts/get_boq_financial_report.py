@@ -45,7 +45,7 @@ def execute():
             to_date = data.get('to_date')
             if to_date:
                 filters.append(["Bill of Quantities", "posting_date", "<", to_date])
-
+        frappe.set_user("Administrator")
         data = frappe.get_list(
             "Bill of Quantities",
             fields=[

@@ -64,7 +64,7 @@ def execute():
 
             if _range:
                 filters['range'] = _range
-
+        frappe.set_user("Administrator")
         report = Analytics(filters).run()
     except Exception as e:
         return dict(status=False, message=str(e))

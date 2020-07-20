@@ -17,6 +17,8 @@ def execute():
         if not project:
             data = frappe.form_dict.data
             project = data.get('project')
+        frappe.set_user("Administrator")
+
         filters = dict(project=project)
         columns = get_columns(filters)
         data = get_data(filters)
