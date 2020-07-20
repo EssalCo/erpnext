@@ -21,7 +21,10 @@ def execute():
         filters = list()
 
         data = frappe.form_dict
-        project = urllib.unquote(str(data.get('project'))).decode('utf-8', 'replace') if data.get('project') else None
+        try:
+            project = str(data.get('project')).decode('utf-8', 'replace') if data.get('project') else None
+        except:
+            project = data.get('project')
         if project:
             filters.append(["Bill of Quantities", "project", "=", project])
 
@@ -35,7 +38,10 @@ def execute():
 
         if not filters:
             data = frappe.form_dict.data
-            project = urllib.unquote(str(data.get('project'))).decode('utf-8', 'replace') if data.get('project') else None
+            try:
+                project = str(data.get('project')).decode('utf-8', 'replace') if data.get('project') else None
+            except:
+                project = data.get('project')
             if project:
                 filters.append(["Bill of Quantities", "project", "=", project])
 
