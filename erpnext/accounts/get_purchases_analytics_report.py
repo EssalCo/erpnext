@@ -43,6 +43,28 @@ def execute():
         if _range:
             filters['range'] = _range
 
+        if not from_date and not to_date:
+            data = frappe.form_dict.data
+            tree_type = data.get('tree_type')
+            if tree_type:
+                filters['tree_type'] = tree_type
+            value_quantity = data.get('value_quantity')
+            if value_quantity:
+                filters['value_quantity'] = value_quantity
+            company = data.get('company')
+            if company:
+                filters['company'] = company
+            from_date = data.get('from_date')
+            if from_date:
+                filters['from_date'] = from_date
+            to_date = data.get('to_date')
+            if to_date:
+                filters['to_date'] = to_date
+            _range = data.get('range')
+
+            if _range:
+                filters['range'] = _range
+
         report = Analytics(filters).run()
     except Exception as e:
         return dict(status=False, message=str(e))

@@ -71,6 +71,43 @@ def execute():
             filters['to_date'] = to_date
 
         if not filters:
+            data = frappe.form_dict.data
+            account = data.get('account')
+            if account:
+                filters['account'] = account
+
+            party = data.get('party')
+            if party:
+                filters['party'] = party
+
+            company = data.get('company')
+            if company:
+                filters['company'] = company
+            project = data.get('project')
+            if project:
+                filters['project'] = project
+            party_type = data.get('party_type')
+            if party_type:
+                filters['party_type'] = party_type
+            cost_center = data.get('cost_center')
+            if cost_center:
+                filters['cost_center'] = cost_center
+            voucher_no = data.get('voucher_no')
+            if voucher_no:
+                filters['voucher_no'] = voucher_no
+            group_by = data.get('group_by')
+            if group_by:
+                filters['group_by'] = group_by
+
+            from_date = data.get('from_date')
+            if from_date:
+                filters['from_date'] = from_date
+
+            to_date = data.get('to_date')
+            if to_date:
+                filters['to_date'] = to_date
+
+        if not filters:
             return [], []
 
         filters = frappe._dict(filters or {})

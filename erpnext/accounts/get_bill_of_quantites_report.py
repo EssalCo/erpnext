@@ -14,13 +14,16 @@ def execute():
         # project
         data = frappe.form_dict
         project = data.get('project')
+        if not project:
+            data = frappe.form_dict.data
+            project = data.get('project')
         filters = dict(project=project)
         columns = get_columns(filters)
         data = get_data(filters)
     except Exception as e:
         return dict(status=False, message=str(e))
 
-    return dict(status=True, message="Success", report=data)
+    return dict(status=True, message="Success", report=dict(data=data, columns=columns))
 
 
 # def execute(filters=None):

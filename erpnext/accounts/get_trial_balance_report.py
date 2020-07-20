@@ -32,6 +32,22 @@ def execute():
         company = data.get('company')
         if company:
             filters['company'] = company
+
+        if not filters:
+            data = frappe.form_dict.data
+            fiscal_year = data.get('fiscal_year')
+            if fiscal_year:
+                filters['fiscal_year'] = fiscal_year
+            from_date = data.get('from_date')
+            if from_date:
+                filters['from_date'] = from_date
+            to_date = data.get('to_date')
+            if to_date:
+                filters['to_date'] = to_date
+            company = data.get('company')
+            if company:
+                filters['company'] = company
+
         with_period_closing_entry = data.get('with_period_closing_entry')
         if with_period_closing_entry:
             filters['with_period_closing_entry'] = with_period_closing_entry

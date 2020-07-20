@@ -32,6 +32,20 @@ def execute():
         if to_date:
             filters.append(["Bill of Quantities", "posting_date", "<", to_date])
 
+        if not filters:
+            data = frappe.form_dict.data
+            project = data.get('project')
+            if project:
+                filters.append(["Bill of Quantities", "project", "=", project])
+
+            from_date = data.get('from_date')
+            if from_date:
+                filters.append(["Bill of Quantities", "posting_date", ">=", from_date])
+
+            to_date = data.get('to_date')
+            if to_date:
+                filters.append(["Bill of Quantities", "posting_date", "<", to_date])
+
         data = frappe.get_list(
             "Bill of Quantities",
             fields=[
