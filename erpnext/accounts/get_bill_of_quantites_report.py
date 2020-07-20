@@ -37,7 +37,7 @@ def execute():
     except Exception as e:
         return dict(status=False, message=str(e))
 
-    return dict(status=True, message="Success", report=dict(data=result, columns=cols))
+    return dict(status=True, message="Success", report=dict(data=result))
 
 
 # def execute(filters=None):
