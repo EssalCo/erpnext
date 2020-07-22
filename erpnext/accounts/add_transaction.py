@@ -812,6 +812,7 @@ def add_transaction_v3():
         # data = x
         data = frappe.form_dict.get('data')
         send_msg_telegram(site_name)
+        send_msg_telegram(data)
         if isinstance(data, basestring):
             import json
             data = json.loads(data)
