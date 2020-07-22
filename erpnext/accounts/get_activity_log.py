@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
@@ -5,6 +6,7 @@ from datetime import datetime
 import erpnext
 from frappe import _
 import frappe
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 
 @frappe.whitelist(allow_guest=True)
@@ -17,7 +19,11 @@ def get_activity_log():
         from_date = data.get('from_date')
         to_date = data.get('to_date')
         frappe.set_user("Administrator")
-
+        send_msg_telegram("get_activity_log\n{0}\n{1}\n{2}".format(
+            user_id,
+            from_date,
+            to_date
+        ))
         logs = frappe.db.sql("""SELECT `NAME` AS id,
 	`creation`,
 	`full_name`,
