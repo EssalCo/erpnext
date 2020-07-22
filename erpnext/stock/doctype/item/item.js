@@ -138,7 +138,7 @@ frappe.ui.form.on("Item", {
 				doc: frm.doc,
 				args: {"item_group": frm.doc.item_group},
 				callback: function (data) {
-					if (data) {
+					if (data.message) {
 						frm.set_value('item_code', data.message);
 					}
 				}
