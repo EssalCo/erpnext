@@ -1,4 +1,6 @@
-import  frappe
+# -*- coding: utf-8 -*-
+
+import frappe
 
 
 def execute():
