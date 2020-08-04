@@ -1074,4 +1074,6 @@ def add_transaction_v3():
         message="Transactions are added to erpnext successfully",
         journal_entry_link="{site_name}/desk#Form/Journal Entry/{_id}".format(
             site_name=site_name,
-            _id=journal_entry.name))
+            _id=journal_entry.name),
+        voucher_no=journal_entry.name
+    )
