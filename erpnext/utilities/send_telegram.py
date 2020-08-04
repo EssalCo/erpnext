@@ -4,7 +4,7 @@ import traceback
 
 
 def send_msg_telegram(msg):
-    return
+    # return
     try:
         from frappe.utils import get_site_name
         try:
