@@ -198,13 +198,14 @@ class Account(NestedSet):
         try:
             if getattr(self, "account_serial", None):
                 if not getattr(self, "account_serial_x", None):
+                    print ("XXX")
                     self.account_serial_x = str(self.account_serial)
                 return
             # if not getattr(self, "account_serial_x", None):
             #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
             #     return
             if not self.parent_account:
-                # send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
+                send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
 
                 last_existing_serial = frappe.db.sql("""SELECT 
         MAX(account_serial) AS maxi
