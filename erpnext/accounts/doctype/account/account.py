@@ -268,6 +268,7 @@ class Account(NestedSet):
             self.account_serial_x = next_serial_str
         except:
             import traceback
+            print(traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
             send_msg_telegram(
                 traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
 
