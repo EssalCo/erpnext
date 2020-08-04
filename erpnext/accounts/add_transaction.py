@@ -150,7 +150,7 @@ def add_transaction():
                 accounts=[]
             )
         )
-        project = frappe.get_value("Project", dict(), "name")
+        # project = frappe.get_value("Project", dict(), "name")
         if credit_amount:
             journal_entry.append("accounts", dict(
                 account=from_account,
@@ -161,7 +161,7 @@ def add_transaction():
                 debit=abs(credit_amount),
                 credit_in_account_currency=0,
                 credit=0,
-                project=project,
+                project=None,
                 is_advance="No",
                 against_account=to_account,
                 cost_center=cost_center
@@ -175,7 +175,7 @@ def add_transaction():
                 debit=0,
                 credit_in_account_currency=abs(credit_amount) - abs(vat_amount),
                 credit=abs(credit_amount) - abs(vat_amount),
-                project=project,
+                project=None,
                 is_advance="No",
                 against_account=from_account,
                 cost_center=cost_center
@@ -190,7 +190,7 @@ def add_transaction():
                     debit=0,
                     credit_in_account_currency=abs(vat_amount),
                     credit=abs(vat_amount),
-                    project=project,
+                    project=None,
                     is_advance="No",
                     against_account=from_account,
                     cost_center=cost_center
@@ -205,7 +205,7 @@ def add_transaction():
                 debit=abs(credit_amount),
                 credit_in_account_currency=0,
                 credit=0,
-                project=project,
+                project=None,
                 is_advance="No",
                 against_account=to_account,
                 cost_center=cost_center
@@ -219,7 +219,7 @@ def add_transaction():
                 debit=abs(credit_amount) - abs(vat_amount),
                 credit_in_account_currency=0,
                 credit=0,
-                project=project,
+                project=None,
                 is_advance="No",
                 against_account=from_account,
                 cost_center=cost_center
@@ -234,7 +234,7 @@ def add_transaction():
                     debit=abs(vat_amount),
                     credit_in_account_currency=0,
                     credit=0,
-                    project=project,
+                    project=None,
                     is_advance="No",
                     against_account=from_account,
                     cost_center=cost_center
@@ -362,7 +362,8 @@ def get_gl_dict(data, payment_entry):
         'is_opening': payment_entry.get("is_opening") or "No",
         'party_type': None,
         'party': None,
-        'project': frappe.get_value("Project", dict(), "name")
+        # 'project': frappe.get_value("Project", dict(), "name")
+        'project': None
     })
     gl_dict.update(data)
 
@@ -445,7 +446,7 @@ def add_transaction_v2():
                 accounts=[]
             )
         )
-        project = frappe.get_value("Project", dict(), "name")
+        # project = frappe.get_value("Project", dict(), "name")
         total_credit = total_debit = 0
         if isinstance(transactions_list, basestring):
             import json
@@ -511,7 +512,7 @@ def add_transaction_v2():
                     journal_note=_statement,
                     credit_in_account_currency=abs(credit) - abs(vat_amount),
                     credit=abs(credit) - abs(vat_amount),
-                    project=project,
+                    project=None,
                     is_advance="No",
                     cost_center=cost_center
                 ))
@@ -540,7 +541,7 @@ def add_transaction_v2():
                         debit=0,
                         credit_in_account_currency=abs(vat_amount),
                         credit=abs(vat_amount),
-                        project=project,
+                        project=None,
                         is_advance="No",
                         cost_center=cost_center
                     ))
@@ -558,7 +559,7 @@ def add_transaction_v2():
                     debit=abs(debit) - abs(vat_amount),
                     credit_in_account_currency=0,
                     credit=0,
-                    project=project,
+                    project=None,
                     journal_note=_statement,
                     is_advance="No",
                     cost_center=cost_center
@@ -588,7 +589,7 @@ def add_transaction_v2():
                         debit=abs(vat_amount),
                         credit_in_account_currency=0,
                         credit=0,
-                        project=project,
+                        project=None,
                         is_advance="No",
                         cost_center=cost_center
                     ))
@@ -893,7 +894,7 @@ def add_transaction_v3():
                 accounts=[]
             )
         )
-        project = frappe.get_value("Project", dict(), "name")
+        # project = frappe.get_value("Project", dict(), "name")
         total_credit = total_debit = 0
         if isinstance(transactions_list, basestring):
             import json
@@ -969,7 +970,7 @@ def add_transaction_v3():
                         journal_note=_statement,
                         credit_in_account_currency=abs(credit) - abs(vat_amount),
                         credit=abs(credit) - abs(vat_amount),
-                        project=project,
+                        project=None,
                         is_advance="No",
                         cost_center=cost_center
                     ))
@@ -998,7 +999,7 @@ def add_transaction_v3():
                         debit=0,
                         credit_in_account_currency=abs(vat_amount),
                         credit=abs(vat_amount),
-                        project=project,
+                        project=None,
                         is_advance="No",
                         cost_center=cost_center
                     ))
@@ -1023,7 +1024,7 @@ def add_transaction_v3():
                         debit=abs(debit) - abs(vat_amount),
                         credit_in_account_currency=0,
                         credit=0,
-                        project=project,
+                        project=None,
                         journal_note=_statement,
                         is_advance="No",
                         cost_center=cost_center
@@ -1053,7 +1054,7 @@ def add_transaction_v3():
                         debit=abs(vat_amount),
                         credit_in_account_currency=0,
                         credit=0,
-                        project=project,
+                        project=None,
                         is_advance="No",
                         cost_center=cost_center
                     ))
