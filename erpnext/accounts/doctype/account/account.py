@@ -201,7 +201,7 @@ class Account(NestedSet):
 
                 if not getattr(self, "account_serial_x", None):
                     self.account_serial_x = str(self.account_serial)
-                return
+                # return
             # if not getattr(self, "account_serial_x", None):
             #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
             #     return
