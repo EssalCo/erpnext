@@ -222,7 +222,7 @@ class Account(NestedSet):
                 else:
                     last_existing_serial = last_existing_serial[0].maxi
                     next_serial = int(last_existing_serial or 0) + 1
-                    next_serial_str = "#{0}".format(last_existing_serial + 1)
+                    next_serial_str = "#{0}".format(next_serial)
             else:
                 # send_msg_telegram("parent " + str(self.account_serial) + str(self.account_serial_x))
 
