@@ -11,5 +11,18 @@ inner join `tabJournal Entry` j on j.name = ja.parent
 order by left(j.title,1);""", as_dict=True
     )
 
-    print data
+    # print data
     print len(data)
+
+    for temp in data:
+        frappe.db.sql(
+            """UPDATE `tabJournal Entry Account` SET project = NULL WHERE parent = %(voucher_no)s""", dict(
+                voucher_no=temp.voucher_no
+            )
+        )
+
+        frappe.db.sql(
+            """UPDATE `tabGL Entry` SET project = NULL WHERE voucher_no = %(voucher_no)s""", dict(
+                voucher_no=temp.voucher_no
+            )
+        )
