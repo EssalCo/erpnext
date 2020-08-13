@@ -95,5 +95,7 @@ def execute_again():
                 is_advance="No",
                 cost_center=main_cost_center
             ))
+    journal_entry.flags.ignore_permissions = True
+    journal_entry.save()
 
-    journal_entry.save(ignore_permissions=True)
+    journal_entry.submit()
