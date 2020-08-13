@@ -15,7 +15,7 @@ sys.setdefaultencoding('utf8')
 
 
 def execute_again():
-    payment_details = "/private/files/opening_murbiha.csv"
+    payment_details = "/private/files/murbiha_cloding.csv"
 
     print("Starting journals..")
 
@@ -54,13 +54,13 @@ def execute_again():
             title="القيد الختامي لسنة ٢٠١٩",
             voucher_type="Journal Entry",
             naming_series="JV-",
-            posting_date=datetime.now(),
+            posting_date="2020-12-31",
             company=company.name,
             user_remark="القيد الختامي لسنة ٢٠١٩",
             multi_currency=0,
             remark="القيد الختامي لسنة ٢٠١٩",
-            bill_date=datetime.now(),
-            third_party_creation="القيد الختامي لسنة ٢٠١٩",
+            bill_date="2020-12-31",
+            third_party_creation="2020-12-31",
             accounts=[],
             is_opening="No",
         )
