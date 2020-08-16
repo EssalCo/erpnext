@@ -97,7 +97,28 @@ def execute():
                     ),
                     "name"
                 )
-
+            if not parent_acc:
+                parent_account_serial = parent_account_serial[:-1]
+                print parent_account_serial
+                parent_acc = frappe.get_value(
+                    "Account",
+                    dict(
+                        account_serial=parent_account_serial,
+                        company=company.name
+                    ),
+                    "name"
+                )
+            if not parent_acc:
+                parent_account_serial = parent_account_serial[:-1]
+                print parent_account_serial
+                parent_acc = frappe.get_value(
+                    "Account",
+                    dict(
+                        account_serial=parent_account_serial,
+                        company=company.name
+                    ),
+                    "name"
+                )
             doc = frappe.get_doc(
                 dict(
                     doctype="Account",
