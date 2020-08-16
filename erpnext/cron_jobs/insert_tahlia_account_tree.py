@@ -71,7 +71,7 @@ def execute():
                 ),
                 "name"
             )
-
+            print ("par account 1: {0}".format(parent_acc))
             if not parent_acc:
                 parent_account_serial = parent_account_serial[:-1]
                 print parent_account_serial
@@ -84,6 +84,8 @@ def execute():
                     ),
                     "name"
                 )
+                print ("par account 2: {0}".format(parent_acc))
+
             if not parent_acc:
                 parent_account_serial = parent_account_serial[:-1]
                 print parent_account_serial
