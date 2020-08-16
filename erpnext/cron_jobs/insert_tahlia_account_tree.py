@@ -20,24 +20,24 @@ def execute():
             company_name="Tahlia"
         )
     )
-    serial_no = "1"
-    account_name = "الأصول"
-    doc = frappe.get_doc(
-        dict(
-            doctype="Account",
-            account_name="{0} - {1}".format(serial_no, account_name),
-            account_number=None,
-            account_serial=serial_no,
-            company=company.name,
-            is_group=1,
-            # account_currency="SAR",
-            parent_account=None,
-            report_type="Balance Sheet",
-            root_type="Expense"
-        )
-    )
-    doc.flags.ignore_mandatory = True
-    doc.insert(ignore_permissions=True)
+    # serial_no = "1"
+    # account_name = "الأصول"
+    # doc = frappe.get_doc(
+    #     dict(
+    #         doctype="Account",
+    #         account_name="{0} - {1}".format(serial_no, account_name),
+    #         account_number=None,
+    #         account_serial=serial_no,
+    #         company=company.name,
+    #         is_group=1,
+    #         # account_currency="SAR",
+    #         parent_account=None,
+    #         report_type="Balance Sheet",
+    #         root_type="Expense"
+    #     )
+    # )
+    # doc.flags.ignore_mandatory = True
+    # doc.insert(ignore_permissions=True)
 
     print("Starting Accounts..")
 
