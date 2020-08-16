@@ -16,3 +16,4 @@ def execute():
     ))
 
     frappe.db.sql("""delete from `tabSeries` where name = 'ANAM';""")
+
