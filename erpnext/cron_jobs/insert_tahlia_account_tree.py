@@ -12,12 +12,12 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
-    accounts_tree = "dar- alrakiza-mekka"
+    accounts_tree = "/private/files/makka.csv"
 
     company = frappe.get_doc(
         "Company",
         dict(
-            company_name="Tahlia"
+            company_name="dar- alrakiza-mekka"
         )
     )
     # serial_no = "1"
