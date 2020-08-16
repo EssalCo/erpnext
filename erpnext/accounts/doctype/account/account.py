@@ -195,6 +195,7 @@ class Account(NestedSet):
             self.account_serial = 0
         else:
             self.account_serial = long(self.account_serial)
+        if self.account_serial: return
         try:
             if getattr(self, "account_serial", None):
                 print ("XXX")
