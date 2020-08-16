@@ -12,7 +12,7 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
-    accounts_tree = "/private/files/tahlia.csv"
+    accounts_tree = "dar- alrakiza-mekka"
 
     company = frappe.get_doc(
         "Company",
@@ -86,6 +86,17 @@ def execute():
                 )
                 print ("par account 2: {0}".format(parent_account_serial))
 
+            if not parent_acc:
+                parent_account_serial = parent_account_serial[:-1]
+                print parent_account_serial
+                parent_acc = frappe.get_value(
+                    "Account",
+                    dict(
+                        account_serial=parent_account_serial,
+                        company=company.name
+                    ),
+                    "name"
+                )
             if not parent_acc:
                 parent_account_serial = parent_account_serial[:-1]
                 print parent_account_serial
