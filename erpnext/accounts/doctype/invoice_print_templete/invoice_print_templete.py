@@ -12,14 +12,14 @@ class InvoicePrintTemplete(Document):
         for record in self.records:
             record.total = record.value * record.count
         self.total_without_vat = sum(temp.total for temp in self.records)
-        self.vat = self.total * 5 / 105.0
+        self.vat = self.total * 15 / 115.0
         self.total = self.total_without_vat + self.vat
 
     def before_insert(self):
         for record in self.records:
             record.total = record.value * record.count
         self.total_without_vat = sum(temp.total for temp in self.records)
-        self.vat = self.total_without_vat * 0.05
+        self.vat = self.total_without_vat * 0.15
         self.total = self.total_without_vat + self.vat
         self.invoice_id = frappe.db.count(
             "Invoice Print Templete",
