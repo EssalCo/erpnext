@@ -40,7 +40,7 @@ def get_context(context):
         import traceback
         send_msg_telegram(frappe.local.request_ip)
         send_msg_telegram(frappe.local.request.query_string)
-        send_msg_telegram(traceback)
+        send_msg_telegram(traceback.format_exc())
 
 
 def login_oauth_user(token):
