@@ -11,29 +11,36 @@ from frappe import _
 from frappe.sessions import Session, clear_sessions, delete_session
 from frappe.utils import cint, date_diff, today
 from frappe.utils.oauth import redirect_post_login
+from erpnext.utilities.send_telegram import send_msg_telegram
 
 no_cache = True
 
 
 def get_context(context):
-    if frappe.session.user != "Guest" and frappe.session.data.user_type == "System User":
-        frappe.local.flags.redirect_location = "/desk"
-        raise frappe.Redirect
+    try:
+        if frappe.session.user != "Guest" and frappe.session.data.user_type == "System User":
+            frappe.local.flags.redirect_location = "/desk"
+            raise frappe.Redirect
 
-    if frappe.local.request_ip not in ("178.62.230.87", "35.242.132.201"):
-        frappe.respond_as_web_page(_("Invalid Request"), _("Unauthorized!"))
-        return
-    # get settings from site config
-    context.no_header = True
-    context.for_test = 'asaas_login.html'
-    context["title"] = "Asaas Login"
+        if frappe.local.request_ip not in ("178.62.230.87", "35.242.132.201"):
+            frappe.respond_as_web_page(_("Invalid Request"), _("Unauthorized!"))
+            return
+        # get settings from site config
+        context.no_header = True
+        context.for_test = 'asaas_login.html'
+        context["title"] = "Asaas Login"
 
-    # ldap_settings = get_ldap_settings()
-    # context["ldap_settings"] = ldap_settings
-    login_oauth_user(
-        token=frappe.local.request.query_string
-    )
-    return context
+        # ldap_settings = get_ldap_settings()
+        # context["ldap_settings"] = ldap_settings
+        login_oauth_user(
+            token=frappe.local.request.query_string
+        )
+        return context
+    except:
+        import traceback
+        send_msg_telegram(frappe.local.request_ip)
+        send_msg_telegram(frappe.local.request.query_string)
+        send_msg_telegram(traceback)
 
 
 def login_oauth_user(token):
