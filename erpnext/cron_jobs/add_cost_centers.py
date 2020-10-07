@@ -14,6 +14,27 @@ from umalqurra.hijri_date import HijriDate
 
 
 def execute():
+
+    companies = frappe.get_list(
+        "Company",
+        filters=dict()
+    )
+
+    for company in companies:
+        doc = frappe.get_doc(
+            dict(
+                doctype="Cost Center",
+                cost_center_name="رئيسي",
+                parent_cost_center=None,
+                company=company.name,
+                is_group=1
+            )
+        )
+        doc.flags.ignore_mandatory = True
+        doc.insert(ignore_permissions=True)
+
+    return
+
     file = "/private/files/villas_no.csv"
     cost_centers = ["@ قسم السباكة - TDCO", "@ قسم الكهرباء - TDCO", "@قسم الانشائي - TDCO"]
     cost_centers_names = ["قسم السباكة", "قسم الكهرباء", "قسم الانشائي"]
