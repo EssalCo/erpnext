@@ -284,6 +284,14 @@ def add_cc(args=None):
 		cc.parent_cost_center = args.get("parent")
 
 	cc.old_parent = ""
+	if frappe.db.count(
+		"Cost Center",
+		dict(
+			company=cc.company
+		)
+	) == 0:
+		cc.flags.ignore_validate = True
+		cc.flags.ignore_links = True
 	cc.insert()
 	return cc.name
 
