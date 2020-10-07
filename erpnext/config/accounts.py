@@ -456,7 +456,7 @@ def get_data():
 				},
 				{
 					"type": "report",
-					"label": "Trial Balance (New Version)",
+					"label": _("Trial Balance (New Version)"),
 					"name": "Trial Balance New",
 					"doctype": "GL Entry",
 					"is_query_report": True,
