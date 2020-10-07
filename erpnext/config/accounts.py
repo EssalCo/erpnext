@@ -453,7 +453,14 @@ def get_data():
 					"is_query_report": True,
 					"name": "Sales Payment Summary",
 					"doctype": "Sales Invoice"
-				}
+				},
+				{
+					"type": "report",
+					"label": "Trial Balance (New Version)",
+					"name": "Trial Balance New",
+					"doctype": "GL Entry",
+					"is_query_report": True,
+				},
 			]
 		},
 		{
