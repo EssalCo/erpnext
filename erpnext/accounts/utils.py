@@ -290,6 +290,7 @@ def add_cc(args=None):
 			company=cc.company
 		)
 	) == 0:
+		cc.ignore_mandatory = True
 		cc.flags.ignore_validate = True
 		cc.flags.ignore_links = True
 	cc.insert()
