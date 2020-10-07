@@ -31,7 +31,11 @@ def execute():
             )
         )
         doc.flags.ignore_mandatory = True
-        doc.insert(ignore_permissions=True)
+        try:
+            doc.insert(ignore_permissions=True)
+        except frappe.exceptions.DuplicateEntryError:
+            pass
+        frappe.db.commit()
 
     return
 
