@@ -24,7 +24,7 @@ def execute():
         doc = frappe.get_doc(
             dict(
                 doctype="Cost Center",
-                cost_center_name="رئيسي",
+                cost_center_name=company.name,
                 parent_cost_center=None,
                 company=company.name,
                 is_group=1
@@ -33,8 +33,8 @@ def execute():
         doc.flags.ignore_mandatory = True
         try:
             doc.insert(ignore_permissions=True)
-        except frappe.exceptions.DuplicateEntryError:
-            pass
+        except frappe.exceptions.DuplicateEntryError as e:
+            print(e)
         frappe.db.commit()
 
     return
