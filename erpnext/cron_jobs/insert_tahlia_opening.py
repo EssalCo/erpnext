@@ -90,7 +90,7 @@ def execute_again():
                 "Account",
                 dict(
                     company=company.name,
-                    name=account
+                    name=("like", "%{0}".format(account))
                 ), "name"
             )
             print str(account)
