@@ -81,8 +81,17 @@ def execute_again():
             #     credit = 0
             # if not debit.isdigit():
             #     debit = 0
+            account = row[0].replace("- Jedda", "- T")
+            account = frappe.get_value(
+                "Account",
+                dict(
+                    company=company.name,
+                    name = account
+                ), "name"
+            )
+            print account
             journal_entry.append("accounts", dict(
-                account=row[0].replace("- Jedda", "- T"),
+                account=account,
                 party_type=None,
                 party=None,
                 title="",
