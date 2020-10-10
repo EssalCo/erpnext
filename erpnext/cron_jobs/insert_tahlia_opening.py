@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf8')
 
 
 def execute_again():
-    payment_details = "/private/files/tahlia_opening.csv"
+    payment_details = "/private/files/tahlia_openning.csv"
 
     print("Starting journals..")
 
@@ -72,9 +72,9 @@ def execute_again():
         for row in spamreader:
             if row[0] == "Account" or not row[0]:
                 continue
-            debit = float(re.sub(r'\s', '', row[1].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
+            debit = float(re.sub(r'\s', '', row[5].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
                                                                                                               "").rstrip()) or 0)
-            credit = float(re.sub(r'\s', '', row[2].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
+            credit = float(re.sub(r'\s', '', row[6].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
                                                                                                                "").rstrip()) or 0)
             print debit
             print credit
