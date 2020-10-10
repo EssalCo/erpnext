@@ -85,7 +85,7 @@ def execute_again():
             # if not debit.isdigit():
             #     debit = 0
             account = row[0].replace("- Jedda", "- T")
-            print account
+            print str(account)
             account = frappe.get_value(
                 "Account",
                 dict(
