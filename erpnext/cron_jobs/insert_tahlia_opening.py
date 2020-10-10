@@ -82,7 +82,7 @@ def execute_again():
             # if not debit.isdigit():
             #     debit = 0
             journal_entry.append("accounts", dict(
-                account=row[0],
+                account=row[0].replace("- Jedda", "- T"),
                 party_type=None,
                 party=None,
                 title="",
