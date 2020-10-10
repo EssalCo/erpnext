@@ -10,6 +10,7 @@ sys.path.append('../..')
 import csv
 from frappe.utils.file_manager import get_file_path
 from datetime import datetime
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -71,8 +72,10 @@ def execute_again():
         for row in spamreader:
             if row[0] == "Account" or not row[0]:
                 continue
-            debit = float(re.sub(r'\s', '', row[1].replace(" ", "").replace("-", "").replace(",", "").replace("\\t", "").rstrip()) or 0)
-            credit = float(re.sub(r'\s', '', row[2].replace(" ",  "").replace("-", "").replace(",", "").replace("\\t", "").rstrip()) or 0)
+            debit = float(re.sub(r'\s', '', row[1].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
+                                                                                                              "").rstrip()) or 0)
+            credit = float(re.sub(r'\s', '', row[2].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
+                                                                                                               "").rstrip()) or 0)
             print debit
             print credit
             # if credit == "Closing(Cr)":
@@ -82,28 +85,59 @@ def execute_again():
             # if not debit.isdigit():
             #     debit = 0
             account = row[0].replace("- Jedda", "- T")
+            print account
             account = frappe.get_value(
                 "Account",
                 dict(
                     company=company.name,
-                    name = account
+                    name=account
                 ), "name"
             )
             print account
-            journal_entry.append("accounts", dict(
-                account=account,
-                party_type=None,
-                party=None,
-                title="",
-                exchange_rate=1,
-                debit_in_account_currency=abs(debit),
-                debit=abs(debit),
-                journal_note="القيد  الإفتتاحي",
-                credit_in_account_currency=abs(credit),
-                credit=abs(credit),
-                is_advance="No",
-                cost_center=main_cost_center
-            ))
+            if debit and credit:
+                journal_entry.append("accounts", dict(
+                    account=account,
+                    party_type=None,
+                    party=None,
+                    title="",
+                    exchange_rate=1,
+                    debit_in_account_currency=abs(0),
+                    debit=abs(0),
+                    journal_note="القيد  الإفتتاحي",
+                    credit_in_account_currency=abs(credit),
+                    credit=abs(credit),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
+                journal_entry.append("accounts", dict(
+                    account=account,
+                    party_type=None,
+                    party=None,
+                    title="",
+                    exchange_rate=1,
+                    debit_in_account_currency=abs(debit),
+                    debit=abs(debit),
+                    journal_note="القيد  الإفتتاحي",
+                    credit_in_account_currency=abs(0),
+                    credit=abs(0),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
+            else:
+                journal_entry.append("accounts", dict(
+                    account=account,
+                    party_type=None,
+                    party=None,
+                    title="",
+                    exchange_rate=1,
+                    debit_in_account_currency=abs(debit),
+                    debit=abs(debit),
+                    journal_note="القيد  الإفتتاحي",
+                    credit_in_account_currency=abs(credit),
+                    credit=abs(credit),
+                    is_advance="No",
+                    cost_center=main_cost_center
+                ))
     journal_entry.flags.ignore_permissions = True
     journal_entry.save()
 
