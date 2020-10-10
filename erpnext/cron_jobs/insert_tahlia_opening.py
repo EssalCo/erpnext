@@ -93,7 +93,7 @@ def execute_again():
                     name=account
                 ), "name"
             )
-            print account
+            print str(account)
             if debit and credit:
                 journal_entry.append("accounts", dict(
                     account=account,
