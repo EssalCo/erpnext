@@ -358,6 +358,8 @@ def get_data_with_opening_closing(filters, account_details, gl_entries):
         # Opening for filtered account
         data.append(totals.opening)
 
+
+
     if filters.get("group_by") != _('Group by Voucher (Consolidated)'):
         for acc, acc_dict in iteritems(gle_map):
             # acc
@@ -379,7 +381,7 @@ def get_data_with_opening_closing(filters, account_details, gl_entries):
         data.append({})
     else:
         data += entries
-
+    send_msg_telegram(data)
     # totals
     data.append(totals.total)
 
