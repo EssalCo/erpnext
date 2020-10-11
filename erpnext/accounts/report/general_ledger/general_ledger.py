@@ -224,7 +224,10 @@ def get_gl_entries(filters):
     else:
         if filters.get('party_type'):
             party_filter = ' and `tabGL Entry`.party_type="{0}" '.format(filters.get('party_type'))
-        if filters.get('party_name'):
+        if filters.get('party'):
+            party = filters['party']
+            party_filter += ' and `tabGL Entry`.party="{0}" '.format(party)
+        elif filters.get('party_name'):
             party_name = filters['party_name']
             party_filter += ' and `tabGL Entry`.party="{0}" '.format(party_name)
         # import re
@@ -280,10 +283,15 @@ def get_gl_entries(filters):
 def get_conditions(filters):
     conditions = []
     if filters.get("account"):
-        lft, rgt = frappe.db.get_value("Account", filters["account"], ["lft", "rgt"])
-        conditions.append("""`tabGL Entry`.account in (select name from tabAccount
-			where lft>=%s and rgt<=%s and docstatus<2)""" % (lft, rgt))
-
+        is_group = frappe.get_value("Account",filters["account"], "is_group")
+        if is_group==1:
+            lft, rgt = frappe.db.get_value("Account", filters["account"], ["lft", "rgt"])
+            conditions.append("""`tabGL Entry`.account in (select name from tabAccount
+                where lft>=%s and rgt<=%s and docstatus<2)""" % (lft, rgt))
+        else:
+            conditions.append("""`tabGL Entry`.account in (select name from tabAccount
+                where name="%s" and docstatus<2)""" % (filters["account"]))
+        
     if filters.get("cost_center"):
         filters.cost_center = get_cost_centers_with_children(filters.cost_center)
         conditions.append(" COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) in %(cost_center)s ")

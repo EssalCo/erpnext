@@ -50,7 +50,7 @@ frappe.treeview_settings["Cost Center"] = {
 	},
 	onrender: function(node) {
 		if(node.is_root){
-			node.hide_add = true;
+			//~ node.hide_add = true;
 		}
 	}
 

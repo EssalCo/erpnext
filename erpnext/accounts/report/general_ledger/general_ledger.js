@@ -284,6 +284,11 @@ frappe.query_reports["General Ledger"] = {
             "label": __("Customize Remarks Text"),
             "fieldtype": "Check"
         },
+        {
+            "fieldname": "show_journal_note",
+            "label": __("Show Journal Note"),
+            "fieldtype": "Check"
+        },
     ]
 };
 
