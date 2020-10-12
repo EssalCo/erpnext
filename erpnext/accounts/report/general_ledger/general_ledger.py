@@ -308,7 +308,7 @@ def get_conditions(filters):
                 where lft>=%s and rgt<=%s and docstatus<2)""" % (lft, rgt))
         else:
             conditions.append("""`tabGL Entry`.account in (select name from tabAccount
-                where name="%s" and docstatus<2)""" % (filters["account"]))
+                where name="%s" and docstatus<2)""" % (filters["account"].replace("%", "%%")))
         
     if filters.get("cost_center"):
         filters.cost_center = get_cost_centers_with_children(filters.cost_center)
