@@ -189,8 +189,8 @@ def get_gl_entries(filters):
                 ignore_ifnull=1,
                 ignore_permissions=1
             )
-            send_msg_telegram(len(customers))
-            send_msg_telegram(str(_filters))
+            # send_msg_telegram(len(customers))
+            # send_msg_telegram(str(_filters))
 
             if len(customers) != 0:
                 party_filter = " and `tabGL Entry`.party IN ('{0}') ".format("','".join(temp.name for temp in customers))
@@ -248,13 +248,14 @@ def get_gl_entries(filters):
             `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
         from `tabGL Entry`
         LEFT JOIN `tabJournal Entry` j on j.`name` = `tabGL Entry`.`voucher_no`
-        where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement} 
+        where `tabGL Entry`.company='company' {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
         select_fields=select_fields, conditions=get_conditions(filters),
         group_by_statement=group_by_statement,
         order_by_statement=order_by_statement,
-        party_filter=party_filter
+        party_filter=party_filter,
+        company=filters.get("company")
     ))
     #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
     #         `tabGL Entry`.journal_note,
@@ -269,13 +270,14 @@ def get_gl_entries(filters):
             `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
         from `tabGL Entry`
         LEFT JOIN `tabJournal Entry` j on j.`name` = `tabGL Entry`.`voucher_no`
-        where `tabGL Entry`.company=%(company)s {conditions} {party_filter} {group_by_statement} 
+        where `tabGL Entry`.company='{company}' {conditions} {party_filter} {group_by_statement} 
         {order_by_statement}
         """.format(
             select_fields=select_fields, conditions=get_conditions(filters),
             group_by_statement=group_by_statement,
             order_by_statement=order_by_statement,
-            party_filter=party_filter
+            party_filter=party_filter,
+            company=filters.get("company")
         ),
         filters, as_dict=1)
     # send_msg_telegram("""
