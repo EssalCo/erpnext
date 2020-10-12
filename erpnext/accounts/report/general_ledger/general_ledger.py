@@ -479,7 +479,7 @@ def get_result_as_list(data, filters):
             # from operator import itemgetter
             # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
             from datetime import datetime
-            inv_details = sorted(inv_details, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
+            data = sorted(data, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
         except:
             send_msg_telegram(traceback.format_exc())
     for d in data:
