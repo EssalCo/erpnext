@@ -131,14 +131,14 @@ def get_result(filters, account_details):
     data = get_data_with_opening_closing(filters, account_details, gl_entries)
 
     result = get_result_as_list(data, filters)
-    if filters.get("group_by") == _("No Grouping (Consolidated)"):
-        try:
-            # from operator import itemgetter
-            # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
-            from datetime import datetime
-            result = sorted(result, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
-        except:
-            send_msg_telegram(traceback.format_exc())
+    # if filters.get("group_by") == _("No Grouping (Consolidated)"):
+    #     try:
+    #         # from operator import itemgetter
+    #         # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+    #         from datetime import datetime
+    #         result = sorted(result, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
+    #     except:
+    #         send_msg_telegram(traceback.format_exc())
     return result
 
 
@@ -295,13 +295,13 @@ def get_gl_entries(filters):
     #             order_by_statement=order_by_statement,
     #             party_filter=party_filter
     #         ) % filters)
-    try:
-        # from operator import itemgetter
-        # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
-        from datetime import datetime
-        gl_entries = sorted(gl_entries, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
-    except:
-        send_msg_telegram(traceback.format_exc())
+    # try:
+    #     # from operator import itemgetter
+    #     # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+    #     from datetime import datetime
+    #     gl_entries = sorted(gl_entries, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
+    # except:
+    #     send_msg_telegram(traceback.format_exc())
     return gl_entries
 
 
@@ -390,7 +390,7 @@ def get_data_with_opening_closing(filters, account_details, gl_entries):
         data.append({})
     else:
         data += entries
-    send_msg_telegram(data)
+    # send_msg_telegram(data)
     # totals
     data.append(totals.total)
 
@@ -474,7 +474,14 @@ def get_accountwise_gle(filters, gl_entries, gle_map):
 def get_result_as_list(data, filters):
     balance, balance_in_account_currency = 0, 0
     inv_details = get_supplier_invoice_details()
-
+    if filters.get("group_by") == _("No Grouping (Consolidated)"):
+        try:
+            # from operator import itemgetter
+            # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+            from datetime import datetime
+            inv_details = sorted(inv_details, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
+        except:
+            send_msg_telegram(traceback.format_exc())
     for d in data:
         if not d.get('posting_date'):
             balance, balance_in_account_currency = 0, 0
