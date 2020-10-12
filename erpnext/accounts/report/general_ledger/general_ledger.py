@@ -277,7 +277,7 @@ def get_gl_entries(filters):
             group_by_statement=group_by_statement,
             order_by_statement=order_by_statement,
             party_filter=party_filter,
-            company=filters.get("company")
+            company=frappe.db.escape(filters.get("company", ""))
         ),
         filters, as_dict=1)
     # send_msg_telegram("""
