@@ -295,6 +295,13 @@ def get_gl_entries(filters):
     #             order_by_statement=order_by_statement,
     #             party_filter=party_filter
     #         ) % filters)
+    try:
+        # from operator import itemgetter
+        # result = sorted(result, key=itemgetter('posting_date'), reverse=False)
+        from datetime import datetime
+        gl_entries = sorted(gl_entries, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
+    except:
+        send_msg_telegram(traceback.format_exc())
     return gl_entries
 
 
