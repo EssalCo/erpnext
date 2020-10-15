@@ -21,6 +21,13 @@ def execute():
     )
 
     for company in companies:
+        if frappe.db.count(
+            "Cost Center",
+            dict(
+                company=company.name
+            )
+        ) != 0:
+            continue
         doc = frappe.get_doc(
             dict(
                 doctype="Cost Center",
