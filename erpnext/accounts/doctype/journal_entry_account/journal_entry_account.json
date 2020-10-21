@@ -45,7 +45,7 @@
    "search_index": 1, 
    "set_only_once": 0, 
    "unique": 0, 
-   "width": "250px"
+   "width": "210px"
   }, 
   {
    "allow_bulk_edit": 0, 
@@ -567,7 +567,7 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0,
-   "width": "90px"
+   "width": "70px"
   }, 
   {
    "allow_bulk_edit": 0, 
@@ -660,7 +660,7 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0,
-   "width": "90px"
+   "width": "70px"
   }, 
   {
    "allow_bulk_edit": 0, 
@@ -889,7 +889,7 @@
  "issingle": 0, 
  "istable": 1, 
  "max_attachments": 0, 
- "modified": "2019-10-27 13:08:18.971646",
+ "modified": "2019-10-28 13:08:18.971646",
  "modified_by": "Administrator", 
  "module": "Accounts", 
  "name": "Journal Entry Account", 
