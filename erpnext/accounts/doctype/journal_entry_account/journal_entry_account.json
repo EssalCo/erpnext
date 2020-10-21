@@ -45,7 +45,7 @@
    "search_index": 1, 
    "set_only_once": 0, 
    "unique": 0, 
-   "width": "180px"
+   "width": "150px"
   }, 
   {
    "allow_bulk_edit": 0, 
@@ -889,7 +889,7 @@
  "issingle": 0, 
  "istable": 1, 
  "max_attachments": 0, 
- "modified": "2019-10-29 13:08:18.971646",
+ "modified": "2019-10-30 13:08:18.971646",
  "modified_by": "Administrator", 
  "module": "Accounts", 
  "name": "Journal Entry Account", 
