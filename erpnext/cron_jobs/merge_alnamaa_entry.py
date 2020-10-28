@@ -7,9 +7,9 @@ def execute():
     journal_entry_id = "ANAM0000001"
 
 
-    frappe.db.sql(
-        """DELETE FROM `tabJournal Entry Account` WHERE `parent` = 'ANAM0000001' AND `idx` in (238, 308, 369, 390);"""
-    )
+    # frappe.db.sql(
+    #     """DELETE FROM `tabJournal Entry Account` WHERE `parent` = 'ANAM0000001' AND `idx` in (238, 308, 369, 390);"""
+    # )
     journal_entry_doc = frappe.get_doc(
         "Journal Entry",
         journal_entry_id
@@ -35,7 +35,8 @@ def execute():
         customer_group=None,
         title=""
     ))
-
+    journal_entry_doc.save()
+    frappe.db.commit()
     return
     others = ["ANAM0000954", "ANAM0000955", "ANAM0000956"]
 
