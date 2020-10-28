@@ -37,6 +37,10 @@ def execute():
                 customer_group=acc_entry.customer_group,
                 title=acc_entry.title
             ))
+            print(acc_entry.debit)
+            print(acc_entry.credit)
+            print(acc_entry.title)
 
+        entry_doc.cancel()
     journal_entry_doc.save()
     frappe.db.commit()
