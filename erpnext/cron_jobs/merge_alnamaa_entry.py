@@ -5,19 +5,20 @@ import frappe
 def execute():
 
     journal_entry_id = "ANAM0000001"
+
+
+    frappe.db.sql(
+        """DELETE FROM `tabJournal Entry Account` WHERE `parent` = 'ANAM0000001' AND `idx` in (238, 308, 369, 390);"""
+    )
     journal_entry_doc = frappe.get_doc(
         "Journal Entry",
         journal_entry_id
     )
-
-    # frappe.db.sql(
-    #     """DELETE FROM `tabJournal Entry Account` WHERE `parent` = 'ANAM0000001' AND `idx` in (238, 308, 369, 390);"""
-    # )
-    for acc_entry in journal_entry_doc.accounts:
-        if int(acc_entry.idx) in (238, 308, 369, 390):
-            print(acc_entry)
-
-    return
+    # for acc_entry in journal_entry_doc.accounts:
+    #     if int(acc_entry.idx) in (238, 308, 369, 390):
+    #         print(acc_entry)
+    #
+    # return
     journal_entry_doc.append("accounts", dict(
         account="30401 - الارباح المرحله - أع ن",
         party_type=None,
