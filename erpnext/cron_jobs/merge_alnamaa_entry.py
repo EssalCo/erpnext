@@ -5,7 +5,37 @@ import frappe
 def execute():
 
     journal_entry_id = "ANAM0000001"
+    journal_entry_doc = frappe.get_doc(
+        "Journal Entry",
+        journal_entry_id
+    )
 
+    # frappe.db.sql(
+    #     """DELETE FROM `tabJournal Entry Account` WHERE `parent` = 'ANAM0000001' AND `idx` in (238, 308, 369, 390);"""
+    # )
+    for acc_entry in journal_entry_doc:
+        if int(acc_entry.index) in (238, 308, 369, 390):
+            print(acc_entry)
+
+    return
+    journal_entry_doc.append("accounts", dict(
+        account="30401 - الارباح المرحله - أع ن",
+        party_type=None,
+        party=None,
+        exchange_rate=1,
+        debit_in_account_currency=0,
+        debit=0,
+        credit_in_account_currency=608976.78,
+        credit=608976.78,
+        project=None,
+        is_advance="No",
+        cost_center="الاداره العامه - أع ن",
+        journal_note="",
+        customer_group=None,
+        title=""
+    ))
+
+    return
     others = ["ANAM0000954", "ANAM0000955", "ANAM0000956"]
 
     journal_entry_doc = frappe.get_doc(
