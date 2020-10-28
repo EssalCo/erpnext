@@ -13,7 +13,7 @@ def execute():
     # frappe.db.sql(
     #     """DELETE FROM `tabJournal Entry Account` WHERE `parent` = 'ANAM0000001' AND `idx` in (238, 308, 369, 390);"""
     # )
-    for acc_entry in journal_entry_doc:
+    for acc_entry in journal_entry_doc.accounts:
         if int(acc_entry.idx) in (238, 308, 369, 390):
             print(acc_entry)
 
