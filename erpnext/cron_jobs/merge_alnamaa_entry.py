@@ -14,6 +14,8 @@ def execute():
         "Journal Entry",
         journal_entry_id
     )
+    journal_entry_doc.submit()
+    return
     # for acc_entry in journal_entry_doc.accounts:
     #     if int(acc_entry.idx) in (238, 308, 369, 390):
     #         print(acc_entry)
