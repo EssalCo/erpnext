@@ -20,14 +20,14 @@ def execute():
     #
     # return
     journal_entry_doc.append("accounts", dict(
-        account="30401 - الارباح المرحله - أع ن",
+        account="2020501 - مخصص الزكاه الشرعيه - أع ن",
         party_type=None,
         party=None,
         exchange_rate=1,
         debit_in_account_currency=0,
         debit=0,
-        credit_in_account_currency=608976.78,
-        credit=608976.78,
+        credit_in_account_currency=17768.73,
+        credit=17768.73,
         project=None,
         is_advance="No",
         cost_center="الاداره العامه - أع ن",
