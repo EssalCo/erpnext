@@ -49,7 +49,7 @@ def get_all_tasks():
                 "company",
             ],
             filters=_filters,
-            ignorer_permissions=True,
+            ignore_permissions=True,
             ignore_ifnull=True
             )
 
