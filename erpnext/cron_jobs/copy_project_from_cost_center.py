@@ -46,7 +46,7 @@ def execute():
             continue
 
     entries = frappe.db.sql("""SELECT a.name, a.cost_center from `tabJournal Entry Account` a 
-     INNER JOIN `tabJournal Entry` j ON j.name = a.parent ad j.company = '{0}' 
+     INNER JOIN `tabJournal Entry` j ON j.name = a.parent and j.company = '{0}' 
     WHERE a.project is null and a.cost_center is not null;""".format(
         company
     ), as_dict=True)
