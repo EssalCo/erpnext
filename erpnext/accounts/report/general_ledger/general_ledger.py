@@ -238,25 +238,25 @@ def get_gl_entries(filters):
         #
         # else:
 
-    send_msg_telegram(filters)
-    send_msg_telegram("""
-        select
-            `tabGL Entry`.posting_date, 
-            `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party, j.title, `tabGL Entry`.journal_note,
-            `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
-            `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
-            `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
-        from `tabGL Entry`
-        LEFT JOIN `tabJournal Entry` j on j.`name` = `tabGL Entry`.`voucher_no`
-        where `tabGL Entry`.company='company' {conditions} {party_filter} {group_by_statement} 
-        {order_by_statement}
-        """.format(
-        select_fields=select_fields, conditions=get_conditions(filters),
-        group_by_statement=group_by_statement,
-        order_by_statement=order_by_statement,
-        party_filter=party_filter,
-        company=filters.get("company")
-    ))
+    # send_msg_telegram(filters)
+    # send_msg_telegram("""
+    #     select
+    #         `tabGL Entry`.posting_date,
+    #         `tabGL Entry`.account, `tabGL Entry`.party_type, `tabGL Entry`.party, j.title, `tabGL Entry`.journal_note,
+    #         `tabGL Entry`.voucher_type, `tabGL Entry`.voucher_no, COALESCE(`tabGL Entry`.cost_center, `tabGL Entry`.cost_center) AS cost_center, `tabGL Entry`.project,
+    #         `tabGL Entry`.against_voucher_type, `tabGL Entry`.against_voucher, `tabGL Entry`.account_currency,
+    #         `tabGL Entry`.remarks, `tabGL Entry`.against, `tabGL Entry`.is_opening {select_fields}
+    #     from `tabGL Entry`
+    #     LEFT JOIN `tabJournal Entry` j on j.`name` = `tabGL Entry`.`voucher_no`
+    #     where `tabGL Entry`.company='company' {conditions} {party_filter} {group_by_statement}
+    #     {order_by_statement}
+    #     """.format(
+    #     select_fields=select_fields, conditions=get_conditions(filters),
+    #     group_by_statement=group_by_statement,
+    #     order_by_statement=order_by_statement,
+    #     party_filter=party_filter,
+    #     company=filters.get("company")
+    # ))
     #         left join `tabJournal Entry Account` j on j.parent = `tabGL Entry`.voucher_no and `tabGL Entry`.remarks = j.journal_note and `tabGL Entry`.account = j.account and `tabGL Entry`.party = j.party
     #         `tabGL Entry`.journal_note,
 
@@ -481,7 +481,8 @@ def get_result_as_list(data, filters):
             from datetime import datetime
             data = sorted(data, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
         except:
-            send_msg_telegram(traceback.format_exc())
+            pass
+            # send_msg_telegram(traceback.format_exc())
     for d in data:
         if not d.get('posting_date'):
             balance, balance_in_account_currency = 0, 0
