@@ -21,7 +21,7 @@ def execute():
                 name=entry.cost_center
             ), "cost_center_name"
         )
-        print cost_center
+        # print cost_center
         if cost_center:
             project = frappe.get_value(
                 "Project",
@@ -59,7 +59,7 @@ def execute():
                 name=entry.cost_center
             ), "cost_center_name"
         )
-        print cost_center
+        # print cost_center
         if cost_center:
             project = frappe.get_value(
                 "Project",
