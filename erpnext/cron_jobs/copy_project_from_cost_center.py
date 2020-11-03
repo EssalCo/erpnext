@@ -66,7 +66,7 @@ def execute():
                 "Project",
                 dict(
                     project_name=cost_center
-                )
+                ), "name"
             )
             # print str(project)
             if project:
