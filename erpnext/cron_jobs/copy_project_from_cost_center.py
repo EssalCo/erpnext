@@ -33,9 +33,9 @@ def execute():
             if project:
                 print("project found")
                 frappe.db.sql(
-                    """update `tabGL Entry` SET project = '{0}' WHERE name = '{1}';""".format(
-                        project,
-                        entry.name
+                    """update `tabGL Entry` SET project = %(project)s WHERE name = %(entry)s;""", dict(
+                        project=project,
+                        entry=entry.name
                     )
                 )
                 pass
@@ -46,7 +46,7 @@ def execute():
             print("ERROR: no cost center!!")
             continue
 
-    entries = frappe.db.sql("""SELECT a.name, a.cost_center from `tabJournal Entry Account` a 
+    entries = frappe.db.sql("""SELECT a.name, a.cost_center, a.project from `tabJournal Entry Account` a 
      INNER JOIN `tabJournal Entry` j ON j.name = a.parent and j.company = '{0}' 
     WHERE a.project is null and a.cost_center is not null;""".format(
         company
@@ -75,9 +75,9 @@ def execute():
                 print("project found")
 
                 frappe.db.sql(
-                    """update `tabJournal Entry Account` SET project = '{0}' WHERE name = '{1}';""".format(
-                        project,
-                        entry.name
+                    """update `tabJournal Entry Account` SET project = %(project)s WHERE name = %(entry)s;""", dict(
+                        project=project,
+                        entry=entry.name
                     )
                 )
             else:
