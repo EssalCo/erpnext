@@ -27,17 +27,17 @@ def execute():
                 "Project",
                 dict(
                     project_name=cost_center,
-                    company=company
+                    # company=company
                 ), "name"
             )
             if project:
                 print("project found")
-                # frappe.db.sql(
-                #     """update `tabGL Entry` SET project = '{0}' WHERE name = '{1}';""".format(
-                #         project,
-                #         entry.name
-                #     )
-                # )
+                frappe.db.sql(
+                    """update `tabGL Entry` SET project = '{0}' WHERE name = '{1}';""".format(
+                        project,
+                        entry.name
+                    )
+                )
                 pass
             else:
                 print("ERROR: no project found!!")
@@ -67,19 +67,19 @@ def execute():
                 "Project",
                 dict(
                     project_name=cost_center,
-                    company=company
+                    # company=company
                 ), "name"
             )
             # print str(project)
             if project:
                 print("project found")
 
-                # frappe.db.sql(
-                #     """update `tabJournal Entry Account` SET project = '{0}' WHERE name = '{1}';""".format(
-                #         project,
-                #         entry.name
-                #     )
-                # )
+                frappe.db.sql(
+                    """update `tabJournal Entry Account` SET project = '{0}' WHERE name = '{1}';""".format(
+                        project,
+                        entry.name
+                    )
+                )
             else:
                 print("ERROR: no project found!!")
                 continue
