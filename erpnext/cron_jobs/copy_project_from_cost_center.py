@@ -27,7 +27,7 @@ def execute():
                 "Project",
                 dict(
                     project_name=cost_center
-                )
+                ), "name"
             )
             if project:
                 print("project found")
