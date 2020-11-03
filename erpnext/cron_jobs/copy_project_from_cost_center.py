@@ -13,7 +13,7 @@ def execute():
 
     for entry in entries:
         print entry.name
-        print str(entry.cost_center)
+        # print str(entry.cost_center)
 
         cost_center = frappe.get_value(
             "Cost Center",
@@ -29,8 +29,8 @@ def execute():
                     project_name=cost_center
                 )
             )
-            print str(project)
             if project:
+                print("project found")
                 # frappe.db.sql(
                 #     """update `tabGL Entry` SET project = '{0}' WHERE name = '{1}';""".format(
                 #         project,
@@ -51,7 +51,7 @@ def execute():
     ), as_dict=True)
     for entry in entries:
         print entry.name
-        print str(entry.cost_center)
+        # print str(entry.cost_center)
 
         cost_center = frappe.get_value(
             "Cost Center",
@@ -67,15 +67,16 @@ def execute():
                     project_name=cost_center
                 )
             )
-            print str(project)
+            # print str(project)
             if project:
+                print("project found")
+
                 # frappe.db.sql(
                 #     """update `tabJournal Entry Account` SET project = '{0}' WHERE name = '{1}';""".format(
                 #         project,
                 #         entry.name
                 #     )
                 # )
-                pass
             else:
                 print("ERROR: no project found!!")
                 continue
