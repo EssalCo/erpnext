@@ -18,7 +18,7 @@
    "allow_on_submit": 0, 
    "bold": 1, 
    "collapsible": 0, 
-   "columns": 0,
+   "columns": 3,
    "fieldname": "account", 
    "fieldtype": "Link", 
    "hidden": 0, 
@@ -43,7 +43,8 @@
    "reqd": 1, 
    "search_index": 1, 
    "set_only_once": 0, 
-   "unique": 0
+   "unique": 0,
+   "width": "179px"
   },
   {
    "allow_bulk_edit": 0, 
@@ -112,7 +113,7 @@
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
-   "columns": 0,
+   "columns": 2,
    "default": ":Company", 
    "description": "If Income or Expense", 
    "fieldname": "cost_center", 
@@ -141,7 +142,7 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0, 
-   "width": "80px"
+   "width": "119px"
   },
   {
    "allow_bulk_edit": 0,
@@ -298,7 +299,7 @@
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
-   "columns": 2,
+   "columns": 1,
    "fieldname": "party", 
    "fieldtype": "Dynamic Link", 
    "hidden": 0, 
@@ -321,7 +322,9 @@
    "reqd": 0, 
    "search_index": 0, 
    "set_only_once": 0, 
-   "unique": 0
+   "unique": 0,
+   "width": "60px"
+
   },
   {
    "allow_bulk_edit": 0, 
@@ -539,7 +542,7 @@
    "allow_on_submit": 0, 
    "bold": 1, 
    "collapsible": 0, 
-   "columns": 1,
+   "columns": 2,
    "fieldname": "debit_in_account_currency", 
    "fieldtype": "Currency", 
    "hidden": 0, 
@@ -564,7 +567,7 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0,
-   "width": "100px"
+   "width": "119px"
   },
   {
    "allow_bulk_edit": 0, 
@@ -632,7 +635,7 @@
    "allow_on_submit": 0, 
    "bold": 1, 
    "collapsible": 0, 
-   "columns": 1,
+   "columns": 2,
    "fieldname": "credit_in_account_currency", 
    "fieldtype": "Currency", 
    "hidden": 0, 
@@ -657,14 +660,14 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0,
-   "width": "100px"
+   "width": "119px"
   },
   {
    "allow_bulk_edit": 0, 
    "allow_on_submit": 0, 
    "bold": 1, 
    "collapsible": 0, 
-   "columns": 0, 
+   "columns": 0,
    "fieldname": "credit", 
    "fieldtype": "Currency", 
    "hidden": 0, 
@@ -885,7 +888,7 @@
  "issingle": 0, 
  "istable": 1, 
  "max_attachments": 0, 
- "modified": "2019-11-09 13:08:18.971646",
+ "modified": "2019-11-10 13:08:18.971646",
  "modified_by": "Administrator", 
  "module": "Accounts", 
  "name": "Journal Entry Account", 
