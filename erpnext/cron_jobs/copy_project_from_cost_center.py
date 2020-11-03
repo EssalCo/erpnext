@@ -26,7 +26,8 @@ def execute():
             project = frappe.get_value(
                 "Project",
                 dict(
-                    project_name=cost_center
+                    project_name=cost_center,
+                    company=company
                 ), "name"
             )
             if project:
@@ -65,7 +66,8 @@ def execute():
             project = frappe.get_value(
                 "Project",
                 dict(
-                    project_name=cost_center
+                    project_name=cost_center,
+                    company=company
                 ), "name"
             )
             # print str(project)
