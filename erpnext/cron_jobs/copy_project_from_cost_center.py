@@ -45,8 +45,9 @@ def execute():
             print("ERROR: no cost center!!")
             continue
 
-    entries = frappe.db.sql("""SELECT name, cost_center from `tabJournal Entry Account` where voucher_type='Journal Entry' and company = '{0}' 
-    and project is null and cost_center is not null;""".format(
+    entries = frappe.db.sql("""SELECT a.name, a.cost_center from `tabJournal Entry Account` a 
+     INNER JOIN `tabJournal Entry` j ON j.name = a.parent ad j.company = '{0}' 
+    WHERE a.project is null and a.cost_center is not null;""".format(
         company
     ), as_dict=True)
     for entry in entries:
