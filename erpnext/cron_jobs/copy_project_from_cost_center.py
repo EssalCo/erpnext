@@ -9,7 +9,7 @@ def execute():
     entries = frappe.db.sql("""SELECT name, cost_center, project from `tabGL Entry` where voucher_type='Journal Entry' and company = '{0}'
      and project is null and cost_center is not null;""".format(
         company
-    ))
+    ), as_dict=True)
 
     for entry in entries:
         print entry.name
@@ -48,5 +48,5 @@ def execute():
     entries = frappe.db.sql("""SELECT name, cost_center from `tabJournal Entry Account` where voucher_type='Journal Entry' and company = '{0}' 
     and project is null and cost_center is not null;""".format(
         company
-    ))
+    ), as_dict=True)
     print entries
