@@ -481,8 +481,8 @@ def get_result_as_list(data, filters):
             from datetime import datetime
             data = sorted(data, key=lambda o: (o.get('posting_date', datetime.now().date())), reverse=False)
         except:
-            pass
-            # send_msg_telegram(traceback.format_exc())
+            # pass
+            send_msg_telegram(traceback.format_exc())
     for d in data:
         if not d.get('posting_date'):
             balance, balance_in_account_currency = 0, 0
