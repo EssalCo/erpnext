@@ -112,7 +112,7 @@ class JournalEntry(AccountsController):
         except:
             site_name = ""
         do_not_merge_similar_entries = not bool(getattr(self, "do_not_merge_similar_entries", False))
-        if site_name in ("osaan.s1.essal.co", "alnamaa.s1.essal.co"):
+        if site_name in ("osaan.s1.essal.co", "alnamaa.s1.essal.co", "tahlia.s1.essal.co"):
             self.do_not_merge_similar_entries = True
         if not self.owner_name:
             self.owner_name = frappe.get_value("User", self.owner, "full_name")

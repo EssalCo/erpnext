@@ -113,7 +113,7 @@
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
-   "columns": 1,
+   "columns": 2,
    "default": ":Company", 
    "description": "If Income or Expense", 
    "fieldname": "cost_center", 
@@ -142,7 +142,7 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0, 
-   "width": "60px"
+   "width": "119px"
   },
   {
    "allow_bulk_edit": 0,
@@ -299,7 +299,7 @@
    "allow_on_submit": 0, 
    "bold": 0, 
    "collapsible": 0, 
-   "columns": 1,
+   "columns": 2,
    "fieldname": "party", 
    "fieldtype": "Dynamic Link", 
    "hidden": 0, 
@@ -323,7 +323,7 @@
    "search_index": 0, 
    "set_only_once": 0, 
    "unique": 0,
-   "width": "60px"
+   "width": "119px"
 
   },
   {
