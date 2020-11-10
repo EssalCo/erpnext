@@ -106,6 +106,13 @@ def get_data():
 			"items": [
 				{
 					"type": "report",
+					"label": _("Trial Balance (New Version)"),
+					"name": "Trial Balance New",
+					"doctype": "GL Entry",
+					"is_query_report": True,
+				},
+				{
+					"type": "report",
 					"name": "Trial Balance",
 					"doctype": "GL Entry",
 					"is_query_report": True,
@@ -454,13 +461,7 @@ def get_data():
 					"name": "Sales Payment Summary",
 					"doctype": "Sales Invoice"
 				},
-				{
-					"type": "report",
-					"label": _("Trial Balance (New Version)"),
-					"name": "Trial Balance New",
-					"doctype": "GL Entry",
-					"is_query_report": True,
-				},
+
 			]
 		},
 		{
