@@ -115,8 +115,8 @@ def get_rootwise_opening_balances(filters, report_type):
 		"report_type": report_type,
 		"year_start_date": filters.year_start_date,
 		"project": filters.project,
-		"finance_book": filters.finance_book,
-		"company_fb": frappe.db.get_value("Company", filters.company, 'default_finance_book')
+		# "finance_book": filters.finance_book,
+		# "company_fb": frappe.db.get_value("Company", filters.company, 'default_finance_book')
 	}
 
 
