@@ -260,53 +260,47 @@ def get_columns():
             "options": "Account",
             "width": 300
         },
-        {
-            "fieldname": "currency",
-            "label": _("Currency"),
-            "fieldtype": "Link",
-            "options": "Currency",
-            "hidden": 1
-        },
+        # {
+        #     "fieldname": "currency",
+        #     "label": _("Currency"),
+        #     "fieldtype": "Link",
+        #     "options": "Currency",
+        #     "hidden": 1
+        # },
         {
             "fieldname": "opening_debit",
             "label": _("Opening (Dr)"),
-            "fieldtype": "Currency",
-            "options": "currency",
+            "fieldtype": "Float",
             "width": 120
         },
         {
             "fieldname": "opening_credit",
             "label": _("Opening (Cr)"),
-            "fieldtype": "Currency",
-            "options": "currency",
+            "fieldtype": "Float",
             "width": 120
         },
         {
             "fieldname": "debit",
             "label": _("Debit"),
-            "fieldtype": "Currency",
-            "options": "currency",
+            "fieldtype": "Float",
             "width": 120
         },
         {
             "fieldname": "credit",
             "label": _("Credit"),
-            "fieldtype": "Currency",
-            "options": "currency",
+            "fieldtype": "Float",
             "width": 120
         },
         {
             "fieldname": "closing_debit",
             "label": _("Closing (Dr)"),
-            "fieldtype": "Currency",
-            "options": "currency",
+            "fieldtype": "Float",
             "width": 120
         },
         {
             "fieldname": "closing_credit",
             "label": _("Closing (Cr)"),
-            "fieldtype": "Currency",
-            "options": "currency",
+            "fieldtype": "Float",
             "width": 120
         }
     ]
