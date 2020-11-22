@@ -107,7 +107,7 @@ def get_data():
 				{
 					"type": "report",
 					"label": _("Trial Balance (New Version)"),
-					"name": "Trial Balance New",
+					"name": "Trial Balance 2020",
 					"doctype": "GL Entry",
 					"is_query_report": True,
 				},
@@ -135,13 +135,13 @@ def get_data():
 					"doctype": "GL Entry",
 					"is_query_report": True
 				},
-				{
-					"type": "report",
-					"label": _("Trial Balance - 2020"),
-					"name": "Trial Balance 2020",
-					"doctype": "GL Entry",
-					"is_query_report": True,
-				},
+				# {
+				# 	"type": "report",
+				# 	"label": _("Trial Balance - 2020"),
+				# 	"name": "Trial Balance 2020",
+				# 	"doctype": "GL Entry",
+				# 	"is_query_report": True,
+				# },
 			]
 		},
 		{
