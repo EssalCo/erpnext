@@ -22,9 +22,9 @@ def get_context(context):
             frappe.local.flags.redirect_location = "/desk"
             raise frappe.Redirect
 
-        if frappe.local.request_ip not in ("178.62.230.87", "35.242.132.201"):
-            frappe.respond_as_web_page(_("Invalid Request"), _("Unauthorized!"))
-            return
+        # if frappe.local.request_ip not in ("178.62.230.87", "35.242.132.201"):
+        #     frappe.respond_as_web_page(_("Invalid Request"), _("Unauthorized!"))
+        #     return
         # get settings from site config
         context.no_header = True
         context.for_test = 'asaas_login.html'
