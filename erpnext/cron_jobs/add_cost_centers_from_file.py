@@ -73,7 +73,7 @@ def execute():
             print row[0]
             print row[1]
             if not row[0] and row[1]:
-                parent_cost_center = row[1].decode('utf-8').replace(" ", "")
+                parent_cost_center = row[1].decode('utf-8')
                 doc = frappe.get_doc(
                     dict(
                         doctype="Cost Center",
