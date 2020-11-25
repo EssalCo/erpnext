@@ -159,7 +159,7 @@ class LoginManager:
                                            full_name=self.full_name, user_type=self.user_type)
 
         # reset user if changed to Guest
-        self.user = frappe.local.session_obj.user
+        self.user = frappe.local.session_obj.user.name
         frappe.local.session = frappe.local.session_obj.data
         self.clear_active_sessions()
 
