@@ -67,6 +67,7 @@ def execute():
             print(counter)
             # print row
             first_row = row[0]
+            print(first_row)
             if not first_row:
                 parent_cost_center = row[1]
                 doc = frappe.get_doc(
