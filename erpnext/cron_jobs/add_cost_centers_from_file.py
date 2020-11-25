@@ -83,10 +83,7 @@ def execute():
                     )
                 )
                 doc.flags.ignore_mandatory = True
-                try:
-                    doc.insert(ignore_permissions=True)
-                except frappe.exceptions.DuplicateEntryError:
-                    pass
+                doc.insert(ignore_permissions=True)
             else:
                 cost_center_name = row[1]
                 doc = frappe.get_doc(
@@ -98,8 +95,4 @@ def execute():
                         is_group=1
                     )
                 )
-                try:
-                    doc.insert(ignore_permissions=True)
-
-                except frappe.exceptions.DuplicateEntryError:
-                    pass
+                doc.insert(ignore_permissions=True)
