@@ -78,7 +78,7 @@ def execute():
                     dict(
                         doctype="Cost Center",
                         cost_center_name=parent_cost_center,
-                        parent_cost_center=main_cost_center,
+                        parent_cost_center=None,
                         company=company.name,
                         is_group=1
                     )
@@ -100,7 +100,7 @@ def execute():
                         cost_center_name=cost_center_name,
                         parent_cost_center=parent_cost_center,
                         company=company.name,
-                        is_group=1
+                        is_group=0
                     )
                 )
                 doc.insert(ignore_permissions=True)
