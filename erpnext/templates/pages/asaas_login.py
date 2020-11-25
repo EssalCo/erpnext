@@ -209,9 +209,9 @@ class LoginManager:
                 # check if bypass restrict ip is enabled for login user
                 bypass_restrict_ip_check = int(
                     frappe.db.get_value('User', self.user, 'bypass_restrict_ip_check_if_2fa_enabled') or 0)
-        for ip in ip_list:
-            if frappe.local.request_ip.startswith(ip) or bypass_restrict_ip_check:
-                return
+        # for ip in ip_list:
+        #     if frappe.local.request_ip.startswith(ip) or bypass_restrict_ip_check:
+        #         return
 
         frappe.throw(_("Not allowed from this IP Address"), frappe.AuthenticationError)
 
