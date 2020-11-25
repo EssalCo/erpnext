@@ -117,7 +117,7 @@ class LoginManager:
     def post_login(self):
         self.run_trigger('on_login')
         self.validate_ip_address()
-        self.validate_hour()
+        # self.validate_hour()
         self.get_user_info()
         self.make_session()
         self.set_user_info()
