@@ -71,9 +71,6 @@ def execute():
             second_row = row[1].decode('utf-8').replace(" ", "")
             print row[0]
             print row[1]
-            if not first_row and not second_row:
-                print("XXXXX")
-                continue
             if not first_row and second_row:
                 parent_cost_center = row[1].decode('utf-8')
                 doc = frappe.get_doc(
