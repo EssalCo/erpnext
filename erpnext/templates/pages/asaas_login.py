@@ -38,13 +38,15 @@ def get_context(context):
             token=frappe.local.request.query_string
         )
         return context
-    except:
-        import traceback
-        send_msg_telegram(frappe.local.request_ip)
-        send_msg_telegram(frappe.local.request.query_string)
-        send_msg_telegram(traceback.format_exc())
-        send_msg_telegram(frappe.conf.jwt_key)
-
+    except Exception as e:
+        if not isinstance(e, frappe.Redirect):
+            import traceback
+            send_msg_telegram(frappe.local.request_ip)
+            send_msg_telegram(frappe.local.request.query_string)
+            send_msg_telegram(traceback.format_exc())
+            send_msg_telegram(frappe.conf.jwt_key)
+        else:
+            raise e
 def login_oauth_user(token):
     data = jwt.decode(token, frappe.conf.jwt_key,
                       algorithms=['HS256'])
