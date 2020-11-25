@@ -30,7 +30,6 @@ def execute():
         doc = frappe.get_doc(
             "Cost Center",
             dict(
-                doctype="Cost Center",
                 parent_cost_center=None,
                 company=company.name,
             )
