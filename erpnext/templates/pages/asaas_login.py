@@ -37,6 +37,8 @@ def get_context(context):
         login_oauth_user(
             token=frappe.local.request.query_string
         )
+        frappe.local.flags.redirect_location = "/desk"
+        raise frappe.Redirect
         return context
     except Exception as e:
         if not isinstance(e, frappe.Redirect):
@@ -47,6 +49,7 @@ def get_context(context):
             send_msg_telegram(frappe.conf.jwt_key)
         else:
             raise e
+
 def login_oauth_user(token):
     data = jwt.decode(token, frappe.conf.jwt_key,
                       algorithms=['HS256'])
