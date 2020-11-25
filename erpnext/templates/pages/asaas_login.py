@@ -93,11 +93,11 @@ class LoginManager:
         self.full_name = None
         self.user_type = None
 
-        if self.login() == False: return
-        self.resume = False
-
-        # run login triggers
-        self.run_trigger('on_session_creation')
+        # if self.login() == False: return
+        # self.resume = False
+        #
+        # # run login triggers
+        # self.run_trigger('on_session_creation')
         try:
             self.resume = True
             self.make_session(resume=True)
