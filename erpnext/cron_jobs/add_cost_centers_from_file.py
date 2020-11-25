@@ -64,6 +64,7 @@ def execute():
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
             counter += 1
+            if counter == 1: continue
             print(counter)
             print row
             first_row = row[0].decode('utf-8').replace(" ", "")
@@ -73,7 +74,6 @@ def execute():
             if not first_row and not second_row:
                 print("XXXXX")
                 continue
-            continue
             if not first_row and second_row:
                 parent_cost_center = row[1].decode('utf-8')
                 doc = frappe.get_doc(
