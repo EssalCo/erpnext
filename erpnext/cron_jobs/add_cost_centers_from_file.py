@@ -68,8 +68,8 @@ def execute():
             print row
             first_row = row[0].decode('utf-8').replace(" ", "")
             second_row = row[1].decode('utf-8').replace(" ", "")
-            print first_row
-            print second_row
+            print row[0]
+            print row[1]
             if not first_row and not second_row: continue
             if not first_row:
                 parent_cost_center = row[1].decode('utf-8')
