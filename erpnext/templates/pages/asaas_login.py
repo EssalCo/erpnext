@@ -195,9 +195,9 @@ class LoginManager:
     def validate_ip_address(self):
         """check if IP Address is valid"""
         user = frappe.get_doc("User", self.user.name)
-        ip_list = user.get_restricted_ip_list()
-        if not ip_list:
-            return
+        # ip_list = user.get_restricted_ip_list()
+        # if not ip_list:
+        #     return
 
         bypass_restrict_ip_check = 0
         # check if two factor auth is enabled
