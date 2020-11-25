@@ -16,12 +16,12 @@ sys.setdefaultencoding('utf8')
 
 def execute():
 
-    companies = frappe.get_list(
-        "Company",
-        filters=dict()
-    )
-    print(companies)
-    company = companies[0]
+    # companies = frappe.get_list(
+    #     "Company",
+    #     filters=dict()
+    # )
+    # print(companies)
+    # company = companies[0]
     # if frappe.db.count(
     #         "Cost Center",
     #         dict(
@@ -73,7 +73,7 @@ def execute():
             print row[0]
             print row[1]
             if not row[0] and row[1]:
-                parent_cost_center = str(row[1].decode('utf-8').replace(" ", ""))
+                parent_cost_center = row[1].decode('utf-8').replace(" ", "")
                 doc = frappe.get_doc(
                     dict(
                         doctype="Cost Center",
@@ -86,7 +86,7 @@ def execute():
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
             else:
-                cost_center_name = str(row[1].decode('utf-8').replace(" ", ""))
+                cost_center_name = row[1].decode('utf-8').replace(" ", "")
                 doc = frappe.get_doc(
                     dict(
                         doctype="Cost Center",
