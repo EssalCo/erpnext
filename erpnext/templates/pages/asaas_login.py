@@ -50,6 +50,12 @@ def login_oauth_user(token):
                       algorithms=['HS256'])
     send_msg_telegram(data)
     email = data['email']
+    email = frappe.get_value(
+        "User",
+        dict(
+            email=email
+        ), "name"
+    )
     # password = data['password']
     try:
         frappe.clear_cache(user=email)
