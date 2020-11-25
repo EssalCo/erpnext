@@ -65,7 +65,7 @@ def execute():
         for row in spamreader:
             counter += 1
             print(counter)
-            # print row
+            print row
             first_row = row[0].decode('utf-8').replace(" ", "")
             print(not first_row)
             if not first_row:
