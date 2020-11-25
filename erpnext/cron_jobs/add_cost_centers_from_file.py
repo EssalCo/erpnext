@@ -85,6 +85,13 @@ def execute():
                 )
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
+                parent_cost_center = frappe.get_value(
+                    "Cost Center",
+                    dict(
+                        cost_center_name=parent_cost_center
+                    ),
+                    "name"
+                )
             else:
                 cost_center_name = row[1].decode('utf-8').replace(" ", "")
                 doc = frappe.get_doc(
