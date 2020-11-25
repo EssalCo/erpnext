@@ -67,7 +67,10 @@ def execute():
             print(counter)
             print row
             first_row = row[0].decode('utf-8').replace(" ", "")
-            print(not first_row)
+            second_row = row[1].decode('utf-8').replace(" ", "")
+            print first_row
+            print second_row
+            if not first_row and not second_row: continue
             if not first_row:
                 parent_cost_center = row[1].decode('utf-8')
                 doc = frappe.get_doc(
