@@ -66,10 +66,10 @@ def execute():
             counter += 1
             print(counter)
             # print row
-            first_row = str(row[0].decode('utf-8')).replace(" ", "")
+            first_row = row[0].decode('utf-8').replace(" ", "")
             # print(first_row)
             if not first_row:
-                parent_cost_center = str(row[1].decode('utf-8'))
+                parent_cost_center = row[1].decode('utf-8')
                 doc = frappe.get_doc(
                     dict(
                         doctype="Cost Center",
