@@ -11,7 +11,8 @@ import csv
 from frappe.utils.file_manager import get_file_path
 from datetime import datetime
 from umalqurra.hijri_date import HijriDate
-
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def execute():
 
