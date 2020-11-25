@@ -59,11 +59,12 @@ def execute():
             company_name="مؤسسة خالد حسين مرفق العقارية"
         )
     )
-
+    counter = 0
     with open(current_file, 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=str(","), quotechar=str("|"))
         for row in spamreader:
-
+            counter += 1
+            print(counter)
             # print row
             first_row = row[0]
             if not first_row:
