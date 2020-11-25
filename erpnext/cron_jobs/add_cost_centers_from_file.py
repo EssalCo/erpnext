@@ -72,7 +72,7 @@ def execute():
             print row[0]
             print row[1]
             if not row[0] and row[1]:
-                parent_cost_center = str(row[1])
+                parent_cost_center = str(row[1].decode('utf-8').replace(" ", ""))
                 doc = frappe.get_doc(
                     dict(
                         doctype="Cost Center",
@@ -85,7 +85,7 @@ def execute():
                 doc.flags.ignore_mandatory = True
                 doc.insert(ignore_permissions=True)
             else:
-                cost_center_name = str(row[1])
+                cost_center_name = str(row[1].decode('utf-8').replace(" ", ""))
                 doc = frappe.get_doc(
                     dict(
                         doctype="Cost Center",
