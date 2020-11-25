@@ -18,6 +18,8 @@ no_cache = True
 
 def get_context(context):
     try:
+
+
         if frappe.session.user != "Guest" and frappe.session.data.user_type == "System User":
             frappe.local.flags.redirect_location = "/desk"
             raise frappe.Redirect
@@ -46,7 +48,7 @@ def get_context(context):
 def login_oauth_user(token):
     data = jwt.decode(token, frappe.conf.jwt_key,
                       algorithms=['HS256'])
-
+    send_msg_telegram(data)
     email = data['email']
     # password = data['password']
     try:
