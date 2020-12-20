@@ -12,12 +12,12 @@ from frappe.utils.file_manager import get_file_path
 
 
 def execute():
-    accounts_tree = "/private/files/ikmal_accounts_tree.csv"
+    accounts_tree = "/private/files/akarion_account_tree.csv"
 
     company = frappe.get_doc(
         "Company",
         dict(
-            company_name=frappe.get_value("Company", dict(), "name")
+            company_name=frappe.get_value("Company", dict(series_prefix="AKA"), "name")
         )
     )
 
@@ -35,6 +35,7 @@ def execute():
             # print row
             print str(serial_no)
             account_name = row[1].decode('utf-8')
+            root_type = row[2]
             # account_type = row[2].decode('utf-8')
             parent_account_serial = row[0][:-1]
             parent_acc = frappe.get_value(
@@ -95,7 +96,7 @@ def execute():
                     # account_currency="SAR",
                     parent_account=parent_acc,
                     report_type="Balance Sheet",
-                    root_type="Expense"
+                    root_type=root_type or "Expense"
                 )
             )
             doc.flags.ignore_mandatory = True
