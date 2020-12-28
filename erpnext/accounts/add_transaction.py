@@ -461,7 +461,25 @@ def add_transaction_v2():
             import json
             transactions_list = json.loads(transactions_list)
         # send_msg_telegram("transactions" + str(transactions_list))
-
+        customer_group = frappe.get_list("Customer Group",
+                                         fields=["name"],
+                                         ignore_permissions=True,
+                                         limit=1)
+        customer_group = customer_group[0]["name"] if len(customer_group) else "Individual"
+        customer_territory = frappe.get_list("Territory",
+                                             fields=["name"],
+                                             ignore_permissions=True,
+                                             limit=1)
+        if len(customer_territory) == 0:
+            frappe.get_doc({
+                "doctype": "Territory",
+                "territory_name": "All Territories",
+            }).insert(ignore_permissions=True)
+            customer_territory = frappe.get_list("Territory",
+                                                 fields=["name"],
+                                                 ignore_permissions=True,
+                                                 limit=1)
+        customer_territory = customer_territory[0]["name"] if len(customer_territory) else "All Territories"
         for transaction in transactions_list:
             debit = float(transaction.get('debit_amount', 0) or 0)
             credit = float(transaction.get('credit_amount', 0) or 0)
@@ -479,9 +497,6 @@ def add_transaction_v2():
                 if len(frappe.get_list("Customer",
                                        filters={"customer_name": "{0}@{1}".format(account_data.account_name,
                                                                                   site_name)})) == 0:
-
-                    customer_group = "Individual"
-                    customer_territory = "All Territories"
 
                     to_customer = frappe.get_doc(
                         doctype="Customer",
