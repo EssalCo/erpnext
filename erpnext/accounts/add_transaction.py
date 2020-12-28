@@ -892,6 +892,34 @@ def add_transaction_v3():
         voucher_no = data.get('voucher_no', '')
         frappe.set_user("Administrator")
 
+        customer_group = frappe.get_list("Customer Group",
+                                         fields=["name"],
+                                         ignore_permissions=True,
+                                         limit=1)
+        if len(customer_group) == 0:
+            frappe.get_doc({
+                "doctype": "Customer Group",
+                "customer_group_name": "Individual",
+            }).insert(ignore_permissions=True)
+            customer_group = frappe.get_list("Customer Group",
+                                             fields=["name"],
+                                             ignore_permissions=True,
+                                             limit=1)
+        customer_group = customer_group[0]["name"] if len(customer_group) else "Individual"
+        customer_territory = frappe.get_list("Territory",
+                                             fields=["name"],
+                                             ignore_permissions=True,
+                                             limit=1)
+        if len(customer_territory) == 0:
+            frappe.get_doc({
+                "doctype": "Territory",
+                "territory_name": "All Territories",
+            }).insert(ignore_permissions=True)
+            customer_territory = frappe.get_list("Territory",
+                                                 fields=["name"],
+                                                 ignore_permissions=True,
+                                                 limit=1)
+        customer_territory = customer_territory[0]["name"] if len(customer_territory) else "All Territories"
         if branch:
             company = branch
 
@@ -954,9 +982,6 @@ def add_transaction_v3():
                 if len(frappe.get_list("Customer",
                                        filters={"customer_name": "{0}@{1}".format(account_data.account_name,
                                                                                   site_name)})) == 0:
-
-                    customer_group = "Individual"
-                    customer_territory = "All Territories"
 
                     to_customer = frappe.get_doc(
                         doctype="Customer",
