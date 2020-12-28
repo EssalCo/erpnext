@@ -465,6 +465,15 @@ def add_transaction_v2():
                                          fields=["name"],
                                          ignore_permissions=True,
                                          limit=1)
+        if len(customer_group) == 0:
+            frappe.get_doc({
+                "doctype": "Customer Group",
+                "customer_group_name": "Individual",
+            }).insert(ignore_permissions=True)
+            customer_group = frappe.get_list("Customer Group",
+                                             fields=["name"],
+                                             ignore_permissions=True,
+                                             limit=1)
         customer_group = customer_group[0]["name"] if len(customer_group) else "Individual"
         customer_territory = frappe.get_list("Territory",
                                              fields=["name"],
