@@ -74,6 +74,15 @@ def add_transaction():
                                                  fields=["name"],
                                                  ignore_permissions=True,
                                                  limit=1)
+            if len(customer_territory) == 0:
+                frappe.get_doc({
+                    "doctype": "Territory",
+                    "territory_name": "All Territories",
+                }).insert(ignore_permissions=True)
+                customer_territory = frappe.get_list("Territory",
+                                                     fields=["name"],
+                                                     ignore_permissions=True,
+                                                     limit=1)
             customer_territory = customer_territory[0]["name"] if len(customer_territory) else "All Territories"
 
             to_customer = frappe.get_doc(
