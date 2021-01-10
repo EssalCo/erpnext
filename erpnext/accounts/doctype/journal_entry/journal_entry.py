@@ -361,7 +361,12 @@ class JournalEntry(AccountsController):
         self.total_debit, self.total_credit, self.difference = 0, 0, 0
         for d in self.get("accounts"):
             if d.debit and d.credit:
-                dict_account = [temp.__dict__ for temp in self.get("accounts")]
+                dict_account = [dict(
+                    credit=temp.credit,
+                    debit=temp.debit,
+                    account=temp.account,
+                    journal_note=temp.journal_note
+                ) for temp in self.get("accounts")]
                 send_msg_telegram(str(dict_account))
                 frappe.throw(_("You cannot credit and debit same account at the same time"))
 
