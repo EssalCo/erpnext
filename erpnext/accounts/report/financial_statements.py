@@ -9,6 +9,7 @@ from frappe.utils import (flt, getdate, get_first_day, get_last_day, date_diff,
 	add_months, add_days, formatdate, cint)
 from erpnext.accounts.utils import get_fiscal_year
 from erpnext.utilities.send_telegram import send_msg_telegram
+import math
 
 
 def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_values=False,
@@ -22,11 +23,11 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 	# start with first day, so as to avoid year to_dates like 2-April if ever they occur]
 	year_start_date = getdate(fiscal_year.year_start_date)
 	year_end_date = getdate(fiscal_year.year_end_date)
-
+	months_of_year = min(12, diff_month(year_end_date, year_start_date))
 	months_to_add = {
-		"Yearly": min(12, diff_month(year_end_date, year_start_date)),
-		"Half-Yearly": 6,
-		"Quarterly": 3,
+		"Yearly": months_of_year,
+		"Half-Yearly": math.ceil(months_of_year / 2),
+		"Quarterly": math.ceil(months_of_year / 4),
 		"Monthly": 1
 	}[periodicity]
 
