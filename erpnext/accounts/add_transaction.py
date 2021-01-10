@@ -1010,7 +1010,7 @@ def add_transaction_v3():
                 total_credit += credit
                 found = False
                 for temp_account in getattr(journal_entry, "accounts", list()):
-                    if account == temp_account.account and temp_account.credit and temp_account.cost_center == cost_center:
+                    if account == temp_account.account and temp_account.credit and credit and temp_account.cost_center == cost_center:
                         temp_account.credit_in_account_currency += abs(credit) - abs(vat_amount)
                         temp_account.credit = temp_account.credit_in_account_currency
                         found = True
@@ -1065,7 +1065,7 @@ def add_transaction_v3():
                 total_debit += debit
                 found = False
                 for temp_account in getattr(journal_entry, "accounts", list()):
-                    if account == temp_account.account and temp_account.debit and temp_account.cost_center == cost_center:
+                    if account == temp_account.account and temp_account.debit and debit and temp_account.cost_center == cost_center:
                         temp_account.debit_in_account_currency += abs(debit) - abs(vat_amount)
                         temp_account.credit = temp_account.debit_in_account_currency
                         found = True
