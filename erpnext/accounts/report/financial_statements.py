@@ -24,7 +24,7 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 	year_end_date = getdate(fiscal_year.year_end_date)
 
 	months_to_add = {
-		"Yearly": 12,
+		"Yearly": min(12, diff_month(year_end_date, year_start_date)),
 		"Half-Yearly": 6,
 		"Quarterly": 3,
 		"Monthly": 1
@@ -84,6 +84,9 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 	send_msg_telegram(str(period_list))
 
 	return period_list
+
+def diff_month(d1, d2):
+	return (d1.year - d2.year) * 12 + d1.month - d2.month
 
 def get_fiscal_year_data(from_fiscal_year, to_fiscal_year):
 	fiscal_year = frappe.db.sql("""select min(year_start_date) as year_start_date,
