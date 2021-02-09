@@ -19,7 +19,7 @@ def execute():
         company = _company.name
         frappe.db.sql(
             """UPDATE
-            `tabAccount` SET `account_serial` = ''
+            `tabAccount` SET `account_serial` = '', account_serial_x = ''
             WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
                 company
             ), as_dict=True
@@ -119,11 +119,12 @@ def update_children_serials(parent_account):
         # send_msg_telegram("parent acc " + str(parent_serial) + " " + str(account_serial_x))
         # send_msg_telegram("parent account " + str(last_existing_serial))
 
-        if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
+        if len(last_existing_serial) == 0 or not int(last_existing_serial[0].account_serial):
             print("NOT FOUND")
             print(parent_serial)
-            print(last_existing_serial + 1)
             last_existing_serial = long(parent_serial) * 100
+            print(last_existing_serial + 1)
+
             # send_msg_telegram("sum " + str(last_existing_serial))
             next_serial = last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(parent_serial, 1)
