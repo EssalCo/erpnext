@@ -128,7 +128,7 @@ def update_children_serials(parent_account):
         print str(next_serial)
         frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}', 
         `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
-            next_serial,
+            int(next_serial),
             next_serial_str,
             account.name
         ))
