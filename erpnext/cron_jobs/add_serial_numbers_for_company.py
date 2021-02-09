@@ -6,6 +6,16 @@ import frappe
 
 
 def execute():
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-07-09 12:35:46.509980" where name = "3 - الأصــــول - AM";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-07-09 12:35:49.647088" where name = "1 - الخصــــــوم - AM";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-07-09 12:35:56.546910" where name = "4 - حقوق الملكية - AM";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-07-09 12:36:00.134300" where name = "5 - الإيرادات - A";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-07-09 12:36:01.359736" where name = "2 - المصــــــــــروفات - AM";""")
     companies = frappe.get_list(
         "Company",
         fields=["name"],
@@ -19,8 +29,8 @@ def execute():
         company = _company.name
         frappe.db.sql(
             """UPDATE
-            `tabAccount` SET `account_serial` = '', account_serial_x = ''
-            WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
+                        `tabAccount` SET `account_serial` = '', account_serial_x = ''
+                        WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
                 company
             ), as_dict=True
         )
@@ -79,6 +89,7 @@ def execute():
                 "account_name",
                 "{0} - {1}".format(account.account_serial, account.name)
             )
+
 
 def update_children_serials(parent_account):
     accounts = frappe.db.sql(
@@ -171,11 +182,11 @@ def execute_again():
         ignore_permissions=True
     )
     to_be_replaced = frappe.db.sql(
-        """select fieldname, parent from tabDocField where fieldtype = "Link" and `options` = "Account";""", as_dict=True
+        """select fieldname, parent from tabDocField where fieldtype = "Link" and `options` = "Account";""",
+        as_dict=True
     )
     for _company in companies:
         company = _company.name
-
 
         accounts = frappe.db.sql(
             """SELECT `name`, `account_name` FROM 
@@ -202,11 +213,12 @@ def execute_again():
             for field in to_be_replaced:
                 print(field)
                 try:
-                    frappe.db.sql("UPDATE `tab{doctype}` SET `{field}` = '{new_name}' WHERE `{field}` = '{old_name}';".format(
-                        doctype=field.parent,
-                        field=field.fieldname,
-                        new_name=new_name,
-                        old_name=old_name
-                    ))
+                    frappe.db.sql(
+                        "UPDATE `tab{doctype}` SET `{field}` = '{new_name}' WHERE `{field}` = '{old_name}';".format(
+                            doctype=field.parent,
+                            field=field.fieldname,
+                            new_name=new_name,
+                            old_name=old_name
+                        ))
                 except Exception as e:
                     print(e)
