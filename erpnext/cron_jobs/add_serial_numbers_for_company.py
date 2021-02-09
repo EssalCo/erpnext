@@ -126,14 +126,14 @@ def update_children_serials(parent_account):
         # send_msg_telegram("finish " + str(self.account_serial) + str(self.account_serial_x))
         print str(next_serial_str)
         print str(next_serial)
-        frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}'
-                AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
+        frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}', 
+        `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
             next_serial,
             next_serial_str,
             account.name
         ))
-        print("""UPDATE `tabAccount` SET `account_serial` = '{0}'
-                AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
+        print("""UPDATE `tabAccount` SET `account_serial` = '{0}',
+                 `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
             next_serial,
             next_serial_str,
             "account name"
