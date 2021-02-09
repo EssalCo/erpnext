@@ -130,13 +130,13 @@ def update_children_serials(parent_account):
                 AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
             next_serial,
             next_serial_str,
-            account.name.decode('utf-8')
+            account.name
         ))
         print("""UPDATE `tabAccount` SET `account_serial` = '{0}'
                 AND `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
             next_serial,
             next_serial_str,
-            account.name.
+            account.name.decode('utf-8')
         ))
         frappe.db.commit()
 
