@@ -10,7 +10,7 @@ def execute():
         "Company",
         fields=["name"],
         filters=dict(
-
+            name="AL Mather Trading EST"
         ),
         ignore_permissions=True
     )
@@ -19,7 +19,10 @@ def execute():
         company = _company.name
         accounts = frappe.db.sql(
             """SELECT `name`, `company` FROM 
-            `tabAccount` WHERE (`parent_account` IS NULL OR `parent_account` = '') ORDER BY `creation` ASC;""", as_dict=True
+            `tabAccount` WHERE (`parent_account` IS NULL OR `parent_account` = '') 
+            AND `company` = '{0}' ORDER BY `creation` ASC;""".format(
+                company
+            ), as_dict=True
         )
 
         for acc in accounts:
