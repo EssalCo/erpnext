@@ -119,7 +119,7 @@ def update_children_serials(parent_account):
         # send_msg_telegram("parent acc " + str(parent_serial) + " " + str(account_serial_x))
         # send_msg_telegram("parent account " + str(last_existing_serial))
 
-        if len(last_existing_serial) == 0 or not int(last_existing_serial[0].account_serial):
+        if len(last_existing_serial) == 0 or not int(last_existing_serial[0].account_serial or 0):
             print("NOT FOUND")
             print(parent_serial)
             last_existing_serial = long(parent_serial) * 100
