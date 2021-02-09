@@ -159,3 +159,51 @@ def update_children_serials(parent_account):
     #     print str(e)
     # account.get_account_serial()
     # account.save(ignore_permissions=True)
+
+
+def execute_again():
+    companies = frappe.get_list(
+        "Company",
+        fields=["name"],
+        filters=dict(
+            name="AL Mather Trading EST"
+        ),
+        ignore_permissions=True
+    )
+    to_be_replaced = frappe.db.sql(
+        """select fieldname, parent from tabDocField where fieldtype = "Link" and `options` = "Account";""", as_dict=True
+    )
+    for _company in companies:
+        company = _company.name
+
+
+        accounts = frappe.db.sql(
+            """SELECT `name`, `account_name` FROM 
+            `tabAccount` WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
+                company
+            ), as_dict=True
+        )
+
+        for account in accounts:
+            old_name = account.name
+            new_name = account.account_name
+            frappe.db.sql("UPDATE tabAccount SET name = '{0}' WHERE name = '{1}';".format(
+                new_name,
+                old_name
+            ))
+            frappe.db.sql("UPDATE tabAccount SET parent = '{0}' WHERE parent = '{1}';".format(
+                new_name,
+                old_name
+            ))
+            frappe.db.sql("UPDATE tabAccount SET parent_account = '{0}' WHERE parent_account = '{1}';".format(
+                new_name,
+                old_name
+            ))
+            for field in to_be_replaced:
+                print(field)
+                frappe.db.sql("UPDATE `tab{doctype}` SET `{field}` = '{new_name}' WHERE `{field}` = '{old_name}';".format(
+                    doctype=field.parent,
+                    field=field.fieldname,
+                    new_name=new_name,
+                    old_name=old_name
+                ))
