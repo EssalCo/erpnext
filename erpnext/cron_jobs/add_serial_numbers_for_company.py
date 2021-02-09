@@ -91,7 +91,7 @@ def update_children_serials(parent_account):
         return
     for acc in accounts:
         account = frappe.get_doc("Account", acc.name)
-
+        print("CHILD")
         # if not getattr(self, "account_serial_x", None):
         #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
         #     return
@@ -120,13 +120,16 @@ def update_children_serials(parent_account):
         # send_msg_telegram("parent account " + str(last_existing_serial))
 
         if len(last_existing_serial) == 0 or not last_existing_serial[0].account_serial:
-
+            print("NOT FOUND")
+            print(parent_serial)
+            print(last_existing_serial + 1)
             last_existing_serial = long(parent_serial) * 100
             # send_msg_telegram("sum " + str(last_existing_serial))
             next_serial = last_existing_serial + 1
             next_serial_str = "{0}.{1}".format(parent_serial, 1)
         else:
-
+            print("FOUND")
+            print(last_existing_serial[0].account_serial)
             last_existing_serial = long(last_existing_serial[0].account_serial)
             # send_msg_telegram("query " + str(last_existing_serial))
 
