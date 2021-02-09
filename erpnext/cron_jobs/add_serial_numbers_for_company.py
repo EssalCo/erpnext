@@ -70,14 +70,14 @@ def execute():
         )
 
         for account in accounts:
-            serial = account.account_name.split(" -")[0]
-            if serial.isdigit():
-                account.account_name = account.account_name.replace(account.account_name.split(" -")[0], "")[2:]
+            # serial = account.account_name.split(" -")[0]
+            # if serial.isdigit():
+            #     account.account_name = account.account_name.replace(account.account_name.split(" -")[0], "")[2:]
             frappe.db.set_value(
                 "Account",
                 account.name,
                 "account_name",
-                "{0} - {1}".format(account.account_serial, account.account_name)
+                "{0} - {1}".format(account.account_serial, account.name)
             )
 
 def update_children_serials(parent_account):
