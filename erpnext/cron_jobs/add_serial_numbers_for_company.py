@@ -43,7 +43,7 @@ def execute():
                 next_serial_str = "#{0}".format(last_existing_serial + 1)
             frappe.db.sql("""UPDATE `tabAccount` SET `account_serial` = '{0}',
                          `account_serial_x` = '{1}' WHERE `name` = '{2}';""".format(
-                next_serial,
+                int(next_serial),
                 next_serial_str,
                 account.name
             ))
