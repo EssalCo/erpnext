@@ -87,7 +87,7 @@ def execute():
                 "Account",
                 account.name,
                 "account_name",
-                "{0} - {1}".format(account.account_serial, account.name)
+                "{0} - {1}".format(account.account_serial, account.account_name)
             )
 
 
