@@ -19,7 +19,7 @@ def execute():
         company = _company.name
         frappe.db.sql(
             """UPDATE
-            `tabAccount` SET `account_serial` = '') 
+            `tabAccount` SET `account_serial` = ''
             WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
                 company
             ), as_dict=True
