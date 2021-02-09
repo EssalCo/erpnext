@@ -201,9 +201,12 @@ def execute_again():
             ))
             for field in to_be_replaced:
                 print(field)
-                frappe.db.sql("UPDATE `tab{doctype}` SET `{field}` = '{new_name}' WHERE `{field}` = '{old_name}';".format(
-                    doctype=field.parent,
-                    field=field.fieldname,
-                    new_name=new_name,
-                    old_name=old_name
-                ))
+                try:
+                    frappe.db.sql("UPDATE `tab{doctype}` SET `{field}` = '{new_name}' WHERE `{field}` = '{old_name}';".format(
+                        doctype=field.parent,
+                        field=field.fieldname,
+                        new_name=new_name,
+                        old_name=old_name
+                    ))
+                except Exception as e:
+                    print(e)
