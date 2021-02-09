@@ -17,7 +17,13 @@ def execute():
 
     for _company in companies:
         company = _company.name
-
+        frappe.db.sql(
+            """UPDATE
+            `tabAccount` SET `account_serial` = '') 
+            WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
+                company
+            ), as_dict=True
+        )
         accounts = frappe.db.sql(
             """SELECT `name`, `company` FROM 
             `tabAccount` WHERE (`parent_account` IS NULL OR `parent_account` = '') 
