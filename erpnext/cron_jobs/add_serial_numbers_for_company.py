@@ -17,6 +17,7 @@ def execute():
 
     for _company in companies:
         company = _company.name
+
         accounts = frappe.db.sql(
             """SELECT `name`, `company` FROM 
             `tabAccount` WHERE (`parent_account` IS NULL OR `parent_account` = '') 
@@ -53,7 +54,24 @@ def execute():
             update_children_serials(account.name)
 
         #######################
+        accounts = frappe.db.sql(
+            """SELECT `name`, `company`, `account_name`, `account_serial` FROM 
+            `tabAccount` WHERE `company` = '{0}' ORDER BY `creation` ASC;""".format(
+                company
+            ), as_dict=True
+        )
 
+        for account in accounts:
+            serial = account.account_name.split(" -")[0]
+            if serial.isdigit():
+                pass
+            else:
+                frappe.db.set_value(
+                    "Account",
+                    account.name,
+                    "account_name",
+                    "{0} - {1}".format(account.account_serial, account.account_name)
+                )
 
 def update_children_serials(parent_account):
     accounts = frappe.db.sql(
