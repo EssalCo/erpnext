@@ -260,7 +260,7 @@ def update_children_serials(parent_account):
 def execute_again():
     companies = frappe.get_list(
         "Company",
-        fields=["name"],
+        fields=["name", "abbr"],
         filters=dict(
             name=("in", [
                 "Abdulaziz Almashal Farm",
@@ -287,14 +287,20 @@ def execute_again():
                 company
             ), as_dict=True
         )
-
+        try:
+            print(company)
+        except: pass
         for account in accounts:
             old_name = account.name
             new_name = account.account_name
-            frappe.db.sql("UPDATE tabAccount SET name = '{0}' WHERE name = '{1}';".format(
-                new_name,
-                old_name
-            ))
+            try:
+                frappe.db.sql("UPDATE tabAccount SET name = '{0}' WHERE name = '{1}';".format(
+                    new_name,
+                    old_name
+                ))
+            except:
+                old_name = account.name
+                new_name = account.account_name.strip() + " - " + _company.abbr
             frappe.db.sql("UPDATE tabAccount SET parent = '{0}' WHERE parent = '{1}';".format(
                 new_name,
                 old_name
