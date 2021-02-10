@@ -301,6 +301,11 @@ def execute_again():
             except:
                 old_name = account.name
                 new_name = account.account_name.strip() + " - " + _company.abbr
+                frappe.db.sql("UPDATE tabAccount SET name = '{0}' WHERE name = '{1}';".format(
+                    new_name,
+                    old_name
+                ))
+
             frappe.db.sql("UPDATE tabAccount SET parent = '{0}' WHERE parent = '{1}';".format(
                 new_name,
                 old_name
