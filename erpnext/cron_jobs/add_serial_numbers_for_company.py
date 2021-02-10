@@ -12,21 +12,100 @@ def execute():
 
     #
     frappe.db.sql(
-        """update tabAccount set creation = "2018-07-09 18:51:46.079365" where name = "الأصــــول - A";""")
+        """update tabAccount set creation = "2018-07-22 16:04:31.781014" where name = "الأصــــول - م";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2018-07-09 18:51:46.821360" where name = "الخصــــــوم - A";""")
+        """update tabAccount set creation = "2018-07-22 16:04:33.041162" where name = "الخصــــــوم - م";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2018-07-09 18:51:48.058793" where name = "حقوق الملكية - A";""")
+        """update tabAccount set creation = "2018-07-22 16:04:34.739865" where name = "حقوق الملكية - م";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2018-07-09 18:51:48.849135" where name = "الإيرادات - A";""")
+        """update tabAccount set creation = "2018-07-22 16:04:35.677015" where name = "الإيرادات - م";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2018-07-09 18:51:48.904324" where name = "المصــــــــــروفات - A";""")
+        """update tabAccount set creation = "2018-07-22 16:04:35.886136" where name = "المصــــــــــروفات - م";""")
 
+
+    frappe.db.sql(
+        """update tabAccount set creation = "2018-07-22 16:04:31.781014" where name = "الأصــــول - أ";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2018-07-22 16:04:33.041162" where name = "الخصــــــوم - أ";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2018-07-22 16:04:34.739865" where name = "حقوق الملكية - أ";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2018-07-22 16:04:35.677015" where name = "الإيرادات - أ";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2018-07-22 16:04:35.886136" where name = "المصــــــــــروفات - أ";""")
+
+
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:55.995594" where name = "Assets - Z";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.187852" where name = "Liabilities - Z";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.341230" where name = "Owners Equity - Z";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "Income - Z";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "Expenses - Z";""")
+
+
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:55.995594" where name = "Assets - D";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.187852" where name = "Liabilities - D";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.341230" where name = "Owners Equity - D";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "Income - D";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "Expenses - D";""")
+
+
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:55.995594" where name = "Assets - I";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.187852" where name = "Source of Funds (Liabilities) - I";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.341230" where name = "Equity - I";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "Revenue - I";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "Expenses - I";""")
+
+
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:55.995594" where name = "الأصــــول - M";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.187852" where name = "الخصــــــوم  - M";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.341230" where name = "حقوق الملكية - M";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "الإيرادات - M";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "المصروفات - M";""")
+
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:55.995594" where name = "الأصــــول - ARH";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.187852" where name = "الخصــــــوم - ARH";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.341230" where name = "حقوق الملكية - ARH";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "الإيرادات - ARH";""")
+    frappe.db.sql(
+        """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "المصــــــــــروفات - ARH";""")
+    return
     companies = frappe.get_list(
         "Company",
         fields=["name"],
         filters=dict(
-            name="ALArd Holding Company"
+            name=("in", [
+                "Abdulaziz Almashal Farm",
+                "Awqaf Almashal",
+                "شركة مناف للإستثمار والتطوير العقاري",
+                "Murbiha Holding company",
+                "Investments CDR",
+                "DR ABDULAZIZ HAMAD ALMASHAL",
+                "DR ABDULAZIZ",
+            ])
         ),
         ignore_permissions=True
     )
