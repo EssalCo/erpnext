@@ -6,21 +6,27 @@ import frappe
 
 
 def execute():
+
+    # update tabAccount set account_name = REPLACE(account_name, CONCAT(LEFT(account_name,LOCATE(' -',account_name) - 1), " - "), "")
+    # where `company` ="AL Mather Trading EST";
+
+    #
     frappe.db.sql(
-        """update tabAccount set creation = "2019-07-09 12:35:46.509980" where name = "3 - الأصــــول - AM";""")
+        """update tabAccount set creation = "2018-07-09 18:51:46.079365" where name = "الأصــــول - A";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2019-07-09 12:35:49.647088" where name = "1 - الخصــــــوم - AM";""")
+        """update tabAccount set creation = "2018-07-09 18:51:46.821360" where name = "الخصــــــوم - A";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2019-07-09 12:35:56.546910" where name = "4 - حقوق الملكية - AM";""")
+        """update tabAccount set creation = "2018-07-09 18:51:48.058793" where name = "حقوق الملكية - A";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2019-07-09 12:36:00.134300" where name = "5 - الإيرادات - A";""")
+        """update tabAccount set creation = "2018-07-09 18:51:48.849135" where name = "الإيرادات - A";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2019-07-09 12:36:01.359736" where name = "2 - المصــــــــــروفات - AM";""")
+        """update tabAccount set creation = "2018-07-09 18:51:48.904324" where name = "المصــــــــــروفات - A";""")
+    return
     companies = frappe.get_list(
         "Company",
         fields=["name"],
         filters=dict(
-            name="AL Mather Trading EST"
+            name="ALArd Holding Company"
         ),
         ignore_permissions=True
     )
@@ -177,7 +183,7 @@ def execute_again():
         "Company",
         fields=["name"],
         filters=dict(
-            name="AL Mather Trading EST"
+            name="ALArd Holding Company"
         ),
         ignore_permissions=True
     )
