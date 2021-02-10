@@ -92,7 +92,7 @@ def execute():
         """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "الإيرادات - ARH";""")
     frappe.db.sql(
         """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "المصــــــــــروفات - ARH";""")
-    return
+
     companies = frappe.get_list(
         "Company",
         fields=["name"],
@@ -262,7 +262,15 @@ def execute_again():
         "Company",
         fields=["name"],
         filters=dict(
-            name="ALArd Holding Company"
+            name=("in", [
+                "Abdulaziz Almashal Farm",
+                "Awqaf Almashal",
+                "شركة مناف للإستثمار والتطوير العقاري",
+                "Murbiha Holding company",
+                "Investments CDR",
+                "DR ABDULAZIZ HAMAD ALMASHAL",
+                "DR ABDULAZIZ",
+            ])
         ),
         ignore_permissions=True
     )
