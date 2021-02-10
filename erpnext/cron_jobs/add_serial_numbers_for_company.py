@@ -21,7 +21,7 @@ def execute():
         """update tabAccount set creation = "2018-07-09 18:51:48.849135" where name = "الإيرادات - A";""")
     frappe.db.sql(
         """update tabAccount set creation = "2018-07-09 18:51:48.904324" where name = "المصــــــــــروفات - A";""")
-    return
+
     companies = frappe.get_list(
         "Company",
         fields=["name"],
