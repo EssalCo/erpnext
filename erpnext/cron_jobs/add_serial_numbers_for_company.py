@@ -54,7 +54,7 @@ def execute():
     frappe.db.sql(
         """update tabAccount set creation = "2019-03-26 09:42:56.341230" where name = "Owners Equity - D";""")
     frappe.db.sql(
-        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "Income - D";""")
+        """update tabAccount set creation = "2019-03-26 09:42:56.782180" where name = "Revenue - D";""")
     frappe.db.sql(
         """update tabAccount set creation = "2019-03-26 09:42:57.665961" where name = "Expenses - D";""")
 
