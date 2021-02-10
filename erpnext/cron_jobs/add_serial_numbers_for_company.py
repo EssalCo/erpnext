@@ -326,3 +326,5 @@ def execute_again():
                         ))
                 except Exception as e:
                     print(e)
+
+        frappe.db.commit()
