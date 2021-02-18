@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf8')
 
 
 def execute_again():
-    payment_details = "/private/files/ka_opening.csv.csv"
+    payment_details = "/private/files/ka_opening.csv"
 
     print("Starting journals..")
 
