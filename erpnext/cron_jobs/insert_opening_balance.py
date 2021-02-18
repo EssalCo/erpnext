@@ -84,6 +84,7 @@ def execute_again():
             #     credit = 0
             # if not debit.isdigit():
             #     debit = 0
+            account = row[0]
             account = frappe.get_value(
                 "Account",
                 dict(
@@ -114,7 +115,7 @@ def execute_again():
                     exchange_rate=1,
                     debit_in_account_currency=abs(debit),
                     debit=abs(debit),
-                    journal_note="القيد  الإفتتاحي",
+                    journal_note="القيد الإفتتاحي",
                     credit_in_account_currency=abs(0),
                     credit=abs(0),
                     is_advance="No",
@@ -129,7 +130,7 @@ def execute_again():
                     exchange_rate=1,
                     debit_in_account_currency=abs(debit),
                     debit=abs(debit),
-                    journal_note="القيد  الإفتتاحي",
+                    journal_note="القيد الإفتتاحي",
                     credit_in_account_currency=abs(credit),
                     credit=abs(credit),
                     is_advance="No",
