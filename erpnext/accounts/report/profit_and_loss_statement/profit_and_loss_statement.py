@@ -12,7 +12,7 @@ from erpnext.utilities.send_telegram import send_msg_telegram
 def execute(filters=None):
 	period_list = get_period_list(filters.from_fiscal_year, filters.to_fiscal_year,
 		filters.periodicity, filters.accumulated_values, filters.company)
-	send_msg_telegram(str(period_list))
+	# send_msg_telegram(str(period_list))
 	income = get_data(filters.company, "Income", "Credit", period_list, filters = filters,
 		accumulated_values=filters.accumulated_values,
 		ignore_closing_entries=True, ignore_accumulated_values_for_fy= True)
