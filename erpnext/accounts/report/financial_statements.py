@@ -53,7 +53,8 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 		else:
 			# if a fiscal year ends before a 12 month period
 			period.to_date = year_end_date
-
+		if round((year_end_date -  period.to_date).total_seconds() / 86400, 2) < 10:
+			period.to_date = year_end_date
 		period.to_date_fiscal_year = get_fiscal_year(period.to_date, company=company)[0]
 		period.from_date_fiscal_year_start_date = get_fiscal_year(period.from_date, company=company)[1]
 
