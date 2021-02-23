@@ -95,6 +95,9 @@ def execute_again():
                     name=account
                 ), "name"
             )
+            if not account:
+                print("no account found")
+
             if debit and credit:
                 journal_entry.append("accounts", dict(
                     account=account,
