@@ -83,7 +83,7 @@ def get_period_list(from_fiscal_year, to_fiscal_year, periodicity, accumulated_v
 			"year_start_date": year_start_date,
 			"year_end_date": year_end_date
 		})
-	send_msg_telegram(str(period_list))
+	# send_msg_telegram(str(period_list))
 
 	return period_list
 
@@ -327,6 +327,20 @@ def set_gl_entries_by_account(company, from_date, to_date, root_lft, root_rgt, f
 			"rgt": root_rgt
 		},
 		as_dict=True)
+	send_msg_telegram("""select posting_date, account, debit, credit, is_opening, fiscal_year from `tabGL Entry`
+		where company='%(company)s'
+		{additional_conditions}
+		and posting_date <= '%(to_date)s'
+		and account in (select name from `tabAccount`
+			where lft >= %(lft)s and rgt <= %(rgt)s)
+		order by account, posting_date""".format(additional_conditions=additional_conditions) %
+					  {
+						  "company": company,
+						  "from_date": from_date,
+						  "to_date": to_date,
+						  "lft": root_lft,
+						  "rgt": root_rgt
+					  })
 
 	for entry in gl_entries:
 		gl_entries_by_account.setdefault(entry.account, []).append(entry)
