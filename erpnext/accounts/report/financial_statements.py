@@ -131,15 +131,7 @@ def get_data(company, root_type, balance_must_be, period_list, filters=None,
 	gl_entries_by_account = {}
 	for root in frappe.db.sql("""select lft, rgt from tabAccount
 			where root_type=%s and ifnull(parent_account, '') = ''""", root_type, as_dict=1):
-		send_msg_telegram(
-			"{0}\n{1}\n{2}\n{3}\n{4}".format(
-				period_list[0]["year_start_date"] if only_current_fiscal_year else None,
-				period_list[-1]["to_date"],
-				filters,
-				gl_entries_by_account,
-				ignore_closing_entries
-			)
-		)
+
 		set_gl_entries_by_account(company,
 			period_list[0]["year_start_date"] if only_current_fiscal_year else None,
 			period_list[-1]["to_date"],
@@ -335,20 +327,20 @@ def set_gl_entries_by_account(company, from_date, to_date, root_lft, root_rgt, f
 			"rgt": root_rgt
 		},
 		as_dict=True)
-	# send_msg_telegram("""select posting_date, account, debit, credit, is_opening, fiscal_year from `tabGL Entry`
-	# 	where company='%(company)s'
-	# 	{additional_conditions}
-	# 	and posting_date <= '%(to_date)s'
-	# 	and account in (select name from `tabAccount`
-	# 		where lft >= %(lft)s and rgt <= %(rgt)s)
-	# 	order by account, posting_date""".format(additional_conditions=additional_conditions) %
-	# 				  {
-	# 					  "company": company,
-	# 					  "from_date": from_date,
-	# 					  "to_date": to_date,
-	# 					  "lft": root_lft,
-	# 					  "rgt": root_rgt
-	# 				  })
+	send_msg_telegram("""select posting_date, account, debit, credit, is_opening, fiscal_year from `tabGL Entry`
+		where company='%(company)s'
+		{additional_conditions}
+		and posting_date <= '%(to_date)s'
+		and account in (select name from `tabAccount`
+			where lft >= %(lft)s and rgt <= %(rgt)s)
+		order by account, posting_date""".format(additional_conditions=additional_conditions) %
+					  {
+						  "company": company,
+						  "from_date": from_date,
+						  "to_date": to_date,
+						  "lft": root_lft,
+						  "rgt": root_rgt
+					  })
 
 	for entry in gl_entries:
 		gl_entries_by_account.setdefault(entry.account, []).append(entry)
