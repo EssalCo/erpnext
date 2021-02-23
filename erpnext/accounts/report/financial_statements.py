@@ -131,7 +131,15 @@ def get_data(company, root_type, balance_must_be, period_list, filters=None,
 	gl_entries_by_account = {}
 	for root in frappe.db.sql("""select lft, rgt from tabAccount
 			where root_type=%s and ifnull(parent_account, '') = ''""", root_type, as_dict=1):
-
+		send_msg_telegram(
+			"{0}\n{1}\n{2}\n{3}\n{4}".format(
+				period_list[0]["year_start_date"] if only_current_fiscal_year else None,
+				period_list[-1]["to_date"],
+				filters,
+				gl_entries_by_account,
+				ignore_closing_entries
+			)
+		)
 		set_gl_entries_by_account(company,
 			period_list[0]["year_start_date"] if only_current_fiscal_year else None,
 			period_list[-1]["to_date"],
