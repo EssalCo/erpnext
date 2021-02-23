@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf8')
 
 
 def execute_again():
-    payment_details = "/private/files/kintal_open.csv"
+    payment_details = "/private/files/kintal_ops.csv"
 
     print("Starting journals..")
 
