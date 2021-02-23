@@ -75,9 +75,10 @@ def execute_again():
             debit = round(float(re.sub(r'\s', '', row[1].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
                                                                                                               "").rstrip()) or 0), 2)
             credit = round(float(re.sub(r'\s', '', row[2].replace(" ", "").replace("-", "").replace(",", "").replace("\\t",
-                                                                                                               "").rstrip()) or 0), 2)
+                                                                                                                  "").rstrip()) or 0), 2)
             print(debit)
             print(credit)
+
             # if credit == "Closing(Cr)":
             #     continue
             # if not credit.isdigit():
@@ -85,6 +86,8 @@ def execute_again():
             # if not debit.isdigit():
             #     debit = 0
             account = row[0]
+            if account == "12090404 - معرض رقم 4 المرجان - تطوير المخبوزات - KA":
+                debit += 0.0499999821186
             account = frappe.get_value(
                 "Account",
                 dict(
