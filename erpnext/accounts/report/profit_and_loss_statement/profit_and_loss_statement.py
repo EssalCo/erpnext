@@ -15,11 +15,11 @@ def execute(filters=None):
 	send_msg_telegram(str(period_list))
 	income = get_data(filters.company, "Income", "Credit", period_list, filters = filters,
 		accumulated_values=filters.accumulated_values,
-		ignore_closing_entries=False, ignore_accumulated_values_for_fy= True)
+		ignore_closing_entries=False, ignore_accumulated_values_for_fy= False)
 
 	expense = get_data(filters.company, "Expense", "Debit", period_list, filters=filters,
 		accumulated_values=filters.accumulated_values,
-		ignore_closing_entries=False, ignore_accumulated_values_for_fy= True)
+		ignore_closing_entries=False, ignore_accumulated_values_for_fy= False)
 
 	net_profit_loss = get_net_profit_loss(income, expense, period_list, filters.company)
 
