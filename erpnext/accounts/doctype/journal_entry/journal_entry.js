@@ -4,8 +4,12 @@
 frappe.provide("erpnext.accounts");
 frappe.provide("erpnext.journal_entry");
 
-
 frappe.ui.form.on("Journal Entry", {
+	setup: function(frm) {
+
+		frm.add_fetch('company', 'default_letter_head', 'letter_head');
+
+	},
 	refresh: function(frm) {
 		erpnext.toggle_naming_series();
 		frm.cscript.voucher_type(frm.doc);
@@ -96,6 +100,7 @@ erpnext.accounts.JournalEntry = frappe.ui.form.Controller.extend({
 		me.frm.set_query("account", "accounts", function(doc, cdt, cdn) {
 			return erpnext.journal_entry.account_query(me.frm);
 		});
+
 
 		me.frm.set_query("cost_center", "accounts", function(doc, cdt, cdn) {
 			return {
@@ -244,6 +249,8 @@ erpnext.accounts.JournalEntry = frappe.ui.form.Controller.extend({
 				row.party_type = d.party_type;
 			}
 		});
+cur_frm.get_field("accounts").grid.set_df_property("accounts", "in_list_view", cur_frm.doc.company != "نواة للاستثمار العقاري", cdn, "party") ;
+
 
 		// set difference
 		if(doc.difference) {

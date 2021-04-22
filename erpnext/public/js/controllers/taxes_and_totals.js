@@ -199,16 +199,17 @@ erpnext.taxes_and_totals = erpnext.payments.extend({
 	},
 
 	calculate_net_total: function() {
-		var me = this;
-		this.frm.doc.total = this.frm.doc.base_total = this.frm.doc.net_total = this.frm.doc.base_net_total = 0.0;
+	var me = this;
+		this.frm.doc.total_qty = this.frm.doc.total = this.frm.doc.base_total = this.frm.doc.net_total = this.frm.doc.base_net_total = 0.0;
 
 		$.each(this.frm.doc["items"] || [], function(i, item) {
+			me.frm.doc.total_qty += item.qty;
 			me.frm.doc.total += item.amount;
 			me.frm.doc.base_total += item.base_amount;
 			me.frm.doc.net_total += item.net_amount;
 			me.frm.doc.base_net_total += item.base_net_amount;
+				
 			});
-
 
 		frappe.model.round_floats_in(this.frm.doc, ["total", "base_total", "net_total", "base_net_total"]);
 	},
@@ -322,6 +323,7 @@ erpnext.taxes_and_totals = erpnext.payments.extend({
 
 		} else if(tax.charge_type == "On Net Total") {
 			current_tax_amount = (tax_rate / 100.0) * item.net_amount;
+			// current_tax_amount = (tax_rate / (100.0+tax_rate)) * item.net_amount;
 		} else if(tax.charge_type == "On Previous Row Amount") {
 			current_tax_amount = (tax_rate / 100.0) *
 				this.frm.doc["taxes"][cint(tax.row_id) - 1].tax_amount_for_current_item;

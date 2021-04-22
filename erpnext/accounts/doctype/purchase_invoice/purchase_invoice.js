@@ -3,6 +3,8 @@
 
 frappe.provide("erpnext.accounts");
 {% include 'erpnext/public/js/controllers/buying.js' %};
+cur_frm.add_fetch('company', 'default_letter_head', 'letter_head');
+
 
 erpnext.accounts.PurchaseInvoice = erpnext.buying.BuyingController.extend({
 	setup: function(doc) {

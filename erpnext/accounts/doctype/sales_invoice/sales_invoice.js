@@ -7,12 +7,14 @@ cur_frm.pformat.print_heading = 'Invoice';
 {% include 'erpnext/selling/sales_common.js' %};
 
 cur_frm.add_fetch('customer', 'tax_id', 'tax_id');
+cur_frm.add_fetch('company', 'default_letter_head', 'letter_head');
 
 frappe.provide("erpnext.accounts");
 erpnext.accounts.SalesInvoiceController = erpnext.selling.SellingController.extend({
 	setup: function(doc) {
 		this.setup_posting_date_time_check();
 		this._super(doc);
+
 	},
 	onload: function() {
 		var me = this;

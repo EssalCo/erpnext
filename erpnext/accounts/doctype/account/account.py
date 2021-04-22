@@ -98,13 +98,14 @@ class Account(NestedSet):
                 if self.root_type in ("Asset", "Liability", "Equity") else "Profit and Loss"
 
     def validate_root_details(self):
+	pass
         # does not exists parent
-        if frappe.db.exists("Account", self.name):
-            if not frappe.db.get_value("Account", self.name, "parent_account"):
-                throw(_("Root cannot be edited."), RootNotEditable)
+        #if frappe.db.exists("Account", self.name):
+        #    if not frappe.db.get_value("Account", self.name, "parent_account"):
+        #       throw(_("Root cannot be edited."), RootNotEditable)
 
-        if not self.parent_account and not self.is_group:
-            frappe.throw(_("Root Account must be a group"))
+        #if not self.parent_account and not self.is_group:
+        #    frappe.throw(_("Root Account must be a group"))
 
     def validate_group_or_ledger(self):
         if self.get("__islocal"):
@@ -206,8 +207,8 @@ class Account(NestedSet):
             # if not getattr(self, "account_serial_x", None):
             #     send_msg_telegram("return " + str(self.account_serial) + str(self.account_serial_x))
             #     return
-            if not self.parent_account:
-                send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
+            #if not self.parent_account:
+            #    send_msg_telegram("no parent " + str(self.account_serial) + str(self.account_serial_x))
 
                 last_existing_serial = frappe.db.sql("""SELECT 
         MAX(account_serial) AS maxi
@@ -270,8 +271,8 @@ class Account(NestedSet):
         except:
             import traceback
             print(traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
-            send_msg_telegram(
-                traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
+            #send_msg_telegram(
+                #traceback.format_exc() + "\n" + str(self.account_serial) + "\n" + str(self.account_serial_x))
 
 
 def get_parent_account(doctype, txt, searchfield, start, page_len, filters):

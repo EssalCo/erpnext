@@ -269,6 +269,32 @@ def add_ac(args=None):
 
 @frappe.whitelist()
 def add_cc(args=None):
+	# from frappe.desk.treeview import make_tree_args
+
+	# if not args:
+	# 	args = frappe.local.form_dict
+
+	# args.doctype = "Cost Center"
+	# args = make_tree_args(**args)
+
+	# cc = frappe.new_doc("Cost Center")
+	# cc.update(args)
+
+	# if not cc.parent_cost_center:
+	# 	cc.parent_cost_center = args.get("parent")
+
+	# cc.old_parent = ""
+	# if frappe.db.count(
+	# 	"Cost Center",
+	# 	dict(
+	# 		company=cc.company
+	# 	)
+	# ) == 0:
+	# 	cc.flags.ignore_mandatory = True
+	# 	cc.flags.ignore_validate = True
+	# 	cc.flags.ignore_links = True
+	# cc.insert()
+	# return cc.name
 	from frappe.desk.treeview import make_tree_args
 
 	if not args:
@@ -277,6 +303,11 @@ def add_cc(args=None):
 	args.doctype = "Cost Center"
 	args = make_tree_args(**args)
 
+	if args.parent_cost_center == args.company:
+		args.parent_cost_center = None
+		args.parent = None
+	# 		frappe.get_cached_value('Company',  args.company,  'abbr'))
+
 	cc = frappe.new_doc("Cost Center")
 	cc.update(args)
 
@@ -284,17 +315,10 @@ def add_cc(args=None):
 		cc.parent_cost_center = args.get("parent")
 
 	cc.old_parent = ""
-	if frappe.db.count(
-		"Cost Center",
-		dict(
-			company=cc.company
-		)
-	) == 0:
-		cc.flags.ignore_mandatory = True
-		cc.flags.ignore_validate = True
-		cc.flags.ignore_links = True
-	cc.insert()
+	cc.insert(ignore_mandatory=True)
 	return cc.name
+
+	
 
 def reconcile_against_document(args):
 	"""
